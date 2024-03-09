@@ -1,0 +1,13 @@
+.login-estilo{
+    & .card{
+        & .card-header{
+            background-color: $buttonC1;
+            color: $bgtext1;
+        }
+    }
+    .btn{
+        background-color: $buttonC1 ;
+        color: $bgtext1  ;
+        font-weight: bold;
+    }
+}
