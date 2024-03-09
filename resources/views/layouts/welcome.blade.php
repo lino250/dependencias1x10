@@ -9,7 +9,9 @@
     @vite(['resources/sass/app.scss','resources/js/app.js'])
 </head>
 <body>
-    @include('auth.menu') 
+<!--@include('auth.menu')
+<!---->
+    @include('menus.menuV')
     @yield('content')
 </body>
 </html>
