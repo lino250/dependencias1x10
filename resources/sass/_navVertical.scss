@@ -1,0 +1,45 @@
+
+.nav-horiz{
+    background-color: $buttonC1;
+    color: $bgtext1;
+    box-shadow: #ffffff 0px 0px 1px !important;
+    & .navbar-brand{
+        & img{
+            width: 75px;
+        }
+    }
+}
+.nav-vertical{
+    background-color: $buttonC1;
+    color: $bgtext1;
+    height: 93vh;
+    & .navbar-brand{
+        & img{
+            width: 75px;
+        }
+    }
+    & a{
+        color: $bgtext1;
+        font-weight: bolder;
+    }
+    & a:hover{
+        color: $textBlack;
+    }
+    & .btn-close{
+        filter: invert(1);
+        color: var(--bs-btn-close-color);
+        text-decoration: none;
+        opacity: var(--bs-btn-close-hover-opacity);
+    }
+    & .btn-close:hover{
+        opacity: 0.5;
+    }
+}
+
+@media (max-width: 767px) {
+    .nav-vertical{
+        height: 100vh;
+        width: 0px;
+    }
+    
+  }
