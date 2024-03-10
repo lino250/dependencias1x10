@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\landingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('layouts/welcome');
-});
+Route::get('/', landingController::class);
 
 Auth::routes();
 
