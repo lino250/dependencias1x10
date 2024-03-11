@@ -3,85 +3,107 @@
 namespace App\Http\Controllers;
 
 use App\Models\Parroquia;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+/**
+ * Class ParroquiaController
+ * @package App\Http\Controllers
+ */
 class ParroquiaController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
-        $parroquias = Parroquia::all();
-        return view('parroquias.index', compact('parroquias'));
+        $parroquias = Parroquia::paginate();
+
+        return view('parroquia.index', compact('parroquias'))
+            ->with('i', (request()->input('page', 1) - 1) * $parroquias->perPage());
     }
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
-        //return view('parroquias.create');
+        $parroquia = new Parroquia();
+        return view('parroquia.create', compact('parroquia'));
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
-        /*$request->validate([
-            'nombre' => 'required|string|max:255',
-        ]);
+        request()->validate(Parroquia::$rules);
 
-        Parroquia::create($request->all());
+        $parroquia = Parroquia::create($request->all());
 
-        return redirect()->route('parroquias.index')->with('success', 'Parroquia creada exitosamente');*/
+        return redirect()->route('parroquias.index')
+            ->with('success', 'Parroquia created successfully.');
     }
 
     /**
      * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
      */
-    public function show(Parroquia $parroquia)
+    public function show($id)
     {
-        //
-        //return view('parroquias.show', compact('parroquia'));
+        $parroquia = Parroquia::find($id);
+
+        return view('parroquia.show', compact('parroquia'));
     }
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
      */
-    public function edit(Parroquia $parroquia)
+    public function edit($id)
     {
-        //
-        //return view('parroquias.edit', compact('parroquia'));
+        $parroquia = Parroquia::find($id);
+
+        return view('parroquia.edit', compact('parroquia'));
     }
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  Parroquia $parroquia
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Parroquia $parroquia)
     {
-        //
-        /*$request->validate([
-            'nombre' => 'required|string|max:255',
-        ]);
+        request()->validate(Parroquia::$rules);
 
-        /*$parroquia->update($request->all());
+        $parroquia->update($request->all());
 
-        return redirect()->route('parroquias.index')->with('success', 'Parroquia actualizada exitosamente');*/
+        return redirect()->route('parroquias.index')
+            ->with('success', 'Parroquia updated successfully');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy(Parroquia $parroquia)
+    public function destroy($id)
     {
-        //
-        /*$parroquia->delete();
-        return redirect()->route('parroquias.index')->with('success', 'Parroquia eliminada exitosamente');*/
+        $parroquia = Parroquia::find($id)->delete();
+
+        return redirect()->route('parroquias.index')
+            ->with('success', 'Parroquia deleted successfully');
     }
 }

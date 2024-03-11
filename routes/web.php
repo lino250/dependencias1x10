@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource('representante', \App\Http\Controllers\RepresentanteController::class);
+//Route::resource('integrante/{id}', \App\Http\Controllers\IntegranteController::class);
+Route::get('integrante/{id}', \App\Http\Controllers\IntegranteController::class);
 
 Auth::routes();
 
