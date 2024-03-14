@@ -45,10 +45,10 @@ class Integrante extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
   
-    public function representanteIntegrantes()
-    {
-        return $this->hasMany(\App\Models\RepresentanteIntegrante::class, 'id', 'integrante_id');
-    }
+     public function representantesI()
+     {
+         return $this->belongsToMany(Integrante::class, 'representante_integrante', 'representante_id', 'integrante_id');
+     }
     
 
 }

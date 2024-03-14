@@ -18,6 +18,8 @@ return new class extends Migration
             $table->text('apellidos');
             $table->string('telefono');
             $table->string('telefono_alternativo', 20)->nullable();
+            $table->foreignId('centro_id')->constrained('centros');
+            $table->foreignId('parroquia_id')->constrained('parroquias');
             $table->timestamps();
         });
     }

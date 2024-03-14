@@ -8,6 +8,7 @@ use App\Models\Dependencia;
 use App\Models\Parroquia;
 use App\Models\Representante;
 use Illuminate\Http\Request;
+use DB;
 
 /**
  * Class RepresentanteController
@@ -22,7 +23,8 @@ class RepresentanteController extends Controller
      */
     public function index()
     {
-        $representantes = Representante::paginate();
+        $representantes = Representante::paginate(10);
+        //dd($representantes);
 
         //$dependencias = Dependencia::pluck('nombre','id');
 
@@ -37,8 +39,10 @@ class RepresentanteController extends Controller
      */
     public function create()
     {
+        //dd($parroquias);
+
         $representante = new Representante();
-        $parroquias = Parroquia::pluck('nombre','id');
+        $parroquias = Parroquia::pluck('nombre','id');       
         $centros = Centro::pluck('nombre','id');
         $coordinaciones = Coordinacion::pluck('nombre','id');
         $dependencias = Dependencia::pluck('nombre','id');
@@ -67,6 +71,26 @@ class RepresentanteController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    public function buscarRepresentante(Request $request)
+    {
+       
+       $cedula = $request->input('cedula');
+       if (!empty($cedula)) {
+        $representante = Representante::where('cedula', $cedula)->paginate(10);
+        //dd($representante);       
+       }    
+       
+        if ($representante !== null) { 
+
+            $representantes = $representante;
+            // Redirigir a la vista 'index' solo con la persona encontrada
+            return view('representante.index', compact('representantes', 'cedula'))->with('mensaje', 'Cédula encontrada.');
+        } 
+        return $this->index();
+       
+        
+    }
+   
     public function show($id)
     {
         $representante = Representante::find($id);
@@ -90,7 +114,7 @@ class RepresentanteController extends Controller
         $centros = Centro::pluck('nombre','id');
         $coordinaciones = Coordinacion::pluck('nombre','id');
         $dependencias = Dependencia::pluck('nombre','id');
-        return view('representante.edit', compact('representante','centros','coordinaciones','dependencias'));
+        return view('representante.edit', compact('representante','centros','coordinaciones','dependencias', 'parroquias'));
     }
 
     /**
@@ -118,18 +142,16 @@ class RepresentanteController extends Controller
     public function destroy($id)
     {
         $representante = Representante::find($id)->delete();
-
         return redirect()->route('representante.index')
             ->with('success', 'Representante deleted successfully');
     }
     public function buscarIntegrante($id){
-
         $representante = Representante::find($id);
-
         if ($representante) {
             $integrantes = $representante->integrantes;
             return $integrantes;
-            }
+        }
         
     }
+   
 }

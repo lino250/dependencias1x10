@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Integrante;
+use App\Models\Representante;
 use Illuminate\Http\Request;
 
 /**
@@ -31,7 +32,7 @@ class IntegranteController extends Controller
      */
     public function create($id)
     {   
-        dd($id);
+        //dd($id);
         $integrante = new Integrante();
         return view('integrante.create', compact('integrante','id'));
     }
@@ -42,15 +43,29 @@ class IntegranteController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $representanteId )
+    public function store(Request $request, $id )
     {
-        dd($request);
+        
         request()->validate(Integrante::$rules);
 
+        // Paso 1: Crea el integrante y guárdalo
         $integrante = Integrante::create($request->all());
 
-        return redirect()->route('representante.show')
-            ->with('success', 'Integrante created successfully.');
+        // Paso 2: Recupera el representante
+        $representante = Representante::find($id);
+
+        // Paso 3: Asocia el integrante al representante
+        $representante->integrantesR()->attach($integrante->id);
+
+          // Paso 4: Recupera los integrantes del representante
+        $integrantes = $representante->integrantesR;
+
+        // Paso 5: Redirige a la vista con los datos necesarios
+        return view('representante.show', compact('representante', 'integrantes', 'id'));
+
+        /*return redirect()->route('representante.show')//lino
+            ->with('success', 'Integrante created successfully.');*/
+        
     }
 
     /**

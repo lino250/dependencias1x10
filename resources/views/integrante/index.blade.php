@@ -40,7 +40,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{--@foreach ($integrantes as $integrante)
+                                @php $i = 0; @endphp
+                                    @foreach ($representante->integrantesR as $integrante)
                                         <tr>
                                             <td>{{ ++$i }}</td>
                                             
@@ -51,9 +52,9 @@
 											<td>{{ $integrante->telefono_alternativo }}</td>
                                  
                                             <td>
-                                                <form action="{{ route('integrantes.destroy',$integrante->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('integrantes.show',$integrante->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('integrantes.edit',$integrante->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                <form action="{{ route('integrante.destroy',$integrante->id) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('integrante.show',$integrante->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('integrante.edit',$integrante->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
@@ -61,7 +62,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                       --}}
+                                       
                                 </tbody>
                             </table>
                         </div>

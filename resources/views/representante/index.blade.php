@@ -37,11 +37,22 @@
                                 {{ __('Create New') }}
                               </a-->
                              <div class="float-right">
+
+                             <form class="d-flex" role="search" action="{{ route('representante.buscar') }}" method="POST">
+    @csrf <!-- Agrega el token CSRF para protección -->
+    <input class="form-control me-2" type="search" placeholder="Cedula" aria-label="Cedula" name="cedula" id="cedula">
+    <button class="btn btn-person-1" type="submit">Buscar</button>
+</form>
                             
-                                    <form class="d-flex" role="search">
-                                        <input class="form-control me-2" type="search" placeholder="Cedula" aria-label="Cecula">
-                                        <button class="btn btn-person-1"  data-bs-toggle="modal" data-bs-target="#validReprent" type="button">Buscar</button>
-                                      </form>
+                                    
+                                
+                                <!--<form class="d-flex" role="search">
+                                        <input class="form-control me-2" type="submit" placeholder="Cedula" aria-label="Cedula" name="cedula" id="cedula">
+                                       <button class="btn btn-person-1"  data-bs-toggle="modal" data-bs-target="#validReprent" type="button">Buscar</button>
+                                        <a href="{{ route('representante.buscar') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                            {{ __('Buscar') }}
+                                        </a>
+                                    </form>-->
                              
                               </div>
                         </div>
@@ -72,36 +83,42 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($representantes as $representante)
-                                        <tr>
-                                            <td>{{ ++$i }}</td>
-                                            
-											<td>{{ $representante->cedula }}</td>
-											<td>{{ $representante->nombres }}</td>
-											<td>{{ $representante->telefono }}</td>
-											<td>{{ $representante->telefono_alternativo }}</td>
-											<td>{{ $representante->centro->nombre }}</td>
-											<td>{{ $representante->parroquia->nombre }}</td>
-											<td>{{$representante->dependencia->nombre}}</td>
-											<td>{{ $representante->coordinacion->nombre }}</td>
+                                        
+                                        @if(isset($representantes)) 
+                                        @php $i = 0; @endphp                                  
+                                        @foreach ($representantes as $representante)                                            
+                                            <tr>
+                                                <td>{{ ++$i }}</td>                                            
+                                                <td>{{ $representante->cedula }}</td>
+                                                <td>{{ $representante->nombres }}</td>
+                                                <td>{{ $representante->telefono }}</td>
+                                                <td>{{ $representante->telefono_alternativo }}</td>
+                                                <td>{{ $representante->centro->nombre }}</td>
+                                                <td>{{ $representante->parroquia->nombre }}</td>
+                                                <td>{{$representante->dependencia->nombre}}</td>
+                                                <td>{{ $representante->coordinacion->nombre }}</td>
 
-                                            <td>
-                                                <form action="{{ route('representante.destroy',$representante->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('representante.show',$representante->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('1x10') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('representante.edit',$representante->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Borrar') }}</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                                <td>
+                                                    <form action="{{ route('representante.destroy',$representante->id) }}" method="POST">
+                                                        <a class="btn btn-sm btn-primary " href="{{ route('representante.show',$representante->id)}}"><i class="fa fa-fw fa-eye"></i> {{ __('1x10') }}</a>
+                                                        <a class="btn btn-sm btn-success" href="{{ route('representante.edit',$representante->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Borrar') }}</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        @endif
+                                        
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+                @if($representantes->count() > 10) 
                 {!! $representantes->links() !!}
+                @endif
             </div>
         </div>
     </div>
