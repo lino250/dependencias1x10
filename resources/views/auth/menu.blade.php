@@ -15,6 +15,9 @@
                         <li class="nav-item">
                             <a href="{{ route('login') }}" class="nav-link ">Iniciar Sesión</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('representante.index') }}" class="nav-link ">Representantes</a>
+                        </li>
                     <!-- @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="nav-link ">Register</a>
                         @endif-->

@@ -1,0 +1,17 @@
+.btn-person-1{
+        border: $buttonC1 2px solid;
+        background-color: $bgcard2;
+        color: $buttonC1;
+        &:hover{
+            background-color: $buttonC1;
+            color: $bgtext1;
+        }
+        &:active{
+            background-color: $buttonC1;
+            color: $bgtext1;
+        }
+        &:focus{
+            background-color: $buttonC1;
+            color: $bgtext1;
+        }
+}
