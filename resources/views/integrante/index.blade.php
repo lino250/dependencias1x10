@@ -34,7 +34,9 @@
 										<th>Nombres</th>
 										<th>Apellidos</th>
 										<th>Telefono</th>
-										<th>Telefono Alternativo</th>
+										<th>Telefono Alternativo</th>                    
+										<th>Parroquia</th>
+                                        <th>Centro</th>
 
                                         <th></th>
                                     </tr>
@@ -50,7 +52,9 @@
 											<td>{{ $integrante->apellidos }}</td>
 											<td>{{ $integrante->telefono }}</td>
 											<td>{{ $integrante->telefono_alternativo }}</td>
-                                 
+                                            <td>{{ $integrante->parroquia->nombre }}</td>
+                                            <td>{{ $integrante->centro->nombre }}</td>
+                            
                                             <td>
                                                 <form action="{{ route('integrante.destroy',$integrante->id) }}" method="POST">
                                                     <a class="btn btn-sm btn-primary " href="{{ route('integrante.show',$integrante->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>

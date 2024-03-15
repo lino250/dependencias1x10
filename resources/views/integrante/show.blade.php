@@ -14,7 +14,7 @@
                             <span class="card-title">{{ __('Show') }} Integrante</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('integrantes.index') }}"> {{ __('Back') }}</a>
+                            <a class="btn btn-primary" href="{{ route('integrante.index') }}"> {{ __('Back') }}</a>
                         </div>
                     </div>
 
@@ -40,7 +40,14 @@
                             <strong>Telefono Alternativo:</strong>
                             {{ $integrante->telefono_alternativo }}
                         </div>
-
+                        <div class="form-group">
+                            <strong>Parroquia Id:</strong>
+                            {{ $integrante->parroquia_id }}
+                        </div>
+                        <div class="form-group">
+                            <strong>Centro Id:</strong>
+                            {{ $integrante->centro_id }}
+                        </div>
                     </div>
                 </div>
             </div>

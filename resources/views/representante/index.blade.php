@@ -76,8 +76,8 @@
 										<th>Telefono Alternativo</th>
 										<th>Centro Id</th>
 										<th>Parroquia Id</th>
-										<th>Dependencia Id</th>
-										<th>Coordinacion Id</th>
+										{{--<th>Dependencia Id</th>
+										<th>Coordinacion Id</th>--}}
 
                                         <th></th>
                                     </tr>
@@ -95,8 +95,8 @@
                                                 <td>{{ $representante->telefono_alternativo }}</td>
                                                 <td>{{ $representante->centro->nombre }}</td>
                                                 <td>{{ $representante->parroquia->nombre }}</td>
-                                                <td>{{$representante->dependencia->nombre}}</td>
-                                                <td>{{ $representante->coordinacion->nombre }}</td>
+                                               {{-- <td>{{$representante->dependencia->nombre}}</td>
+                                                <td>{{ $representante->coordinacion->nombre }}</td>--}}
 
                                                 <td>
                                                     <form action="{{ route('representante.destroy',$representante->id) }}" method="POST">
@@ -108,7 +108,21 @@
                                                     </form>
                                                 </td>
                                             </tr>
+                                            <table>
+                                                <tr>
+                                                <td> <strong>DEPENDENCIA: </strong>{{$representante->dependencia->nombre}}</td>
+                                                </tr>
+                                                <tr>  
+                                                    <td><strong>COORDINACION: </strong>{{$representante->coordinacion->nombre }}</td>
+                                                </tr>
+                                            </table>
                                         @endforeach
+                                        @else
+                                            <tr>
+                                            
+                                                <td colspan="10"> <p>No hay registros...</p></td>
+                                            </tr>
+
                                         @endif
                                         
                                 </tbody>

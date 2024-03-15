@@ -7,6 +7,7 @@ use App\Models\Coordinacion;
 use App\Models\Dependencia;
 use App\Models\Parroquia;
 use App\Models\Representante;
+use App\Models\Integrante;
 use Illuminate\Http\Request;
 use DB;
 
@@ -27,9 +28,10 @@ class RepresentanteController extends Controller
         //dd($representantes);
 
         //$dependencias = Dependencia::pluck('nombre','id');
-
+        
         return view('representante.index', compact('representantes'))
             ->with('i', (request()->input('page', 1) - 1) * $representantes->perPage());
+            
     }
 
     /**
@@ -73,6 +75,7 @@ class RepresentanteController extends Controller
      */
     public function buscarRepresentante(Request $request)
     {
+        $representante = Representante::paginate(10);
        
        $cedula = $request->input('cedula');
        if (!empty($cedula)) {
@@ -86,6 +89,12 @@ class RepresentanteController extends Controller
             // Redirigir a la vista 'index' solo con la persona encontrada
             return view('representante.index', compact('representantes', 'cedula'))->with('mensaje', 'Cédula encontrada.');
         } 
+        if ($representante == null) { 
+
+            $representantes = $representante;
+            // Redirigir a la vista 'index' solo con la persona encontrada
+            return view('representante.index', compact('representantes', 'cedula'))->with('mensaje', 'No hay registros...');
+        } 
         return $this->index();
        
         
@@ -94,11 +103,14 @@ class RepresentanteController extends Controller
     public function show($id)
     {
         $representante = Representante::find($id);
-
+        $parroquias = Parroquia::pluck('nombre','id');       
+        $centros = Centro::pluck('nombre','id');
         //$integrantes = Representante::all();
+        
         $this->buscarIntegrante($id);
 
-        return view('representante.show', compact('representante'))->with('id',$id);
+        //return view('representante.show', compact('representante'))->with('id',$id);
+        return view('representante.show', compact('representante','parroquias','centros'))->with('id',$id);
     }
 
     /**
@@ -148,7 +160,10 @@ class RepresentanteController extends Controller
     public function buscarIntegrante($id){
         $representante = Representante::find($id);
         if ($representante) {
-            $integrantes = $representante->integrantes;
+           // $integrantes = $representante->integrantes;//ASI ESTABA INICIALMENTE
+          //  $integrantes = $representante->integrantes->parroquia();
+            //$integrantes = Integrante::with('parroquia')->get();
+            $integrantes = $representante->integrantesR()->with('parroquia')->get();
             return $integrantes;
         }
         

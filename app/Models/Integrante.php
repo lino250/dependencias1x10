@@ -13,9 +13,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property $apellidos
  * @property $telefono
  * @property $telefono_alternativo
+ * @property $parroquia_id
+ * @property $centro_id
  * @property $created_at
  * @property $updated_at
  *
+ * 
+ * @property Parroquia $parroquia
+ * @property Centro $centro
  * @property RepresentanteIntegrante[] $representanteIntegrantes
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
@@ -29,6 +34,9 @@ class Integrante extends Model
 		'apellidos' => 'required|string',
 		'telefono' => 'required|string',
 		'telefono_alternativo' => 'string',
+    'parroquia_id' => 'required',
+    'centro_id' => 'required',
+		
     ];
 
     protected $perPage = 20;
@@ -38,7 +46,7 @@ class Integrante extends Model
      *
      * @var array
      */
-    protected $fillable = ['cedula','nombres','apellidos','telefono','telefono_alternativo'];
+    protected $fillable = ['cedula','nombres','apellidos','telefono','telefono_alternativo','parroquia_id','centro_id'];
 
 
     /**
@@ -50,5 +58,12 @@ class Integrante extends Model
          return $this->belongsToMany(Integrante::class, 'representante_integrante', 'representante_id', 'integrante_id');
      }
     
-
+     public function parroquia()
+     {
+         return $this->belongsTo(\App\Models\Parroquia::class, 'parroquia_id', 'id');
+     }
+     public function centro()
+     {
+         return $this->belongsTo(\App\Models\Centro::class, 'centro_id', 'id');
+     }
 }

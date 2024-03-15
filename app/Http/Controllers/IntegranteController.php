@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Centro;
+use App\Models\Parroquia;
 use App\Models\Integrante;
 use App\Models\Representante;
 use Illuminate\Http\Request;
+use DB;
 
 /**
  * Class IntegranteController
@@ -34,7 +36,10 @@ class IntegranteController extends Controller
     {   
         //dd($id);
         $integrante = new Integrante();
-        return view('integrante.create', compact('integrante','id'));
+        //return view('integrante.create', compact('integrante','id'));
+        $centros = Centro::pluck('nombre','id');
+        $parroquias = Parroquia::pluck('nombre','id');
+        return view('integrante.create', compact('integrante','id','parroquias','centros'));
     }
 
     /**
@@ -45,7 +50,7 @@ class IntegranteController extends Controller
      */
     public function store(Request $request, $id )
     {
-        
+       // dd($request);
         request()->validate(Integrante::$rules);
 
         // Paso 1: Crea el integrante y guárdalo
@@ -59,10 +64,12 @@ class IntegranteController extends Controller
 
           // Paso 4: Recupera los integrantes del representante
         $integrantes = $representante->integrantesR;
+        // $centros = Centro::pluck('nombre','id');
+        //$parroquias = Parroquia::pluck('nombre','id');
 
         // Paso 5: Redirige a la vista con los datos necesarios
         return view('representante.show', compact('representante', 'integrantes', 'id'));
-
+       // return view('representante.show', compact('representante', 'integrantes', 'id','parroquias','centros'));
         /*return redirect()->route('representante.show')//lino
             ->with('success', 'Integrante created successfully.');*/
         
@@ -77,8 +84,9 @@ class IntegranteController extends Controller
     public function show($id)
     {
         $integrante = Integrante::find($id);
-
-        return view('integrante.show', compact('integrante'));
+        $centros = Centro::pluck('nombre','id');
+        $parroquias = Parroquia::pluck('nombre','id');
+        return view('integrante.show', compact('integrante','id','parroquias','centros'));
     }
 
     /**
@@ -90,8 +98,10 @@ class IntegranteController extends Controller
     public function edit($id)
     {
         $integrante = Integrante::find($id);
+        $centros = Centro::pluck('nombre','id');
+        $parroquias = Parroquia::pluck('nombre','id');
 
-        return view('integrante.edit', compact('integrante'));
+        return view('integrante.edit', compact('integrante','id','parroquias','centros'));
     }
 
     /**

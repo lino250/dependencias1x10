@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property Centro[] $centros
  * @property Representante[] $representantes
+ * @property Integrante[] $integrantes
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -49,6 +50,8 @@ class Parroquia extends Model
     {
         return $this->hasMany(\App\Models\Representante::class, 'id', 'parroquia_id');
     }
-    
-
+    public function integrantes()
+    {
+        return $this->hasMany(\App\Models\Integrante::class, 'id', 'parroquia_id');
+    }
 }

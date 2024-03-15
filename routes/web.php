@@ -22,10 +22,14 @@ Route::get('/', function () {
 //Route::resource('representante', \App\Http\Controllers\RepresentanteController::class);
 //Route::resource('integrante/{id}', \App\Http\Controllers\IntegranteController::class);
 //Route::get('integrante/{id}', \App\Http\Controllers\IntegranteController::class);
+Route::get('integrante', [IntegranteController::class, 'index'])->name('integrante.index');
 Route::get('integrante/{id}/create', [IntegranteController::class, 'create'])->name('integrante.create');
 Route::post('integrante/{id}', [IntegranteController::class, 'store'])->name('integrante.store');
 Route::delete('integrante/{id}', [IntegranteController::class, 'destroy'])->name('integrante.destroy');
 Route::get('integrante/{id}/show', [IntegranteController::class, 'show'])->name('integrante.show');
+Route::get('integrante/{id}/edit', [IntegranteController::class, 'edit'])->name('integrante.edit');
+Route::get('integrante/{id}', [IntegranteController::class, 'update'])->name('integrante.update');
+
 
 
 Route::post('representante/buscarRepresentante', [RepresentanteController::class, 'buscarRepresentante'])->name('representante.buscar');
