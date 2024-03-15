@@ -1,6 +1,6 @@
 <nav class="navbar navLogin navbar-expand-lg shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="{{asset('img/amoW.png')}}" alt=""></a>
+        <a class="navbar-brand" href="{{ url('/') }}"><img src="{{asset('img/amoW.png')}}" alt=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -18,9 +18,9 @@
                         <li class="nav-item">
                             <a href="{{ route('representante.index') }}" class="nav-link ">Representantes</a>
                         </li>
-                    <!-- @if (Route::has('register'))
+                    {{-- @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="nav-link ">Register</a>
-                        @endif-->
+                        @endif--}}
                     @endauth
                 @endif
             </ul>
@@ -28,7 +28,7 @@
     </div>
 </nav>
 
-<!--div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+{{--div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
     @if (Route::has('login'))
         <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
             @auth
@@ -41,4 +41,4 @@
                 @endif
             @endauth
         </div>
-    @endif-->
+    @endif--}}

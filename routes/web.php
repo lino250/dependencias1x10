@@ -18,9 +18,9 @@ use \App\Http\Controllers\IntegranteController;
 use \App\Http\Controllers\RepresentanteController;
 
 Route::get('/', landingController::class);
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 //Route::resource('representante', \App\Http\Controllers\RepresentanteController::class);
 //Route::resource('integrante/{id}', \App\Http\Controllers\IntegranteController::class);
 //Route::get('integrante/{id}', \App\Http\Controllers\IntegranteController::class);
