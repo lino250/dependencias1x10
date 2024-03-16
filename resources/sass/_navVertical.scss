@@ -1,4 +1,3 @@
-
 .nav-horiz{
     background-color: $buttonC1;
     color: $bgtext1;
@@ -9,20 +8,21 @@
         }
     }
 }
+
 .nav-vertical{
     background-color: $buttonC1;
     color: $bgtext1;
-    height: 93vh;
+    min-height: 100vh;
     & .navbar-brand{
         & img{
             width: 75px;
         }
     }
-    & a{
+    & a,button{
         color: $bgtext1;
         font-weight: bolder;
     }
-    & a:hover{
+    & a:hover,button:hover{
         color: $textBlack;
     }
     & .btn-close{

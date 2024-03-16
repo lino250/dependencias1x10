@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\landingController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,14 +17,25 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use \App\Http\Controllers\IntegranteController;
 use \App\Http\Controllers\RepresentanteController;
-
+Auth::routes();
 Route::get('/', landingController::class);
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-//Route::resource('representante', \App\Http\Controllers\RepresentanteController::class);
-//Route::resource('integrante/{id}', \App\Http\Controllers\IntegranteController::class);
-//Route::get('integrante/{id}', \App\Http\Controllers\IntegranteController::class);
+Route::middleware('auth')->group(function () {
+    // Link Para el panel
+    Route::get('dashboard',DashboardController::class,'index');
+    
+    // Links para las rutas de Representante
+    Route::get('representante', [RepresentanteController::class, 'index'])->name('representante.index');
+    Route::post('representante/buscarRepresentante', [RepresentanteController::class, 'buscarRepresentante'])->name('representante.buscar');
+   
+    Route::get('representante/create', [RepresentanteController::class, 'create'])->name('representante.create');
+    Route::delete('representante/{id}', [RepresentanteController::class, 'destroy'])->name('representante.destroy');
+    Route::get('/{id}', [RepresentanteController::class, 'show'])->name('representante.show');
+    Route::get('representante/{id}/edit', [RepresentanteController::class, 'edit'])->name('representante.edit');
+    Route::get('representante/{id}', [RepresentanteController::class, 'update'])->name('representante.update');
+    Route::post('representante', [RepresentanteController::class, 'store'])->name('representante.store');
+
+
+//Links para las rutas de integrantes
 Route::get('integrante', [IntegranteController::class, 'index'])->name('integrante.index');
 Route::get('integrante/{id}/create', [IntegranteController::class, 'create'])->name('integrante.create');
 Route::post('integrante/{id}', [IntegranteController::class, 'store'])->name('integrante.store');
@@ -33,17 +45,20 @@ Route::get('integrante/{id}/edit', [IntegranteController::class, 'edit'])->name(
 Route::get('integrante/{id}', [IntegranteController::class, 'update'])->name('integrante.update');
 
 
+});
 
-Route::post('representante/buscarRepresentante', [RepresentanteController::class, 'buscarRepresentante'])->name('representante.buscar');
-Route::get('representante', [RepresentanteController::class, 'index'])->name('representante.index');
-Route::get('representante/create', [RepresentanteController::class, 'create'])->name('representante.create');
-Route::delete('representante/{id}', [RepresentanteController::class, 'destroy'])->name('representante.destroy');
-Route::get('/{id}', [RepresentanteController::class, 'show'])->name('representante.show');
-Route::get('representante/{id}/edit', [RepresentanteController::class, 'edit'])->name('representante.edit');
-Route::get('representante/{id}', [RepresentanteController::class, 'update'])->name('representante.update');
-Route::post('representante', [RepresentanteController::class, 'store'])->name('representante.store');
+/*Route::get('/', function () {
+    return view('welcome');
+});*/
+//Route::resource('representante', \App\Http\Controllers\RepresentanteController::class);
+//Route::resource('integrante/{id}', \App\Http\Controllers\IntegranteController::class);
+//Route::get('integrante/{id}', \App\Http\Controllers\IntegranteController::class);
 
-Auth::routes();
+
+
+
+
+
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 

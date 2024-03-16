@@ -75,10 +75,14 @@ class RepresentanteController extends Controller
      */
     public function buscarRepresentante(Request $request)
     {
-        $representante = Representante::paginate(10);
+       // $representantes = Representante::paginate(10);
+       $representante = Representante::paginate(10);
+
        
        $cedula = $request->input('cedula');
        if (!empty($cedula)) {
+
+
         $representante = Representante::where('cedula', $cedula)->paginate(10);
         //dd($representante);       
        }    
