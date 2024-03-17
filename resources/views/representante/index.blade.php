@@ -46,13 +46,13 @@
                             
                                     
                                 
-                                <!--<form class="d-flex" role="search">
-                                        <input class="form-control me-2" type="submit" placeholder="Cedula" aria-label="Cedula" name="cedula" id="cedula">
+                                <form class="d-flex" role="search">
+                                        <input class="form-control me-2" type="seacrch" placeholder="Cedula" aria-label="Cedula" name="cedula" id="cedula">
                                        <button class="btn btn-person-1"  data-bs-toggle="modal" data-bs-target="#validReprent" type="button">Buscar</button>
                                         <a href="{{ route('representante.buscar') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
                                             {{ __('Buscar') }}
                                         </a>
-                                    </form>-->
+                                    </form>
                              
                               </div>
                         </div>
@@ -72,12 +72,11 @@
                                         
 										<th>Cedula</th>
 										<th>Nombres</th>
-										<th>Telefono</th>
-										<th>Telefono Alternativo</th>
-										<th>Centro Id</th>
-										<th>Parroquia Id</th>
-										{{--<th>Dependencia Id</th>
-										<th>Coordinacion Id</th>--}}
+										<th>Telefono</th>										
+										<th>Centro de Votación</th>
+										<th>Parroquia</th>
+										{{-- <th>Dependencia Id</th>
+										<th>Coordinacion Id</th> --}}
 
                                         <th></th>
                                     </tr>
@@ -92,7 +91,6 @@
                                                 <td>{{ $representante->cedula }}</td>
                                                 <td>{{ $representante->nombres }}</td>
                                                 <td>{{ $representante->telefono }}</td>
-                                                <td>{{ $representante->telefono_alternativo }}</td>
                                                 <td>{{ $representante->centro->nombre }}</td>
                                                 <td>{{ $representante->parroquia->nombre }}</td>
                                                {{-- <td>{{$representante->dependencia->nombre}}</td>
@@ -108,14 +106,14 @@
                                                     </form>
                                                 </td>
                                             </tr>
-                                            <table>
+                                           {{-- <table>
                                                 <tr>
                                                 <td> <strong>DEPENDENCIA: </strong>{{$representante->dependencia->nombre}}</td>
                                                 </tr>
                                                 <tr>  
                                                     <td><strong>COORDINACION: </strong>{{$representante->coordinacion->nombre }}</td>
                                                 </tr>
-                                            </table>
+                                            </table> --}} 
                                         @endforeach
                                         @else
                                             <tr>

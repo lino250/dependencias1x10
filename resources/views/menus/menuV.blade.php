@@ -1,6 +1,9 @@
 <header class="navbar nav-horiz sticky-top flex-md-nowrap p-0" data-bs-theme="dark">
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="{{'/'}}"><img src="{{asset('img/amoW.png')}}" alt=""></a>
- <h3>usuario</h3>
+
+        {{-- <span>{{ Auth::user()->name }}</span> --}}
+  <span>Dependencia: {{ Auth::user()->dependencia->nombre }}</span>                
+    
   <ul class="navbar-nav flex-row d-md-none">
     <li class="nav-item text-nowrap">
       <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +31,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+              <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{{ route('reporte.index') }}">
                 Reporte
               </a>
             </li>

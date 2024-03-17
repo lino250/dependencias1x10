@@ -1,5 +1,7 @@
 <div class="box box-info padding-1">
     <div class="box-body">
+        <span>id: {{ Auth::user()->dependencia->id }}</span>
+                        
         
         <div class="form-group">
             {{ Form::label('cedula') }}

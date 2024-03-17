@@ -10,8 +10,6 @@
 </head>
 <body>
 @include('auth.menu')
-
-   {{-- @include('menus.menuV') --}} 
     
     @yield('content')
 </body>

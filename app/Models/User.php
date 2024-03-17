@@ -43,4 +43,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function dependencia()
+    {
+        return $this->hasOne(Dependencia::class, 'user_id');
+    }
 }
