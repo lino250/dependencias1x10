@@ -40,6 +40,7 @@ Route::middleware(['auth', CargarUsuarioYDependencia::class])->group(function ()
     Route::get('representante/{id}/edit', [RepresentanteController::class, 'edit'])->name('representante.edit');
     Route::get('representante/{id}', [RepresentanteController::class, 'update'])->name('representante.update');
     Route::post('representante', [RepresentanteController::class, 'store'])->name('representante.store');
+    Route::get('/representante/centros/{parroquiaId}', 'RepresentanteController@obtenerCentros');
 
 
     //Links para las rutas de integrantes
