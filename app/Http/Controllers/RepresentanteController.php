@@ -161,14 +161,19 @@ class RepresentanteController extends Controller
     public function show($id)
     {
         $representante = Representante::find($id);
-        $parroquias = Parroquia::pluck('nombre','id');       
-        $centros = Centro::pluck('nombre','id');
-        //$integrantes = Representante::all();
-        
+       
+        $parroquias = $representante->parroquia;
+        $centros = $representante->centro;
+     
         $this->buscarIntegrante($id);
 
+        $dependencia= $representante->dependencia;
+        $coordinacion= $representante->coordinacion;
+       // dd ($dependencia);
+        //dd ($parroquias);
+
         //return view('representante.show', compact('representante'))->with('id',$id);
-        return view('representante.show', compact('representante','parroquias','centros'))->with('id',$id);
+        return view('representante.show', compact('representante','parroquias','centros','coordinacion','dependencia'))->with('id',$id);
     }
 
     /**
@@ -215,16 +220,26 @@ class RepresentanteController extends Controller
         return redirect()->route('representante.index')
             ->with('success', 'Representante deleted successfully');
     }
+
     public function buscarIntegrante($id){
         $representante = Representante::find($id);
         if ($representante) {
-           // $integrantes = $representante->integrantes;//ASI ESTABA INICIALMENTE
-          //  $integrantes = $representante->integrantes->parroquia();
-            //$integrantes = Integrante::with('parroquia')->get();
+          
             $integrantes = $representante->integrantesR()->with('parroquia')->get();
             return $integrantes;
         }
         
+    }
+    public function obtenerCentros($parroquiaId)
+    {
+        // Buscar la parroquia por su ID
+        $parroquia = Parroquia::findOrFail($parroquiaId);
+        //dd ($parroquia);
+        // Obtener los centros asociados a esta parroquia
+        $centros = $parroquia->centros; // Suponiendo que tengas definida la relación en el modelo Parroquia
+
+        // Devolver los centros como respuesta JSON
+        return response()->json($centros);
     }
    
 }
