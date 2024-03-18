@@ -38,14 +38,14 @@
                               </a-->
                              <div class="float-right">
 
-                             <form class="d-flex" role="search" action="{{ route('representante.buscar') }}" method="POST">
-    @csrf <!-- Agrega el token CSRF para protección -->
-    <input class="form-control me-2" type="search" placeholder="Cedula" aria-label="Cedula" name="cedula" id="cedula">
-    <button class="btn btn-person-1" type="submit">Buscar</button>
-</form>
+                             <form class="d-flex" id="formSearch" role="search" action="{{ route('representante.buscar') }}" method="POST">
+                                    @csrf <!-- Agrega el token CSRF para protección -->
+                                    <input class="form-control me-2" type="text" placeholder="Cedula" aria-label="Cedula" name="cedula" id="cedulaRepresentante" maxlength="8" required>
+                                    <button id="btnSearch" class="btn btn-person-1" type="submit">Buscar</button>
+                                </form>
                             
                                     
-                                
+                                {{-- boton de modal prueba
                                 <form class="d-flex" role="search">
                                         <input class="form-control me-2" type="seacrch" placeholder="Cedula" aria-label="Cedula" name="cedula" id="cedula">
                                        <button class="btn btn-person-1"  data-bs-toggle="modal" data-bs-target="#validReprent" type="button">Buscar</button>
@@ -53,7 +53,7 @@
                                             {{ __('Buscar') }}
                                         </a>
                                     </form>
-                             
+                                --}}
                               </div>
                         </div>
                     </div>
