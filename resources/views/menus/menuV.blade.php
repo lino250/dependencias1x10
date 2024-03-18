@@ -2,7 +2,11 @@
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="{{'/'}}"><img src="{{asset('img/amoW.png')}}" alt=""></a>
 
         {{-- <span>{{ Auth::user()->name }}</span> --}}
-  <span>Dependencia: {{ Auth::user()->dependencia->nombre }}</span>                
+        @if(Auth::user()->dependencia)
+          <span>Dependencia: {{ Auth::user()->dependencia->nombre }}</span>
+        @else
+          <span>No hay dependencia asociada</span>
+        @endif              
     
   <ul class="navbar-nav flex-row d-md-none">
     <li class="nav-item text-nowrap">

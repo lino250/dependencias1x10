@@ -1,6 +1,10 @@
 <div class="box box-info padding-1">
     <div class="box-body">
-        <span>id: {{ Auth::user()->dependencia->id }}</span>
+        @if(Auth::user()->dependencia)
+        <span>Dependencia: {{ Auth::user()->dependencia->nombre }}</span>
+        @else
+        <span>No hay dependencia asociada</span>
+        @endif
                         
         
         <div class="form-group">
