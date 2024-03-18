@@ -72,9 +72,10 @@
                                         
 										<th>Cedula</th>
 										<th>Nombres</th>
-										<th>Telefono</th>										
+										<th>Telefono</th>
+                                        <th>Parroquia</th>
 										<th>Centro de Votación</th>
-										<th>Parroquia</th>
+										
 										{{-- <th>Dependencia Id</th>
 										<th>Coordinacion Id</th> --}}
 
@@ -91,8 +92,9 @@
                                                 <td>{{ $representante->cedula }}</td>
                                                 <td>{{ $representante->nombres }}</td>
                                                 <td>{{ $representante->telefono }}</td>
-                                                <td>{{ $representante->centro->nombre }}</td>
                                                 <td>{{ $representante->parroquia->nombre }}</td>
+                                                <td>{{ $representante->centro->nombre }}</td>
+                                                
                                                {{-- <td>{{$representante->dependencia->nombre}}</td>
                                                 <td>{{ $representante->coordinacion->nombre }}</td>--}}
 
