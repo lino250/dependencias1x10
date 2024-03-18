@@ -19,6 +19,12 @@
                     </div>
 
                     <div class="card-body">
+                        @if(Auth::user()->dependencia)
+                        <span>Dependencia: {{ Auth::user()->dependencia->nombre }}</span>
+                        @else
+                        <span>No hay dependencia asociada</span>
+                        @endif
+
                         
                         <div class="form-group">
                             <strong>Cedula:</strong>
@@ -37,20 +43,20 @@
                             {{ $representante->telefono_alternativo }}
                         </div>
                         <div class="form-group">
-                            <strong>Centro Id:</strong>
-                            {{ $representante->centro_id }}
+                            <strong>Parroquia:</strong>
+                            {{ $representante->parroquia->nombre }}
                         </div>
                         <div class="form-group">
-                            <strong>Parroquia Id:</strong>
-                            {{ $representante->parroquia_id }}
+                            <strong>Centro:</strong>
+                            {{ $representante->centro->nombre }}
                         </div>
                         <div class="form-group">
-                            <strong>Dependencia Id:</strong>
-                            {{ $representante->dependencia_id }}
+                            <strong>Dependencia:</strong>
+                            {{ $representante->dependencia->nombre}}
                         </div>
                         <div class="form-group">
-                            <strong>Coordinacion Id:</strong>
-                            {{ $representante->coordinacion_id }}
+                            <strong>Coordinacion:</strong>
+                            {{ $representante->coordinacion->nombre}}
                         </div>
 
                     </div>
