@@ -8,6 +8,7 @@ use App\Models\Centro;
 use App\Models\Parroquia;
 use App\Models\Integrante;
 use App\Models\Representante;
+use App\Models\Dependencia;
 
 class ReporteController extends Controller
 {
@@ -33,30 +34,58 @@ class ReporteController extends Controller
         //return view('reporte.index');              
     }*/
 
-    public function filtrarDependencias(Request $request)
+    /*public function filtrarDependencias(Request $request)
     {
-        
-        $query = Integrante::query();
-        dd($query);
-      
-        // Filtrar por dependencia si se proporciona
-        if ($request->has('dependencia')) {
-            $query->where('dependencia_id', $request->dependencia);
-    
-            // Filtrar por coordinación si se proporciona
-            if ($request->has('coordinacion')) {
-                $coordinacion_id = $request->coordinacion;
-                // Obtener el representante asociado a la coordinación
-                $representante = Coordinacion::find($coordinacion_id)->representante;
-    
-                // Filtrar por representante si se encontró
-                if ($representante) {
-                    $query->where('representante_id', $representante->id);
-                }
-            }
+        $query = Dependencia::query();
+
+            // Aplicar el filtro por ID de dependencia si se proporciona
+        if ($request->has('dependencia_id')) {
+            $query->where('id', $request->dependencia_id);
+        }
+
+        // Aplicar el filtro por ID de coordinación si se proporciona
+        if ($request->has('coordinacion_id')) {
+            // Utilizar la relación 'coordinaciones' para filtrar por ID de coordinación
+            $query->whereHas('coordinacions', function ($query) use ($request) {
+                $query->where('dependencia_id', $request->dependencia_id);
+            });
+            dd($query);
+        }
+
+        // Obtener los resultados de la consulta
+        $dependencia = $query->first();
+//dd($dependencia);
+        // Si se encuentra la dependencia, acceder a los representantes de las coordinaciones filtradas
+        if ($dependencia) {
+            // Obtener las coordinaciones filtradas con sus representantes
+            $coordinaciones = $dependencia->coordinacions()->with('representantes')->get();
+           //  dd ($coordinaciones);
+            // Devolver los resultados
+            return response()->json(['dependencia' => $dependencia, 'coordinaciones' => $coordinaciones]);
+        } else {
+            // Si no se encuentra la dependencia, devolver un mensaje de error
+            return response()->json(['error' => 'No se encontró la dependencia'], 404);
         }
         return view('reporte.index', compact('$representante'));
 
- 
-    }
+    }*/
+
+    public function filtrarDependencias(Request $request)
+{
+    // Obtener el ID de la dependencia y de la coordinación desde la solicitud
+    $dependenciaId = $request->dependencia_id;
+    $coordinacionId = $request->coordinacion_i;
+
+    // Consultar los representantes que pertenecen a la dependencia y la coordinación filtradas
+    $representantes = Representante::whereHas('coordinacion', function ($query) use ($coordinacionId) {
+        $query->where('coordinacion_id', $coordinacionId);
+     
+    })->whereHas('coordinacion.dependencia', function ($query) use ($dependenciaId) {
+        $query->where('dependencia_id', $dependenciaId);
+    })->get();
+    dd($representantes);
+
+    // Devolver los representantes encontrados
+    return response()->json($representantes);
+}
 }
