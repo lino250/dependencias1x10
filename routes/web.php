@@ -36,7 +36,7 @@ Route::middleware(['auth', CargarUsuarioYDependencia::class])->group(function ()
     Route::post('representante/buscarRepresentante', [RepresentanteController::class, 'buscarRepresentante'])->name('representante.buscar');
     Route::get('representante/create', [RepresentanteController::class, 'create'])->name('representante.create');
     Route::delete('representante/{id}', [RepresentanteController::class, 'destroy'])->name('representante.destroy');
-    Route::get('/{id}', [RepresentanteController::class, 'show'])->name('representante.show');
+    Route::get('representante/{id}/show', [RepresentanteController::class, 'show'])->name('representante.show');
     Route::get('representante/{id}/edit', [RepresentanteController::class, 'edit'])->name('representante.edit');
     Route::get('representante/{id}', [RepresentanteController::class, 'update'])->name('representante.update');
     Route::post('representante', [RepresentanteController::class, 'store'])->name('representante.store');
