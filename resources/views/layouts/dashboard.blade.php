@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{asset('img/icono.png')}}" type="image/png">
     <title>@yield('title')</title>    <!--Estilos y js-->
+    <link rel="stylesheet" href="{{asset('fontawesome-free-6.5.1-web/css/all.min.css')}}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         var baseUrl = "{{ url('/') }}";
@@ -16,7 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             @include('menus.menuV')
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-3">
+            <main class="col-md-9 ms-sm-auto col-lg-10 col-11 px-md-4 pt-3">
                 @yield('content')
             </main>
         </div>

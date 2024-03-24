@@ -11,10 +11,10 @@
 
                 @includeif('partials.errors')
 
-                <div class="card card-default">
+                <div class="card card-person-1">
                     <div class="card-header">
-                        <span class="card-title">{{ __('Update') }} Representante</span>
-                        <span>Depedencia: {{ Auth::user()->dependencia->nombre }}</span>
+                        <span class="card-title">{{ __('Editar') }} Representante</span>
+                        {{--<span>Depedencia: {{ Auth::user()->dependencia->nombre }}</span>--}}
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('representante.update', $representante->id) }}"  role="form" enctype="multipart/form-data">

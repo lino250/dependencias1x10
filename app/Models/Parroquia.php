@@ -40,7 +40,7 @@ class Parroquia extends Model
      */
     public function centros()
     {
-        return $this->hasMany(\App\Models\Centro::class, 'id', 'parroquia_id');
+        return $this->hasMany(\App\Models\Centro::class, 'parroquia_id');
     }
     
     /**

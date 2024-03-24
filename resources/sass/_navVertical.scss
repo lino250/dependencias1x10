@@ -2,10 +2,15 @@
     background-color: $buttonC1;
     color: $bgtext1;
     box-shadow: #ffffff 0px 0px 1px !important;
+    padding: 5px 20px;
     & .navbar-brand{
         & img{
             width: 75px;
         }
+    }
+    & h3{
+        font-size: 17px;
+        margin-bottom: 0;
     }
 }
 

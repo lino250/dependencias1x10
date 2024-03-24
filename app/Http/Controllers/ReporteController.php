@@ -73,11 +73,41 @@ class ReporteController extends Controller
     public function filtrarDependencias(Request $request)
 {
     // Obtener el ID de la dependencia y de la coordinación desde la solicitud
-    $dependenciaId = $request->dependencia_id;
-    $coordinacionId = $request->coordinacion_i;
+    $query = Representante::query();
+
+
+    if($request->has('dependencia'))
+    {
+        $dependenciaId = $request->dependencia;
+        $coordinacionId = $request->coordinacion;
+        $query->whereHas('coordinacion.dependencia', function ($q) use ($dependenciaId) {
+            $q->where('id', $dependenciaId);
+            });    
+
+
+    }
+    if($request->has('coordinacion'))
+    {
+        $query->where('coordinacion_id', $coordinacionId);
+
+    
+
+    }
+    if($request->has('representante'))
+    {      
+
+        $representanteId = $request->representante;
+        $query->where('id', $representanteId);
+
+    } 
+    
+
+    //dd($query->get());
+
+    
 
     // Consultar los representantes que pertenecen a la dependencia y la coordinación filtradas
-    $representantes = Representante::whereHas('coordinacion', function ($query) use ($coordinacionId) {
+    /*$representantes = Representante::whereHas('coordinacion', function ($query) use ($coordinacionId) {
         $query->where('coordinacion_id', $coordinacionId);
      
     })->whereHas('coordinacion.dependencia', function ($query) use ($dependenciaId) {
@@ -86,6 +116,6 @@ class ReporteController extends Controller
     dd($representantes);
 
     // Devolver los representantes encontrados
-    return response()->json($representantes);
+    return response()->json($representantes);*/
 }
 }

@@ -1,11 +1,11 @@
-<header class="navbar nav-horiz sticky-top flex-md-nowrap p-0" data-bs-theme="dark">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="{{'/'}}"><img src="{{asset('img/amoW.png')}}" alt=""></a>
+<header class="navbar nav-horiz sticky-top flex-md-nowrap" data-bs-theme="dark">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="{{'dashboard'}}"><img src="{{asset('img/amoW.png')}}" alt=""></a>
 
         {{-- <span>{{ Auth::user()->name }}</span> --}}
         @if(Auth::user()->dependencia)
-          <span>Dependencia: {{ Auth::user()->dependencia->nombre }}</span>
+          <h3> {{ Auth::user()->dependencia->nombre }}</h3>
         @else
-          <span>No hay dependencia asociada</span>
+          <h3>ADMIN</h3>
         @endif              
     
   <ul class="navbar-nav flex-row d-md-none">
@@ -16,7 +16,7 @@
     </li>
   </ul>
 </header>
-    <div class="sidebar border-right col-md-3 col-lg-2 p-0 nav-vertical">
+    <div class="sidebar border-right col-md-3 col-lg-2 nav-vertical">
       <div class="offcanvas-md offcanvas-end nav-vertical" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
         <div class="offcanvas-header justify-content-center">
           <h5 class="offcanvas-title " id="sidebarMenuLabel">Alcaldia 1X10</h5>

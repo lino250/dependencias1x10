@@ -11,14 +11,14 @@
 
                 @includeif('partials.errors')
 
-                <div class="card card-default">
+                <div class="card card-person-1">
                     <div class="card-header">
-                        <span class="card-title">{{ __('Create') }} Representante</span>                        
-                        @if(Auth::user()->dependencia)
+                        <span class="card-title">{{ __('Crear') }} Representante</span>                        
+                        {{--@if(Auth::user()->dependencia)
                         <span>Dependencia: {{ Auth::user()->dependencia->nombre }}</span>
                         @else
                         <span>No hay dependencia asociada</span>
-                        @endif
+                        @endif--}}
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('representante.store') }}"  role="form" enctype="multipart/form-data">

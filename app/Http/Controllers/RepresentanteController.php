@@ -9,7 +9,8 @@ use App\Models\Parroquia;
 use App\Models\Representante;
 use App\Models\Integrante;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class RepresentanteController
@@ -35,27 +36,37 @@ class RepresentanteController extends Controller
     }*/
     public function index(Request $request)
     {
-        $representantes = Representante::paginate(10);
 
-        //$dependencias = Dependencia::pluck('nombre','id');
-
-        $cedula = $request->input('cedula');
-        if (!empty($cedula)) {
- 
- 
-         $representante = Representante::where('cedula', $cedula)->paginate(10);
-            if ($representante !== null) { 
-
-            $representantes = $representante;
-            // Redirigir a la vista 'index' solo con la persona encontrada
-           // return view('representante.index', compact('representantes', 'cedula'))->with('mensaje', 'Cédula encontrada.');
-           
-            } 
-            
-        } 
-        
        
-        
+
+       $dependenciaId=Auth::user()->dependencia;
+        if ($dependenciaId) {
+            $representantes = Representante::where('dependencia_id', $dependenciaId->id)->paginate(10);
+            
+        }else{
+            $representantes = Representante::paginate(10);
+
+        }
+        //$centros=$this->obtenerCentros(1);
+       // dd($centros);
+
+         /*=================================PROBAR RESULTADOS ==============================================
+
+        $cedula='18212595';        
+       $representantes = DB::table('representantes')
+            ->select('representantes.*', 'coordinacions.nombre as nombre_coordinacion', 'parroquias.nombre as nombre_parroquia', 'centros.nombre as nombre_centro', 'dependencias.nombre as nombre_dependencia')
+            ->join('dependencias', 'dependencias.id', '=', 'representantes.dependencia_id')
+            ->join('coordinacions', 'coordinacions.id', '=', 'representantes.coordinacion_id')
+            ->join('parroquias', 'parroquias.id', '=', 'representantes.parroquia_id')
+            ->join('centros', 'centros.id', '=', 'representantes.centro_id')        
+            ->where('representantes.cedula', $cedula)                
+            ->get();  
+        dd ($representantes);
+
+
+=====================================================================================================*/
+
+
         return view('representante.index', compact('representantes'))
             ->with('i', (request()->input('page', 1) - 1) * $representantes->perPage());
             
@@ -134,12 +145,84 @@ class RepresentanteController extends Controller
     }*/
     public function buscarRepresentante(Request $request)
     {
-              
+
+        
+            $dependenciaId=Auth::user()->dependencia;     
+            $cedula = $request->input('cedula');
+           
+    
+            $representante = DB::table('representantes')
+            ->select('representantes.*', 'coordinacions.nombre as nombre_coordinacion', 'parroquias.nombre as nombre_parroquia', 'centros.nombre as nombre_centro', 'dependencias.nombre as nombre_dependencia')
+            ->join('dependencias', 'dependencias.id', '=', 'representantes.dependencia_id')
+            ->join('coordinacions', 'coordinacions.id', '=', 'representantes.coordinacion_id')
+            ->join('parroquias', 'parroquias.id', '=', 'representantes.parroquia_id')
+            ->join('centros', 'centros.id', '=', 'representantes.centro_id')        
+            ->where('representantes.cedula', $cedula)                
+            ->get(); 
+
+            if ($representante->isEmpty()) { 
+                // El representante no fue encontrado
+                return response()->json([
+                    'showModal' => 1                   
+                ]);
+            } else { 
+                if($dependenciaId){  
+                
+                    $dependenciaId=Auth::user()->dependencia->id;  
+                }   
+
+                $representantes = $representante;   
+                //$representantes2 = $representante; 
+                $rutas=[];  
+                
+                $rutas = [
+                    'show' => route('representante.show', $representantes->first()->id),
+                    'edit' => route('representante.edit', $representantes->first()->id),
+                    'destroy' => route('representante.destroy', $representantes->first()->id)
+                ];
+                return response()->json([
+                    'showModal' => 0,
+                    'representantes' => $representantes,
+                    'dependenciaId' => $dependenciaId,
+                    'rutas' => $rutas
+                ]);
+            } 
+          
+            /*else {
+                if ($dependenciaId) {
+                    $representantes = Representante::where('dependencia_id', $dependenciaId->id)->paginate(10);
+                    
+                }else{
+                    $representantes = Representante::paginate(10);
+        
+                } 
+                return response()->json([
+                    'showModal' => 1,
+                    'representantes' => $representantes,
+                    'dependenciaId' => $dependenciaId
+                ]);
+            }*/
+        
+        // Si la cédula está vacía, se devuelve un mensaje de error
+        
+    }
+  
+    /*public function buscarRepresentante(Request $request)
+    {
+        $dependenciaId=Auth::user()->dependencia;    
        $cedula = $request->input('cedula');
        if (!empty($cedula)) {
 
 
-        $representante = Representante::where('cedula', $cedula)->first();       
+        //$representante = Representante::where('cedula', $cedula)->first();    
+        $representante = Representante::where(function ($query) use ($dependenciaId, $cedula) {
+            $query->where('dependencia_id', $dependenciaId->id) // Representantes de la dependencia del usuario
+                ->orWhere(function ($query) use ($cedula) {
+                    $query->whereNull('dependencia_id') // Representantes sin dependencia asociada
+                        ->where('cedula', $cedula); // Cédula proporcionada
+                });
+        })
+        ->paginate(10);   
        }    
        
         if ($representante) { 
@@ -156,7 +239,7 @@ class RepresentanteController extends Controller
        
         
     }
-   
+   */
    
     public function show($id)
     {
@@ -232,14 +315,24 @@ class RepresentanteController extends Controller
     }
     public function obtenerCentros($parroquiaId)
     {
-        // Buscar la parroquia por su ID
-        $parroquia = Parroquia::findOrFail($parroquiaId);
-        //dd ($parroquia);
-        // Obtener los centros asociados a esta parroquia
-        $centros = $parroquia->centros; // Suponiendo que tengas definida la relación en el modelo Parroquia
+        $parroquia = Parroquia::find($parroquiaId);
+    
+        $centros = $parroquia->centros;
+        if ($centros->isEmpty()) {
+            $mensaje="No hay centros asociados a esta parroquia.";
+        } else {
+            $mensaje='Si Hay CEntros';
+            return response()->json([
+                'centros' => $centros,
+                'mensajes' => $mensaje,
+            ]);
+           
+
+        }
+       
+      
 
         // Devolver los centros como respuesta JSON
-        return response()->json($centros);
     }
    
 }
