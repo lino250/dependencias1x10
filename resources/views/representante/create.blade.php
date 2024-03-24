@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
-@section('template_title')
-    {{ __('Create') }} Representante
+@section('title')
+    Crear Representante
 @endsection
 
 @section('content')

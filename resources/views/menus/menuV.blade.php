@@ -1,12 +1,15 @@
 <header class="navbar nav-horiz sticky-top flex-md-nowrap" data-bs-theme="dark">
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="{{'dashboard'}}"><img src="{{asset('img/amoW.png')}}" alt=""></a>
-
-        {{-- <span>{{ Auth::user()->name }}</span> --}}
-        @if(Auth::user()->dependencia)
-          <h3> {{ Auth::user()->dependencia->nombre }}</h3>
-        @else
-          <h3>ADMIN</h3>
-        @endif              
+        <div class="col-md-10 title">
+            <h3>@yield('title')</h3>
+            {{-- <span>{{ Auth::user()->name }}</span> --}}
+            @if(Auth::user()->dependencia)
+              <h3> {{ Auth::user()->dependencia->nombre }}</h3>
+            @else
+              <h3>ADMIN</h3>
+            @endif            
+        </div>
+         
     
   <ul class="navbar-nav flex-row d-md-none">
     <li class="nav-item text-nowrap">
@@ -26,17 +29,12 @@
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{{route('representante.index')}}">
-                Representante
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
-                Registro 1x10
+                <i class="fa fa-duotone fa-book-open-reader"></i> Registro
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{{ route('reporte.index') }}">
-                Reporte
+                <i class="fa fa-duotone fa-print"></i> Reporte
               </a>
             </li>
           </ul>
@@ -47,7 +45,7 @@
                   <!-- Si el usuario está autenticado, mostrar el enlace o botón de cierre de sesión -->
                   <form method="POST" action="{{ route('logout') }}">
                       @csrf
-                      <button class="nav-link d-flex align-items-center gap-2" type="submit">Cerrar sesión</button>
+                      <button class="nav-link d-flex align-items-center gap-2" type="submit"><i class="fa fa-duotone fa-right-from-bracket"></i> Cerrar sesión </button>
                   </form>
                 @endif
             </li>

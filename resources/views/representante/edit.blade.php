@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
-@section('template_title')
-    {{ __('Update') }} Representante
+@section('title')
+    Editar Representante
 @endsection
 
 @section('content')

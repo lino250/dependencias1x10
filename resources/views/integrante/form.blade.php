@@ -27,12 +27,12 @@
                     {!! $errors->first('telefono_alternativo', '<div class="invalid-feedback">:message</div>') !!}
                 </div>    
                 <div class="form-group col-6">
-                    {{ Form::label('parroquia_id') }}
+                    {{ Form::label('parroquia_id','Parroquia') }}
                     {{ Form::select('parroquia_id',$parroquias, $integrante->parroquia_id, ['class' => 'form-control' . ($errors->has('parroquia_id') ? ' is-invalid' : ''), 'placeholder' => 'Parroquia Id']) }}
                     {!! $errors->first('parroquia_id', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
                 <div class="form-group col-6">
-                    {{ Form::label('centro_id') }}
+                    {{ Form::label('centro_id','Centro') }}
                     {{ Form::select('centro_id',$centros, $integrante->centro_id, ['class' => 'form-control' . ($errors->has('centro_id') ? ' is-invalid' : ''), 'placeholder' => 'Centro Id']) }}
                     {!! $errors->first('centro_id', '<div class="invalid-feedback">:message</div>') !!}
                 </div>

@@ -6,7 +6,7 @@ use App\Models\Parroquia;
 use App\Models\Integrante;
 use App\Models\Representante;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 /**
  * Class IntegranteController
@@ -22,6 +22,7 @@ class IntegranteController extends Controller
     public function index()
     {
         $integrantes = Integrante::paginate();
+       // dd ($integrantes);
 
         return view('integrante.index', compact('integrantes'))
             ->with('i', (request()->input('page', 1) - 1) * $integrantes->perPage());
@@ -40,6 +41,7 @@ class IntegranteController extends Controller
         $centros = Centro::pluck('nombre','id');
         $parroquias = Parroquia::pluck('nombre','id');
         return view('integrante.create', compact('integrante','id','parroquias','centros'));
+       //return view('integrante.show', compact('id'));
     }
 
     /**
@@ -97,6 +99,7 @@ class IntegranteController extends Controller
      */
     public function edit($id)
     {
+       // dd($id);
         $integrante = Integrante::find($id);
         $centros = Centro::pluck('nombre','id');
         $parroquias = Parroquia::pluck('nombre','id');
@@ -111,14 +114,51 @@ class IntegranteController extends Controller
      * @param  Integrante $integrante
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Integrante $integrante)
+    public function update(Request $request, $id)
     {
-        request()->validate(Integrante::$rules);
+      /* // request()->validate(Integrante::$rules);
+       // dd($id);
+      
+        
+        $integrante = Integrante::find($id);
+        
+        $representante = FacadesDB::table('representante_integrante')
+                            ->where('integrante_id', $id)
+                            ->first();
 
+      $id_rep=($representante->representante_id);
+        
         $integrante->update($request->all());
+        
+      //  dd ($representante);
+        // Paso 3: Asocia el integrante al representante
+       // $representante->integrantesR()->attach($integrante->id);
 
-        return redirect()->route('integrante.index')
+        return redirect()->route('representante.show','id')
             ->with('success', 'Integrante updated successfully');
+           // return redirect()->route('integrante.index','id');*/
+           request()->validate(Integrante::$rules);
+           $integrante = Integrante::find($id);
+           $integrante->update($request->all());
+
+           // Paso 2: Recupera el representante
+           $representante = FacadesDB::table('representante_integrante')
+           ->where('integrante_id', $id)
+           ->first();
+
+            $id_rep=($representante->representante_id);
+         $representante = Representante::find($id_rep);
+    
+        // Paso 3: Asocia el integrante al representante
+       // $representante->integrantesR()->attach($id_rep);
+
+          // Paso 4: Recupera los integrantes del representante
+        $integrantes = $representante->integrantesR;
+        // $centros = Centro::pluck('nombre','id');
+        //$parroquias = Parroquia::pluck('nombre','id');
+
+        // Paso 5: Redirige a la vista con los datos necesarios
+        return view('representante.show', compact('representante', 'integrantes', 'id'));
     }
 
     /**

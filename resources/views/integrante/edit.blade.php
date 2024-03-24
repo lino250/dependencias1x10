@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
-@section('template_title')
-    {{ __('Update') }} Integrante
+@section('title')
+   Editar Integrante
 @endsection
 
 @section('content')

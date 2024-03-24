@@ -38,22 +38,24 @@ Route::middleware(['auth', CargarUsuarioYDependencia::class])->group(function ()
     Route::delete('representante/{id}', [RepresentanteController::class, 'destroy'])->name('representante.destroy');
     Route::get('representante/{id}/show', [RepresentanteController::class, 'show'])->name('representante.show');
     Route::get('representante/{id}/edit', [RepresentanteController::class, 'edit'])->name('representante.edit');
-    Route::get('representante/{id}', [RepresentanteController::class, 'update'])->name('representante.update');
+    Route::patch('representante/{representante}', [RepresentanteController::class, 'update'])->name('representante.update');
     Route::post('representante', [RepresentanteController::class, 'store'])->name('representante.store');
     Route::get('/representante/{parroquiaId}/centros', [RepresentanteController::class, 'obtenerCentros'])->name('buscarCentros');
 
     //Links para las rutas de integrantes
-    Route::get('integrante', [IntegranteController::class, 'index'])->name('integrante.index');
+    Route::get('integrante/{id}', [IntegranteController::class, 'index'])->name('integrante.index');
     Route::get('integrante/{id}/create', [IntegranteController::class, 'create'])->name('integrante.create');
     Route::post('integrante/{id}', [IntegranteController::class, 'store'])->name('integrante.store');
-    Route::delete('integrante/{id}', [IntegranteController::class, 'destroy'])->name('integrante.destroy');
+    Route::delete('integrante/{id}', [IntegranteController::class, 'destroy'])->name('integrante.destroy'); 
     Route::get('integrante/{id}/show', [IntegranteController::class, 'show'])->name('integrante.show');
     Route::get('integrante/{id}/edit', [IntegranteController::class, 'edit'])->name('integrante.edit');
-    Route::get('integrante/{id}', [IntegranteController::class, 'update'])->name('integrante.update');
+    Route::patch('integrante/{id}', [IntegranteController::class, 'update'])->name('integrante.update');
 
 //Links para reportes
     Route::get('reporte', [ReporteController::class, 'index'])->name('reporte.index');
     Route::post('reporte', [ReporteController::class, 'filtrarDependencias'])->name('reporte.buscar');
+    Route::get('/reporte/{dependenciaId}/coordinaciones', [ReporteController::class, 'obtenerCoordinacionesDependencia'])->name('buscarCoordinaciones');
+    Route::get('reporte/representantes', [ReporteController::class, 'index'])->name('reporte.index');
 
 
 

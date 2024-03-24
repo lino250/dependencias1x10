@@ -5,117 +5,143 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Centro;
+use App\Models\Coordinacion;
 use App\Models\Parroquia;
 use App\Models\Integrante;
 use App\Models\Representante;
 use App\Models\Dependencia;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ReporteController extends Controller
 {
     //
 
     public function index()
-    {      
-        return view('reporte.index');              
-    }
-    /*public function filtrarDependencias(Request $request)
     {
+        
       
-        $dependenciaId = $request->input('dependencia');
+        /*$dependencia=Auth::user()->dependencia;
+        if($dependencia)
+        {
+            $dependenciaId=Auth::user()->dependencia->id;       
 
-        dd($dependenciaId);
+            $dependencias= Dependencia::find($dependenciaId);   
+       
+       
+            if($dependencia->id){
+                
+                $coordinaciones = DB::table('dependencias')
+                ->select('coordinacions.id', 'coordinacions.nombre as nombre_coordinacion')
+                ->join('coordinacions', 'coordinacions.dependencia_id', '=', 'dependencias.id')
+                ->where('dependencias.id', $dependencia->id)                
+                ->get();       
+                
+                $coordinaciones = $coordinaciones->pluck('nombre_coordinacion', 'id')->toArray();
+            }        
 
-        // Obtener los integrantes según la dependencia seleccionada
-        $integrantes = Integrante::whereHas('representante', function ($query) use ($dependenciaId) {
-            $query->where('dependencia_id', $dependenciaId);
-        })->get();
-
-       // return view('reporte.index', compact('integrantes'));  
-        //return view('reporte.index');              
-    }*/
-
-    /*public function filtrarDependencias(Request $request)
-    {
-        $query = Dependencia::query();
-
-            // Aplicar el filtro por ID de dependencia si se proporciona
-        if ($request->has('dependencia_id')) {
-            $query->where('id', $request->dependencia_id);
         }
+        else{
 
-        // Aplicar el filtro por ID de coordinación si se proporciona
-        if ($request->has('coordinacion_id')) {
-            // Utilizar la relación 'coordinaciones' para filtrar por ID de coordinación
-            $query->whereHas('coordinacions', function ($query) use ($request) {
-                $query->where('dependencia_id', $request->dependencia_id);
-            });
-            dd($query);
-        }
-
-        // Obtener los resultados de la consulta
-        $dependencia = $query->first();
-//dd($dependencia);
-        // Si se encuentra la dependencia, acceder a los representantes de las coordinaciones filtradas
-        if ($dependencia) {
-            // Obtener las coordinaciones filtradas con sus representantes
-            $coordinaciones = $dependencia->coordinacions()->with('representantes')->get();
-           //  dd ($coordinaciones);
-            // Devolver los resultados
-            return response()->json(['dependencia' => $dependencia, 'coordinaciones' => $coordinaciones]);
-        } else {
-            // Si no se encuentra la dependencia, devolver un mensaje de error
-            return response()->json(['error' => 'No se encontró la dependencia'], 404);
-        }
-        return view('reporte.index', compact('$representante'));
-
-    }*/
-
-    public function filtrarDependencias(Request $request)
-{
-    // Obtener el ID de la dependencia y de la coordinación desde la solicitud
-    $query = Representante::query();
-
-
-    if($request->has('dependencia'))
-    {
-        $dependenciaId = $request->dependencia;
-        $coordinacionId = $request->coordinacion;
-        $query->whereHas('coordinacion.dependencia', function ($q) use ($dependenciaId) {
-            $q->where('id', $dependenciaId);
-            });    
-
-
-    }
-    if($request->has('coordinacion'))
-    {
-        $query->where('coordinacion_id', $coordinacionId);
-
-    
-
-    }
-    if($request->has('representante'))
-    {      
-
-        $representanteId = $request->representante;
-        $query->where('id', $representanteId);
-
-    } 
-    
-
-    //dd($query->get());
-
-    
-
-    // Consultar los representantes que pertenecen a la dependencia y la coordinación filtradas
-    /*$representantes = Representante::whereHas('coordinacion', function ($query) use ($coordinacionId) {
-        $query->where('coordinacion_id', $coordinacionId);
+            $coordinaciones = Coordinacion::pluck('nombre','id');
+            $dependencias = Dependencia::pluck('nombre','id');
+           
+        }*/
+        list($coordinaciones, $dependencias) = $this->cargarDatosIndex();
+        return view('reporte.index', compact('coordinaciones', 'dependencias'));           
+            
      
-    })->whereHas('coordinacion.dependencia', function ($query) use ($dependenciaId) {
-        $query->where('dependencia_id', $dependenciaId);
-    })->get();
-    dd($representantes);
+    }
+    public function cargarDatosIndex(){
 
-    // Devolver los representantes encontrados
-    return response()->json($representantes);*/
+
+        $dependencia=Auth::user()->dependencia;
+        if($dependencia)
+        {
+            $dependenciaId=Auth::user()->dependencia->id;       
+
+            $dependencias= Dependencia::find($dependenciaId);   
+       
+       
+            if($dependencia->id){
+                
+                $coordinaciones = DB::table('dependencias')
+                ->select('coordinacions.id', 'coordinacions.nombre as nombre_coordinacion')
+                ->join('coordinacions', 'coordinacions.dependencia_id', '=', 'dependencias.id')
+                ->where('dependencias.id', $dependencia->id)                
+                ->get();       
+                
+                $coordinaciones = $coordinaciones->pluck('nombre_coordinacion', 'id')->toArray();
+            }        
+
+        }
+        else{
+
+            $coordinaciones = Coordinacion::pluck('nombre','id');
+            $dependencias = Dependencia::pluck('nombre','id');
+           
+        }
+
+        return array($coordinaciones, $dependencias);
+
+
+
+
+
+
+    }
+
+
+    public function obtenerCoordinacionesDependencia($dependenciaId)
+    {
+        $dependencia = Dependencia::find($dependenciaId);
+
+        if($dependencia->id){
+                
+            $coordinaciones = DB::table('dependencias')
+            ->select('coordinacions.id', 'coordinacions.nombre as nombre_coordinacion')
+            ->join('coordinacions', 'coordinacions.dependencia_id', '=', 'dependencias.id')
+            ->where('dependencias.id', $dependencia->id)                
+            ->get();       
+            
+            $coordinaciones = $coordinaciones->pluck('nombre_coordinacion', 'id')->toArray();
+        }        
+
+
+            $mensaje='Si hay coordinaciones';
+            return response()->json([
+                'coordinaciones' => $coordinaciones,
+                'mensajes' => $mensaje,
+            ]);
+           
+
+    
+}
+
+public function filtrarDependencias(Request $request)
+{
+    //$query = Representante::query();
+// list($coordinaciones, $dependencias, $representantes) = $this->cargarDatosIndex();
+
+if ($request->has('dependencia_id') && $request->has('coordinacion_id')) {
+    $dependenciaId = $request->dependencia_id;
+    $coordinacionId = $request->coordinacion_id;
+
+    $representantes = DB::table('representantes')
+    ->select('representantes.*')
+
+    ->join('dependencias', 'dependencias.id', '=', 'representantes.dependencia_id')
+      ->join('coordinacions', 'coordinacions.id', '=', 'representantes.coordinacion_id')
+      ->where('dependencias.id', $dependenciaId)
+      ->where('coordinacions.id', $coordinacionId)->get();
+
+}
+
+
+        return view('reporte.representantes', compact('representantes'));
+
+
+
+
 }
 }

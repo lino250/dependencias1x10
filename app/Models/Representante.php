@@ -89,7 +89,11 @@ class Representante extends Model
     {
         return $this->belongsToMany(Integrante::class, 'representante_integrante', 'representante_id', 'integrante_id');
     }
-   
+    public function representante()
+    {
+        return $this->belongsToMany(Integrante::class, 'representante_integrante', 'representante_id', 'integrante_id');
+    }
+    
     
 
 }

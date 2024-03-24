@@ -53,9 +53,13 @@ class Integrante extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
   
-     public function representantesI()
+     public function representantes()
      {
          return $this->belongsToMany(Integrante::class, 'representante_integrante', 'representante_id', 'integrante_id');
+     }
+     public function integrantes()
+     {
+         return $this->belongsTo(Integrante::class, 'representante_integrante','representante_id', 'integrante_id');
      }
     
      public function parroquia()

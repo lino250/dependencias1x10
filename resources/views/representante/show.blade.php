@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
-@section('template_title')
-    {{ $representante->name ?? __('Show') . " " . __('Representante') }}
+@section('title')
+    Listado 1x10
 @endsection
 
 @section('content')

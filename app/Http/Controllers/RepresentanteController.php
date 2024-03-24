@@ -266,7 +266,8 @@ class RepresentanteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    { 
+        //dd($id);
         $representante = Representante::find($id);
         $parroquias = Parroquia::pluck('nombre','id');
         $centros = Centro::pluck('nombre','id');
@@ -284,10 +285,12 @@ class RepresentanteController extends Controller
      */
     public function update(Request $request, Representante $representante)
     {
-        request()->validate(Representante::$rules);
-
+        //dd($request);
+        //dd($representante);
+        //request()->validate(Representante::$rules);
+    
         $representante->update($request->all());
-
+       // dd ($representante);
         return redirect()->route('representante.index')
             ->with('success', 'Representante updated successfully');
     }

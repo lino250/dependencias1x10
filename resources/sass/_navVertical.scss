@@ -8,10 +8,15 @@
             width: 75px;
         }
     }
-    & h3{
-        font-size: 17px;
-        margin-bottom: 0;
+    & .title{
+        display: flex;
+        justify-content: space-between;
+      &  h3{
+            font-size: 17px;
+            margin-bottom: 0;
+        }
     }
+   
 }
 
 .nav-vertical{
