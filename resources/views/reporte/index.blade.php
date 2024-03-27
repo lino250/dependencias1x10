@@ -43,6 +43,8 @@
                        
                                 </div>
                                 <button id="btnSearch" class="btn btn-person-1" type="submit">Buscar<i class="fa text-white fa-solid fa-magnifying-glass"></i></button>
+                                <a href="{{ route('descargar.reporte.excel') }}" class="btn btn-primary">Descargar Reporte Excel</a>
+
                             </form>
                         </div>
                     </div>
@@ -51,8 +53,48 @@
                             <p>{{ $message }}</p>
                         </div>
                     @endif
-                    <div class="card-body">
-                        @yield('content')
+                    <div class="card-body" id="table-reporte-representante">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="thead">
+                                    <tr>
+                                        <th>No</th>                        
+                                        <th>Cedula</th>
+                                        <th>Nombres</th>
+                                        <th>Telefono</th>
+                                        <th>Parroquia</th>
+                                        <th>Centro</th>     
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                       
+                                    @if(isset($representantes)) 
+                                    @php $i = 0; @endphp                                  
+                                    @foreach ($representantes as $representante)                                            
+                                        <tr>
+                                            <td>{{ $representante['nombre_representante'] }}</td>
+                                            <td>{{ $representante['telefono_representante'] }}</td>
+                                            <td>{{ $representante['nombre_dependencia'] }}</td>
+                                            <td>{{ $representante['nombre_coordinacion'] }}</td>
+                                            <td>{{ $representante['nombre_parroquia'] }}</td>
+                                            <td>{{ $representante['nombre_centro'] }}</td>                                            
+                                        </tr>                                       
+                                    @endforeach
+                                    @else
+                                        <tr>
+                                        
+                                            <td colspan="10"> <p>No hay registros...</p></td>
+                                        </tr>
+                    
+                                    @endif
+                        
+                        
+                                </tbody>
+                            </table>
+                        </div>
+                        
                     </div>
                 </div>
 

@@ -9,4 +9,4 @@ import './buscarParroquiaCentros';
 
 
 // Select Dependencia para buscar coordinaciones
-import './buscarCoordinaciones';
+import './reportes';

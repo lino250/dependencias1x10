@@ -53,9 +53,11 @@ Route::middleware(['auth', CargarUsuarioYDependencia::class])->group(function ()
 
 //Links para reportes
     Route::get('reporte', [ReporteController::class, 'index'])->name('reporte.index');
-    Route::post('reporte', [ReporteController::class, 'filtrarDependencias'])->name('reporte.buscar');
+    Route::post('reporte', [ReporteController::class, 'filtrarDependencias'])->name('reporte.buscar'); //para obtener los representantes de esas dependencias y sacar el reporte
     Route::get('/reporte/{dependenciaId}/coordinaciones', [ReporteController::class, 'obtenerCoordinacionesDependencia'])->name('buscarCoordinaciones');
     Route::get('reporte/representantes', [ReporteController::class, 'index'])->name('reporte.index');
+    Route::get('/descargar-reporte-excel',[ReporteController::class, 'descargarReporteExcel'])->name('descargar.reporte.excel');
+
 
 
 
