@@ -13,8 +13,7 @@ $(document).ready(function() {
             url: $(this).attr('action'), // Obtiene la URL del atributo 'action' del formulario
             method: $(this).attr('method'), // Obtiene el método del atributo 'method' del formulario
             data: formData, // Los datos del formulario serializados
-            success: function(response) {
-
+            success: function(response) {  
                 //alert(response.representantes);
                 if (response.showModal==1) {
 

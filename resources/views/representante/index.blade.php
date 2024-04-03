@@ -38,7 +38,7 @@
                               </a-->
                              <div class="float-right">
 
-                             <form class="d-flex" id="formSearch" role="search" action="{{ route('reporte.buscar') }}" method="POST">
+                             <form class="d-flex" id="formSearch" role="search" action="{{ route('representante.buscar') }}" method="POST">
                                     @csrf <!-- Agrega el token CSRF para protección -->
                                     <input class="form-control me-2" type="text" placeholder="Cedula" aria-label="Cedula" name="cedula" id="cedulaRepresentante" maxlength="8" required>
                                     <button id="btnSearch" class="btn " type="submit"><i class="fa text-white fa-solid fa-magnifying-glass"></i></button>

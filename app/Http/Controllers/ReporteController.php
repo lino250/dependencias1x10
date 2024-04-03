@@ -14,6 +14,7 @@ use App\Models\Dependencia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RepresentantesExport;
 
 
 class ReporteController extends Controller
@@ -69,9 +70,6 @@ class ReporteController extends Controller
             
      
     }
-    
-
-
    
 
 public function obtenerCoordinacionesDependencia($dependenciaId)
@@ -96,21 +94,18 @@ public function obtenerCoordinacionesDependencia($dependenciaId)
             'mensajes' => $mensaje,
         ]);
        
-
-
 }
 
 public function filtrarDependencias(Request $request)
 {
-    //dd($request);
-
+   // dd('HOLAAAAAAAAAAA');
 
     if (!is_null($request->dependencia_id)) {
         $dependenciaId = $request->dependencia_id;
     
         // Construir la consulta base
         $query = DB::table('representantes')
-            ->select('representantes.nombres as nombre_representante','representantes.telefono as telefono_representante', 'dependencias.nombre as nombre_dependencia', 'coordinacions.nombre as nombre_coordinacion','parroquias.nombre as nombre_parroquia', 'centros.nombre as nombre_centro')
+            ->select('representantes.cedula as cedula_representante','representantes.nombres as nombre_representante','representantes.telefono as telefono_representante', 'dependencias.nombre as nombre_dependencia', 'coordinacions.nombre as nombre_coordinacion','parroquias.nombre as nombre_parroquia', 'centros.nombre as nombre_centro')
             ->leftJoin('parroquias', 'parroquias.id', '=', 'representantes.parroquia_id')
             ->leftJoin('centros', 'centros.id', '=', 'representantes.centro_id')
             ->join('dependencias', 'dependencias.id', '=', 'representantes.dependencia_id')
@@ -133,51 +128,65 @@ public function filtrarDependencias(Request $request)
     
         // Ejecutar la consulta
         $representantes = $query->get();
-        Session::put('representantes', $representantes);
+        
     }
-    
-    
-    
-    
-   
-
-   //dd($representantes);
-
-
+  //dd($representantes);
     // Almacenar las coordinaciones en la sesión
     // Recuperar las coordinaciones de la sesión
+ 
+
+    session()->put('representantes', $representantes);
     $coordinacionesSession = Session::get('coordinaciones');
 
     // Recuperar las dependencias (asumo que ya las tienes disponibles)
     $dependenciasSession =  Session::get('dependencias'); 
-
     // Redireccionar de vuelta al índice con las variables necesarias
     return redirect()->route('reporte.index')->with([
         'coordinaciones' => $coordinacionesSession,
         'dependencias' => $dependenciasSession,
-        'representantes' => $representantes, // Añadir representantes al conjunto de datos
+        //'representantes' => $representantes, // Añadir representantes al conjunto de datos
     ]);
 
-
- 
-
-
-
-
+    
+   // dd(Session::put('representantes', $representantes));
 }
 
 public function descargarReporteExcel()
-{
-    
-    $data = Session::get('representantes'); // Obtener los representantes de la sesión   
-    return $this->generarReporteExcel($data);
+{       
+    //dd(Session::get('representantes'));
+   // $data = Session::get('representantes'); // Obtener los representantes de la sesión   
+    //dd($data);
+    //return $this->export($data);
+
+     // Verificar si la variable de sesión existe
+     
+     if (session()->has('representantes')) {
+        // Obtener los resultados de la búsqueda de la sesión
+        $resultadosBusqueda = session('representantes');
+        
+       // dd($resultadosBusqueda);
+        // Aquí puedes realizar cualquier otra acción que necesites con los resultados de la búsqueda
+
+        // Por ejemplo, podrías pasar los resultados a tu clase RepresentantesExport para generar el archivo Excel
+        return Excel::download(new RepresentantesExport($resultadosBusqueda), 'Listado.xlsx');
+    } else {
+        // Si no hay resultados de búsqueda en la sesión, puedes redirigir al usuario o manejarlo de alguna otra manera
+        return redirect()->back()->with('error', 'No hay resultados de búsqueda disponibles para exportar');
+    }
 }
 
-
-public function generarReporteExcel($data/*, $totalRepresentantes*/)
+/*public function export($data) 
 {
-    return Excel::download(function($excel) use ($data, $totalRepresentantes) {
-        $excel->sheet('Reporte', function($sheet) use ($data, $totalRepresentantes) {
+    return Excel::download(new RepresentantesExport($data), 'invoices.xlsx');
+}*/
+
+
+/*public function generarReporteExcel($data/*, $totalRepresentantes)
+{
+    //return Excel::download(function($excel) use ($data, $totalRepresentantes) {
+    //$excel->sheet('Reporte', function($sheet) use ($data, $totalRepresentantes) {
+    return Excel::download(function($excel) use ($data) {
+        $excel->sheet('Reporte', function($sheet) use ($data) {
             // Agregar fila de total de representantes
             /*$sheet->appendRow([
                 'Total de Representantes:', // Etiqueta de total
@@ -185,7 +194,7 @@ public function generarReporteExcel($data/*, $totalRepresentantes*/)
                 '', // Celdas vacías para completar las columnas restantes
                 '',
                 ''
-            ]);*/
+            ]);
 
             // Agregar espacio en blanco entre el total y los datos
             $sheet->appendRow(['']);
@@ -203,7 +212,7 @@ public function generarReporteExcel($data/*, $totalRepresentantes*/)
             $sheet->fromArray($data, null, 'A4', false, false);
         });
     }, 'reporte.xlsx');
-}
+}*/
 
 
 }

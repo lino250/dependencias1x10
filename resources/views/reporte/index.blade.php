@@ -42,8 +42,11 @@
                                 @endif
                        
                                 </div>
-                                <button id="btnSearch" class="btn btn-person-1" type="submit">Buscar<i class="fa text-white fa-solid fa-magnifying-glass"></i></button>
-                                <a href="{{ route('descargar.reporte.excel') }}" class="btn btn-primary">Descargar Reporte Excel</a>
+                                
+                                {{--<a href="{{ route('reporte.buscar') }}" class="btn btn-primary">Buscar</a>--}}
+
+                            <button id="btnFitro" class="btn btn-person-1" type="submit">Buscar<i class="fa text-white fa-solid fa-magnifying-glass"></i></button>    
+                               
 
                             </form>
                         </div>
@@ -60,38 +63,45 @@
                                     <tr>
                                         <th>No</th>                        
                                         <th>Cedula</th>
-                                        <th>Nombres</th>
+                                        <th>Nombres y Apellidos</th>
                                         <th>Telefono</th>
                                         <th>Parroquia</th>
-                                        <th>Centro</th>     
+                                        <th>Centro</th>
+                                        <th>Dependencia</th>
+                                        <th>Coordinacion</th>       
                                         
                                     </tr>
                                 </thead>
                                 <tbody>
 
-                                       
-                                    @if(isset($representantes)) 
+                                    @if (session()->has('representantes'))
                                     @php $i = 0; @endphp                                  
-                                    @foreach ($representantes as $representante)                                            
+                                    @foreach (session('representantes') as $rep) 
+                                                                               
                                         <tr>
-                                            <td>{{ $representante['nombre_representante'] }}</td>
-                                            <td>{{ $representante['telefono_representante'] }}</td>
-                                            <td>{{ $representante['nombre_dependencia'] }}</td>
-                                            <td>{{ $representante['nombre_coordinacion'] }}</td>
-                                            <td>{{ $representante['nombre_parroquia'] }}</td>
-                                            <td>{{ $representante['nombre_centro'] }}</td>                                            
-                                        </tr>                                       
+                                            <td>{{ ++$i }}</td>
+                                            <td>{{$rep->cedula_representante}}</td>
+                                            <td>{{$rep->nombre_representante}}</td>
+                                            <td>{{$rep->telefono_representante}}</td>   
+                                            <td>{{$rep->nombre_parroquia}}</td>
+                                            <td>{{$rep->nombre_centro}}</td> 
+                                            <td>{{$rep->nombre_dependencia}}</td>
+                                             <td>{{$rep->nombre_coordinacion}}</td>                                         
+                                        </tr>
+                                        
+                                                                          
                                     @endforeach
+                                    <tr><a href="{{ route('descargar.reporte.excel') }}" class="btn btn-primary">Descargar Reporte Excel</a>
+                                    </tr>
                                     @else
                                         <tr>
                                         
                                             <td colspan="10"> <p>No hay registros...</p></td>
                                         </tr>
-                    
+                                        
                                     @endif
                         
-                        
-                                </tbody>
+                                  </tbody>
                             </table>
                         </div>
                         
