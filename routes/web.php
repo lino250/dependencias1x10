@@ -44,6 +44,7 @@ Route::middleware(['auth', CargarUsuarioYDependencia::class])->group(function ()
 
     //Links para las rutas de integrantes
     Route::get('integrante/{id}', [IntegranteController::class, 'index'])->name('integrante.index');
+    Route::post('integrante/buscarIntegrante', [IntegranteController::class, 'buscarIntegrante'])->name('integrante.buscar');
     Route::get('integrante/{id}/create', [IntegranteController::class, 'create'])->name('integrante.create');
     Route::post('integrante/{id}', [IntegranteController::class, 'store'])->name('integrante.store');
     Route::delete('integrante/{id}', [IntegranteController::class, 'destroy'])->name('integrante.destroy'); 

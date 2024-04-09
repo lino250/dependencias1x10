@@ -19,6 +19,12 @@
                             {{ method_field('PATCH') }}
                             @csrf
 
+                            @if($modoEdicion)
+                                <input type="hidden" id="modoEdicion" value="true">
+                            @else
+                                <input type="hidden" id="modoEdicion" value="false">
+                            @endif
+
                             @include('integrante.form')
 
                         </form>

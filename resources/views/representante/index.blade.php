@@ -95,7 +95,12 @@
                                                 @if(Auth::user()->dependencia == null)
                                                 <td>{{$representante->dependencia->nombre}}</td>
                                                 @endif
+                                                @if($representante->coordinacion)
                                                 <td>{{ $representante->coordinacion->nombre }}</td>
+                                                @else
+                                                <td> </td>
+                                                @endif
+
 
                                                 {{--<td>{{ $representante->coordinacion->nombre }}</td>--}}
                         

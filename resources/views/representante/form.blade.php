@@ -8,17 +8,17 @@
         <span>No hay dependencia asociada</span>
         @endif
                   --}}      
+            <div class="form-group col-6">
+            {{ Form::label('cedula') }}
+            {{ Form::text('cedula', $representante->cedula, ['class' => 'form-control' . ($errors->has('cedula') ? ' is-invalid' : ''), 'placeholder' => 'Ejm: 26566454']) }}
+            {!! $errors->first('cedula', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
         <div class="row">
             <div class="form-group col-6">
                 {{ Form::label('nombres') }}
                 {{ Form::text('nombres', $representante->nombres, ['class' => 'form-control' . ($errors->has('nombres') ? ' is-invalid' : ''), 'placeholder' => 'Ejm: Felix Puerta']) }}
                 {!! $errors->first('nombres', '<div class="invalid-feedback">:message</div>') !!}
             </div>
-        <div class="form-group col-6">
-            {{ Form::label('cedula') }}
-            {{ Form::text('cedula', $representante->cedula, ['class' => 'form-control' . ($errors->has('cedula') ? ' is-invalid' : ''), 'placeholder' => 'Ejm: 26566454']) }}
-            {!! $errors->first('cedula', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
       
         <div class="form-group col-6">
             {{ Form::label('telefono') }}

@@ -45,7 +45,7 @@ $(document).ready(function () {
             data: formData, // Los datos del formulario serializados
             success: function(response) {
 
-                alert(response.representantes);
+//alert(response.representantes);
                
                     
                     $('#table-representante tbody').empty();                   

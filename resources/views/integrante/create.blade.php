@@ -16,7 +16,7 @@
                         <span class="card-title">{{ __('Crear') }} Integrante</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('integrante.store',$id) }}"  role="form" enctype="multipart/form-data">
+                        <form method="POST" id="integranteForm" action="{{ route('integrante.store',$id) }}"  role="form" enctype="multipart/form-data">
                             @csrf
 
                             @include('integrante.form')

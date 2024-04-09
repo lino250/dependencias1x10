@@ -6,6 +6,7 @@ use App\Models\Parroquia;
 use App\Models\Integrante;
 use App\Models\Representante;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
 
 /**
@@ -104,7 +105,7 @@ class IntegranteController extends Controller
         $centros = Centro::pluck('nombre','id');
         $parroquias = Parroquia::pluck('nombre','id');
 
-        return view('integrante.edit', compact('integrante','id','parroquias','centros'));
+        return view('integrante.edit', compact('integrante','id','parroquias','centros'))->with('modoEdicion', true);
     }
 
     /**
@@ -160,6 +161,33 @@ class IntegranteController extends Controller
         // Paso 5: Redirige a la vista con los datos necesarios
         return view('representante.show', compact('representante', 'integrantes', 'id'));
     }
+
+    public function buscarIntegrante(Request $request)
+    {
+
+      $cedula = $request->input('cedula');
+
+      $integrante = Integrante::where('cedula', $cedula)->first();
+  
+      if ($integrante) {
+          $data = [
+              'encontrado' => '1',
+              'mensaje' => 'Esta cédula ya esta registada en un 1x10',
+              'cedula' => $integrante->cedula,
+              // Agrega más campos según sea necesario
+          ];
+          return response()->json($data);
+      } else {
+        $data = [
+          'encontrado' => '0',
+          'mensaje' => '',
+          // Agrega más campos según sea necesario
+      ];
+      return response()->json($data);
+          return response()->json(['error' => 'Error de consulta'], 404);
+      }
+    }
+  
 
     /**
      * @param int $id
