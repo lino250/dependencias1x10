@@ -8,45 +8,46 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-end ">
+                <div class="card card-person-1  table-p">
+                    <div class="card-header report-m">
+                        <div class="">
                             <form action="{{ route('reporte.buscar') }}" method="POST">
                                 @csrf
-                                <div class="row">
+                                <div class="row justify-content-end">
                                 @if (Auth::user()->dependencia)
                                     @php
                                         $idDependencia = Auth::user()->dependencia->id;
                                     @endphp
-                                    <div class="form-group col-6">                                        
-                                        {{ Form::hidden('dependencia_id', $idDependencia, ['class' => 'form-control' . ($errors->has('dependencia_id') ? ' is-invalid' : ''), 'placeholder' => 'Dependencia']) }}
+                                    <div class="form-group col-5">                                        
+                                        {{ Form::hidden('dependencia_id', $idDependencia,['class' => 'form-control' . ($errors->has('dependencia_id') ? ' is-invalid' : ''), 'placeholder' => 'Dependencia']) }}
                                     </div>  
-                                    <div class="form-group col-12">
-                                        {{ Form::label('coordinacion_id', 'Coordinacion') }}
-                                        {{ Form::select('coordinacion_id', $coordinaciones, null, ['class' => 'form-control' . ($errors->has('coordinacion_id') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion Id']) }}
+                                    <div class="form-group col-5">
+                                        {{ Form::label('coordinacion_id', 'Coordinacion', ['class' => 'd-none']) }}
+                                        {{ Form::select('coordinacion_id', $coordinaciones, null, ['class' => 'form-control' . ($errors->has('coordinacion_id') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion']) }}
                                         {!! $errors->first('coordinacion_id', '<div class="invalid-feedback">:message</div>') !!}
                                     </div>
                                                                      
                                 @else
 
                                     <div class="form-group col-6">
-                                        {{ Form::label('dependencia_id', 'Dependencia') }}
-                                        {{ Form::select('dependencia_id', $dependencias, ['class' => 'form-control' . ($errors->has('dependencia_id') ? ' is-invalid' : ''), 'placeholder' => 'Dependencia Id']) }}
+                                      {{ Form::label('dependencia_id', ' ', ['class' => 'd-none']) }} 
+                                        {{ Form::select('dependencia_id', $dependencias, null, ['class' => 'form-control' . ($errors->has('dependencia_id') ? ' is-invalid' : ''), 'placeholder' => 'Dependencia']) }}
                                         {!! $errors->first('dependencia_id', '<div class="invalid-feedback">:message</div>') !!}
                                     </div>
-                                    <div class="form-group col-12">
-                                        {{ Form::label('coordinacion_id', 'Coordinacion') }}
-                                        {{ Form::select('coordinacion_id', $coordinaciones, null, ['class' => 'form-control' . ($errors->has('coordinacion_id') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion Id']) }}
+                                    <div class="form-group col-5">
+                                       {{ Form::label('coordinacion_id', ' ',['class' => 'd-none']) }}
+                                        {{ Form::select('coordinacion_id', $coordinaciones, null, ['class' => 'form-control' . ($errors->has('coordinacion_id') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion']) }}
                                         {!! $errors->first('coordinacion_id', '<div class="invalid-feedback">:message</div>') !!}
                                     </div>
                                 @endif
-                       
+                                <div class="col-1">
+                                    <button id="btnFitro" class="btn" type="submit"><i class="fa text-white fa-solid fa-magnifying-glass"></i></button>    
+                                </div>
+                               
                                 </div>
                                 
                                 {{--<a href="{{ route('reporte.buscar') }}" class="btn btn-primary">Buscar</a>--}}
-
-                            <button id="btnFitro" class="btn btn-person-1" type="submit">Buscar<i class="fa text-white fa-solid fa-magnifying-glass"></i></button>    
-                               
+                                
 
                             </form>
                         </div>
@@ -58,7 +59,7 @@
                     @endif
                     <div class="card-body" id="table-reporte-representante">
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover">
+                            <table class="table  table-hover">
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>                        
@@ -91,8 +92,11 @@
                                         
                                                                           
                                     @endforeach
-                                    <tr><a href="{{ route('descargar.reporte.excel') }}" class="btn btn-primary">Descargar Reporte Excel</a>
-                                    </tr>
+                                    <div class="text-end enviar">
+                                        <a href="{{ route('descargar.reporte.excel') }}" class="btn btn-person-1">Reporte <i class="fa fa-light fa-download"></i></a>
+
+                                    </div>
+                                    
                                     @else
                                         <tr>
                                         
