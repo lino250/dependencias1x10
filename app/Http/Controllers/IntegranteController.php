@@ -36,12 +36,16 @@ class IntegranteController extends Controller
      */
     public function create($id)
     {   
-        //dd($id);
+        //dd($id);// ide representante
+        $representante = Representante::find($id);
+        //dd( $representante);
+        $cedula_rep=$representante->cedula;
+       
         $integrante = new Integrante();
         //return view('integrante.create', compact('integrante','id'));
         $centros = Centro::pluck('nombre','id');
         $parroquias = Parroquia::pluck('nombre','id');
-        return view('integrante.create', compact('integrante','id','parroquias','centros'));
+        return view('integrante.create', compact('integrante','id','parroquias','centros','cedula_rep'))->with('modoEdicion',false);
        //return view('integrante.show', compact('id'));
     }
 
@@ -86,6 +90,7 @@ class IntegranteController extends Controller
      */
     public function show($id)
     {
+
         $integrante = Integrante::find($id);
         $centros = Centro::pluck('nombre','id');
         $parroquias = Parroquia::pluck('nombre','id');
@@ -100,12 +105,15 @@ class IntegranteController extends Controller
      */
     public function edit($id)
     {
-       // dd($id);
+      //  dd($id);//id integrante
+      
         $integrante = Integrante::find($id);
         $centros = Centro::pluck('nombre','id');
         $parroquias = Parroquia::pluck('nombre','id');
 
-        return view('integrante.edit', compact('integrante','id','parroquias','centros'))->with('modoEdicion', true);
+        /*$representante = Representante::find($id);
+        $cedula_rep=$representante->cedula;*/
+        return view('integrante.edit', compact('integrante','id','parroquias','centros'))->with('modoEdicion',true);
     }
 
     /**
@@ -149,7 +157,7 @@ class IntegranteController extends Controller
 
             $id_rep=($representante->representante_id);
          $representante = Representante::find($id_rep);
-    
+          $id=$id_rep;
         // Paso 3: Asocia el integrante al representante
        // $representante->integrantesR()->attach($id_rep);
 
@@ -168,7 +176,7 @@ class IntegranteController extends Controller
       $cedula = $request->input('cedula');
 
       $integrante = Integrante::where('cedula', $cedula)->first();
-  
+      //dd($integrante);
       if ($integrante) {
           $data = [
               'encontrado' => '1',

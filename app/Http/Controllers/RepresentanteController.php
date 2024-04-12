@@ -243,6 +243,7 @@ class RepresentanteController extends Controller
    
     public function show($id)
     {
+       // dd($id);
         $representante = Representante::find($id);
        
         $parroquias = $representante->parroquia;
