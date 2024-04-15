@@ -38,11 +38,10 @@ class IntegranteController extends Controller
     {   
         //dd($id);// ide representante
         $representante = Representante::find($id);
-        //dd( $representante);
+        
         $cedula_rep=$representante->cedula;
        
-        $integrante = new Integrante();
-        //return view('integrante.create', compact('integrante','id'));
+        $integrante = new Integrante();        
         $centros = Centro::pluck('nombre','id');
         $parroquias = Parroquia::pluck('nombre','id');
         return view('integrante.create', compact('integrante','id','parroquias','centros','cedula_rep'))->with('modoEdicion',false);
@@ -183,17 +182,17 @@ class IntegranteController extends Controller
               'mensaje' => 'Esta cédula ya esta registada en un 1x10',
               'cedula' => $integrante->cedula,
               // Agrega más campos según sea necesario
-          ];
-          return response()->json($data);
+          ];          
       } else {
         $data = [
           'encontrado' => '0',
           'mensaje' => '',
           // Agrega más campos según sea necesario
-      ];
-      return response()->json($data);
-          return response()->json(['error' => 'Error de consulta'], 404);
+      ]; 
       }
+      return response()->json(
+        
+      );
     }
   
 

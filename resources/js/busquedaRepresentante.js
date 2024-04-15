@@ -68,7 +68,7 @@ $(document).ready(function() {
             error: function(xhr, status, error) {
 
                 // Maneja errores de la solicitud AJAX aquí
-                //console.error(error);
+                console.error(error);
             }
         });
     });

@@ -33,8 +33,7 @@ $(document).ready(function() {
                     _token: '{{ csrf_token() }}',
                     cedula: cedula
                 },
-                success: function(response) {
-                   // alert(response.encontrado);
+                success: function(response) {                
                 
                     if (response.encontrado=='1') {
                         alert(response.encontrado);
@@ -53,8 +52,14 @@ $(document).ready(function() {
                 
 
                 },
+                error: function(xhr, status, error) {
+
+                    // Maneja errores de la solicitud AJAX aquí
+                    //console.error(error);
+                }
                 
                 });
+               
             }
         }   
        
