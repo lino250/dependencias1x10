@@ -69,7 +69,7 @@ class IntegranteController extends Controller
         // $centros = Centro::pluck('nombre','id');
         //$parroquias = Parroquia::pluck('nombre','id');
 
-        // Paso 5: Redirige a la vista con los datos necesarios
+        // Paso 5: Redirige a la vista con los datos necesarios        
         return view('representante.show', compact('representante', 'integrantes', 'id'));
        // return view('representante.show', compact('representante', 'integrantes', 'id','parroquias','centros'));
         /*return redirect()->route('representante.show')//lino
@@ -168,9 +168,45 @@ class IntegranteController extends Controller
      */
     public function destroy($id)
     {
-        $integrante = Integrante::find($id)->delete();
+      //dd($id);
+      $representante = FacadesDB::table('representante_integrante')
+      ->where('integrante_id', $id)
+      ->first();
+      //dd($representante);
+        $id_rep=($representante->representante_id);
+        $representante = Representante::find($id_rep); 
+        
+        
+        $integrante = Integrante::find($id);
+        $id= $id_rep;
 
-        return redirect()->route('integrante.index')
-            ->with('success', 'Integrante deleted successfully');
+       
+
+            // Verificar si el integrante existe
+              if ($integrante) {
+                // Eliminar la relación de la tabla pivote representante_integrante
+                $integrante->representantes()->detach();
+
+                // Eliminar el integrante de la tabla integrantes
+                $integrante->delete();
+                //dd($id);
+                $integrantes = $representante->integrantesR;
+
+                /*return redirect()->route('representante.show')->with([
+                  'success' => 'Integrante deleted successfully',
+                  'representante' => $representante,
+                  'integrantes' => $integrantes,
+                  'id' => $id,
+              ]);*/
+              return view('representante.show', compact('representante', 'integrantes', 'id'));
+              
+            } 
+        //return view('representante.show', compact('representante', 'integrantes', 'id'));
+
+        //return view('representante.show', compact('representante'))->with('success', 'Integrante deleted successfully');   
+
+       // return redirect()->route('integrante.index')->with('success', 'Integrante deleted successfully');
+   
+    
     }
 }
