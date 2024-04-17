@@ -171,9 +171,9 @@ class IntegranteController extends Controller
 
     public function buscarIntegrante(Request $request)
     {
-
+     // dd($request);
       $cedula = $request->input('cedula');
-
+     
       $integrante = Integrante::where('cedula', $cedula)->first();
       //dd($integrante);
       if ($integrante) {
@@ -181,6 +181,7 @@ class IntegranteController extends Controller
               'encontrado' => '1',
               'mensaje' => 'Esta cédula ya esta registada en un 1x10',
               'cedula' => $integrante->cedula,
+             // 'id'=>$id,
               // Agrega más campos según sea necesario
           ];          
       } else {
@@ -190,9 +191,7 @@ class IntegranteController extends Controller
           // Agrega más campos según sea necesario
       ]; 
       }
-      return response()->json(
-        
-      );
+      return response()->json($data);
     }
   
 
@@ -226,16 +225,27 @@ class IntegranteController extends Controller
                 $integrante->delete();
                 //dd($id);
                 $integrantes = $representante->integrantesR;
-
+                $data = [
+                  'eliminado' => '1',
+               ];      
                 /*return redirect()->route('representante.show')->with([
                   'success' => 'Integrante deleted successfully',
                   'representante' => $representante,
                   'integrantes' => $integrantes,
                   'id' => $id,
-              ]);*/
-              return view('representante.show', compact('representante', 'integrantes', 'id'));
+                ]);*/
               
-            } 
+                  //hoyreturn view('representante.show', compact('representante', 'integrantes', 'id'));
+              
+              } 
+              else{
+                $data = [
+                  'eliminado' => '0',
+                ];     
+              }
+
+            return response()->json($data);
+            
         //return view('representante.show', compact('representante', 'integrantes', 'id'));
 
         //return view('representante.show', compact('representante'))->with('success', 'Integrante deleted successfully');   

@@ -1,6 +1,4 @@
-$(document).ready(function() {
-
-
+/*$(document).ready(function() {*/
 
     $('#cedula').blur(function() {
 
@@ -13,7 +11,7 @@ $(document).ready(function() {
         else{  
             var cedula = ($('#cedula').val());
             var cedula_rep = $('#CedulaRepresentante').val();
-            // alert(cedula);
+            //alert(cedula);
 
 
             if (cedula === cedula_rep)  {
@@ -25,18 +23,18 @@ $(document).ready(function() {
             return false; // Devolver false para indicar que la validación falló
             }
             else{
-               
+               //alert(cedula);
                 $.ajax({
                 url: baseUrl + "/integrante/buscarIntegrante",
                 method: 'POST',
                 data: {
-                    _token: '{{ csrf_token() }}',
+                    _token: $('meta[name="csrf-token"]').attr('content'), // Incluye el token CSRF aquí
                     cedula: cedula
                 },
                 success: function(response) {                
                 
                     if (response.encontrado=='1') {
-                        alert(response.encontrado);
+                        //alert(response.encontrado);
                         $('#cedulaStatus').html('<span style="color:red;">' + response.mensaje + '</span>');
                         $('#submitButton').prop('disabled', true); // Deshabilitar el botón de enviar
                         // Deshabilitar los otros campos del formulario
@@ -99,7 +97,6 @@ $(document).ready(function() {
                     $('#submitButton').prop('disabled', false); // Habilitar el botón de enviar
                     $('#integranteForm input[type=text]').prop('disabled',false);
                 }
-              
     
             },
             
@@ -107,5 +104,5 @@ $(document).ready(function() {
         } 
     }*/
     
-});
+/*});*/
 
