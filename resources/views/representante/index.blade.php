@@ -7,11 +7,39 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
+                    <!-- Modal Para eliminar un representante -->
+                    <div class="modal modal-person-1 fade" id="validElim" tabindex="-1" aria-labelledby="validElim" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Representante!!</h1>
+                                    <button type="button" class="btn ms-auto" data-bs-dismiss="modal" aria-label="Close"><i class="fa fs-4  fa-regular fa-circle-xmark text-white"></i></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>¿Deseas eliminar al este representante? <br> Si lo eliminas se borraran todos los integrantes asociados.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-person-2" data-bs-dismiss="modal">Cerrar</button>
+                                    <a id="createButton"  class="btn btn-person-1 float-right"  data-placement="left">
+                                        {{ __('Eliminar') }}
+                                    </a>
+                                     {{--<form action="{{ route('representante.destroy',$representante->id) }}" method="POST">
+                
+                                        @csrf
+                                        @method('DELETE')
+                                        
+                                        <button type="submit" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar Representante"><i class="fa fa-fw fa-trash" ></i> </button>
+                                    </form>--}}
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             <div class="col-sm-12">
                 <div class="card card-person-1 table-p">
                     <div class="card-header">
                         <div class="d-flex justify-content-end ">
-                          
+                    
                             <!-- Modal -->
                             <div class="modal modal-person-1 fade" id="validReprent" tabindex="-1" aria-labelledby="validReprent" aria-hidden="true">
                                 <div class="modal-dialog">
