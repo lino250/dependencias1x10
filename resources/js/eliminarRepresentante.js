@@ -1,15 +1,19 @@
-document.addEventListener("DOMContentLoaded", function() {
-    var deleteButton = document.querySelector(".delete-button");
-    var createButton = document.getElementById("createButton");
+// Manejo del clic en el botón de abrir modal
+$(document).on('click', '#openEliminar', function() {
+    var idRepresentante = $(this).data('id');
 
-    deleteButton.addEventListener("click", function(event) {
-        event.preventDefault();
-        var modal = new bootstrap.Modal(document.getElementById('validElim'));
-        modal.show();
+    // Obtener el campo oculto del ID del representante
+    var inputIdRepresentante = document.getElementById('idRepresentante');
 
-        // Modificar el enlace "Crear" para que cambie su comportamiento
-        createButton.setAttribute("href", deleteButton.getAttribute("href"));
-        createButton.textContent = "Eliminar"; // Cambiar el texto del botón "Crear" a "Eliminar"
-    });
+    // Asignar el ID del representante al campo oculto
+    inputIdRepresentante.value = idRepresentante;
+
+    // Actualizar la acción del formulario con el ID del representante
+    var formEliminarRepresentante = document.getElementById('formEliminarRepresentante');
+    var action = formEliminarRepresentante.action.replace('__ID__', idRepresentante);
+    formEliminarRepresentante.action = action;
+
+    // Mostrar la modal
+    var myModal = new bootstrap.Modal(document.getElementById('validElim'));
+    myModal.show();
 });
-

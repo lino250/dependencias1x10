@@ -17,19 +17,19 @@
                                 </div>
                                 <div class="modal-body">
                                     <p>¿Deseas eliminar al este representante? <br> Si lo eliminas se borraran todos los integrantes asociados.</p>
+                                    <!-- Campo oculto para almacenar el ID del representante -->
+                                    <input type="hidden" id="idRepresentante" name="idRepresentante" value="">
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-person-2" data-bs-dismiss="modal">Cerrar</button>
-                                    <a id="createButton"  class="btn btn-person-1 float-right"  data-placement="left">
-                                        {{ __('Eliminar') }}
-                                    </a>
-                                     {{--<form action="{{ route('representante.destroy',$representante->id) }}" method="POST">
-                
+                                    <form id="formEliminarRepresentante" action="{{ route('representante.destroy', '__ID__') }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        
-                                        <button type="submit" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar Representante"><i class="fa fa-fw fa-trash" ></i> </button>
-                                    </form>--}}
+                                        <button type="submit" class="btn btn-person-1 float-right"  data-placement="left">
+                                            {{ __('Eliminar') }}
+                                        </button>
+                                    </form>
                                 </div>
                                 </div>
                             </div>
@@ -128,13 +128,9 @@
                                                 {{--<td>{{ $representante->coordinacion->nombre }}</td>--}}
                         
                                                 <td>
-                                                    <form action="{{ route('representante.destroy',$representante->id) }}" method="POST">
                                                         <a class="btn btn-sm btn-primary " href="{{ route('representante.show',$representante->id)}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Crear 1x10"><i class="fa fa-light fa-list-ol"></i></a>
                                                         <a class="btn btn-sm btn-success" href="{{ route('representante.edit',$representante->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar Representante"><i class="fa fa-light fa-pen-to-square"></i></a>
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar Representante"><i class="fa fa-fw fa-trash" ></i> </button>
-                                                    </form>
+                                                        <button type="button" id="openEliminar" class="btn btn-danger btn-sm" data-id="{{ $representante->id }}" data-bs-toggle="modal" data-bs-target="#validElim"><i class="fa fa-fw fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                            {{-- <table>
@@ -148,7 +144,6 @@
                                         @endforeach
                                         @else
                                             <tr>
-                                            
                                                 <td colspan="10"> <p>No hay registros...</p></td>
                                             </tr>
                         
@@ -165,4 +160,23 @@
             </div>
         </div>
     </div>
+    <script>
+/*function abrirModal(idRepresentante) {
+    // Obtener el campo oculto del ID del representante
+    var inputIdRepresentante = document.getElementById('idRepresentante');
+
+    // Asignar el ID del representante al campo oculto
+    inputIdRepresentante.value = idRepresentante;
+
+    // Actualizar la acción del formulario con el ID del representante
+    var formEliminarRepresentante = document.getElementById('formEliminarRepresentante');
+    var action = formEliminarRepresentante.action.replace('__ID__', idRepresentante);
+    formEliminarRepresentante.action = action;
+
+    // Mostrar la modal
+    var myModal = new bootstrap.Modal(document.getElementById('validElim'));
+    myModal.show();
+}*/
+    </script>
+    
 @endsection
