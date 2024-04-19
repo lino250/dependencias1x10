@@ -11,7 +11,6 @@
         var baseUrl = "{{ url('/') }}";
     </script>
     @vite(['resources/sass/app.scss','resources/js/app.js'])
-  
 </head>
 <body>
     <div class="container-fluid">

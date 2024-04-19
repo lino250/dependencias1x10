@@ -1,7 +1,5 @@
 @extends('layouts.landing')
-
 @section('title', 'Alcaldia Cumaná')
-    
 @section('content')
     <div class="container landing-inic">
         <div class="row">

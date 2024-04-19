@@ -1,52 +1,48 @@
 @extends('layouts.dashboard')
-
 @section('title')
   Registro Representante
 @endsection
-
 @section('content')
     <div class="container-fluid">
         <div class="row">
-                    <!-- Modal Para eliminar un representante -->
-                    <div class="modal modal-person-1 fade" id="validElim" tabindex="-1" aria-labelledby="validElim" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Representante!!</h1>
-                                    <button type="button" class="btn ms-auto" data-bs-dismiss="modal" aria-label="Close"><i class="fa fs-4  fa-regular fa-circle-xmark text-white"></i></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>¿Deseas eliminar al este representante? <br> Si lo eliminas se borraran todos los integrantes asociados.</p>
-                                    <!-- Campo oculto para almacenar el ID del representante -->
-                                    <input type="hidden" id="idRepresentante" name="idRepresentante" value="">
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-person-2" data-bs-dismiss="modal">Cerrar</button>
-                                    <form id="formEliminarRepresentante" action="{{ route('representante.destroy', '__ID__') }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-person-1 float-right"  data-placement="left">
-                                            {{ __('Eliminar') }}
-                                        </button>
-                                    </form>
-                                </div>
-                                </div>
-                            </div>
+            <!-- Modal Para eliminar un representante -->
+            <div class="modal modal-person-1 fade" id="validElim" tabindex="-1" aria-labelledby="validElim" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Representante!!</h1>
+                            <button type="button" class="btn ms-auto" data-bs-dismiss="modal" aria-label="Close"><i class="fa fs-4  fa-regular fa-circle-xmark text-white"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Deseas eliminar al este representante? <br> Si lo eliminas se borraran todos los integrantes asociados.</p>
+                            <!-- Campo oculto para almacenar el ID del representante -->
+                            <input type="hidden" id="idRepresentante" name="idRepresentante" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-person-2" data-bs-dismiss="modal">Cerrar</button>
+                            <form id="formEliminarRepresentante" action="{{ route('representante.destroy', '__ID__') }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-person-1 float-right"  data-placement="left">
+                                    {{ __('Eliminar') }}
+                                </button>
+                            </form>
                         </div>
                     </div>
-            <div class="col-sm-12">
-                <div class="card card-person-1 table-p">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-end ">
-                    
-                            <!-- Modal -->
-                            <div class="modal modal-person-1 fade" id="validReprent" tabindex="-1" aria-labelledby="validReprent" aria-hidden="true">
-                                <div class="modal-dialog">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="card card-person-1 table-p">
+                <div class="card-header">
+                    <div class="d-flex justify-content-end ">
+                        <!-- Modal -->
+                        <div class="modal modal-person-1 fade" id="validReprent" tabindex="-1" aria-labelledby="validReprent" aria-hidden="true">
+                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Registro no encontrado!!</h1>
-                                    <button type="button" class="btn ms-auto" data-bs-dismiss="modal" aria-label="Close"><i class="fa fs-4  fa-regular fa-circle-xmark text-white"></i></button>
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Registro no encontrado!!</h1>
+                                        <button type="button" class="btn ms-auto" data-bs-dismiss="modal" aria-label="Close"><i class="fa fs-4  fa-regular fa-circle-xmark text-white"></i></button>
                                     </div>
                                     <div class="modal-body">
                                         <p>¿Desea crear un nuevo representante?</p>
@@ -58,14 +54,12 @@
                                         </a>
                                     </div>
                                 </div>
-                                </div>
                             </div>
-
-                            <!--a href="{{ route('representante.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                        </div>
+                            {{--<!--a href="{{ route('representante.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
                                 {{ __('Create New') }}
-                              </a-->
+                              </a-->--}}
                              <div class="float-right">
-
                              <form class="d-flex" id="formSearch" role="search" action="{{ route('representante.buscar') }}" method="POST">
                                     @csrf <!-- Agrega el token CSRF para protección -->
                                     <input class="form-control me-2" type="text" placeholder="Cedula" aria-label="Cedula" name="cedula" id="cedulaRepresentante" maxlength="8" required>
@@ -159,24 +153,5 @@
                 @endif
             </div>
         </div>
-    </div>
-    <script>
-/*function abrirModal(idRepresentante) {
-    // Obtener el campo oculto del ID del representante
-    var inputIdRepresentante = document.getElementById('idRepresentante');
-
-    // Asignar el ID del representante al campo oculto
-    inputIdRepresentante.value = idRepresentante;
-
-    // Actualizar la acción del formulario con el ID del representante
-    var formEliminarRepresentante = document.getElementById('formEliminarRepresentante');
-    var action = formEliminarRepresentante.action.replace('__ID__', idRepresentante);
-    formEliminarRepresentante.action = action;
-
-    // Mostrar la modal
-    var myModal = new bootstrap.Modal(document.getElementById('validElim'));
-    myModal.show();
-}*/
-    </script>
-    
+    </div>    
 @endsection
