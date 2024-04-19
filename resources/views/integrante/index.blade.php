@@ -88,7 +88,7 @@
                                             <td>
                                                 <a class="btn btn-sm btn-success" href="{{ route('integrante.edit',$integrante->id) }}"><i class="fa fa-light fa-pen-to-square"></i></a>
                                                 <button type="button" class="btn btn-danger btn-sm open-modal-btn" data-id-integrante="{{ $integrante->id }}" data-id-representante="{{ $representante->id }}" data-nombre-representante="{{ $representante->nombre }}" data-bs-toggle="modal" data-bs-target="#validElimInt">
-                                                    <i class="fa fa-fw fa-trash"></i> Eliminar
+                                                    <i class="fa fa-fw fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
