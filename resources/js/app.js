@@ -9,7 +9,9 @@ import './buscarParroquiaCentros';
 
 // Select para buscar integrantes
 import './buscarIntegrante';
-
-
+// Verificacion: Modal Eliminar Representantes
+import './eliminarRepresentante';
+// Verificacion Modal Eliminar Integrante
+import './eliminarIntegrante';
 // Select Dependencia para buscar coordinaciones
 import './reportes';

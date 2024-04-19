@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-/**
+/*
  * Class RepresentanteController
  * @package App\Http\Controllers
  */
@@ -72,7 +72,7 @@ class RepresentanteController extends Controller
             
     }
 
-    /**
+    /*
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -89,7 +89,7 @@ class RepresentanteController extends Controller
         return view('representante.create', compact('representante','parroquias','centros','coordinaciones','dependencias'));
     }
 
-    /**
+    /*
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -105,7 +105,7 @@ class RepresentanteController extends Controller
             ->with('success', 'Representante created successfully.');
     }
 
-    /**
+    /*
      * Display the specified resource.
      *
      * @param  int $id
@@ -146,11 +146,8 @@ class RepresentanteController extends Controller
     public function buscarRepresentante(Request $request)
     {
 
-        
             $dependenciaId=Auth::user()->dependencia;     
             $cedula = $request->input('cedula');
-           
-    
             $representante = DB::table('representantes')
             ->select('representantes.*', 'coordinacions.nombre as nombre_coordinacion', 'parroquias.nombre as nombre_parroquia', 'centros.nombre as nombre_centro', 'dependencias.nombre as nombre_dependencia')
             ->join('dependencias', 'dependencias.id', '=', 'representantes.dependencia_id')
@@ -244,6 +241,10 @@ class RepresentanteController extends Controller
     public function show($id)
     {
        // dd($id);
+        //  dd ($dependencia);
+        //  dd ($parroquias);
+        //  return view('representante.show', compact('representante'))->with('id',$id);
+
         $representante = Representante::find($id);
        
         $parroquias = $representante->parroquia;
@@ -253,14 +254,10 @@ class RepresentanteController extends Controller
 
         $dependencia= $representante->dependencia;
         $coordinacion= $representante->coordinacion;
-       // dd ($dependencia);
-        //dd ($parroquias);
-
-        //return view('representante.show', compact('representante'))->with('id',$id);
         return view('representante.show', compact('representante','parroquias','centros','coordinacion','dependencia'))->with('id',$id);
     }
 
-    /**
+    /*
      * Show the form for editing the specified resource.
      *
      * @param  int $id
@@ -277,7 +274,7 @@ class RepresentanteController extends Controller
         return view('representante.edit', compact('representante','centros','coordinaciones','dependencias', 'parroquias'));
     }
 
-    /**
+    /*
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -289,21 +286,35 @@ class RepresentanteController extends Controller
         //dd($request);
         //dd($representante);
         //request()->validate(Representante::$rules);
-    
+
         $representante->update($request->all());
-       // dd ($representante);
         return redirect()->route('representante.index')
             ->with('success', 'Representante updated successfully');
     }
 
-    /**
+    /*
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
     public function destroy($id)
     {
-        $representante = Representante::find($id)->delete();
+        // Encontrar el representante por su ID
+        $representante = Representante::findOrFail($id);
+    
+        // Obtener los IDs de los integrantes asociados al representante
+        $integrantes_ids = $representante->integrantesR()->pluck('integrante_id');
+        
+        // Eliminar los integrantes asociados de la tabla integrantes
+        Integrante::whereIn('id', $integrantes_ids)->delete();
+        
+        // Eliminar todos los integrantes asociados al representante de la tabla pivot
+        $representante->integrantesR()->detach();
+        
+        // Eliminar al representante
+        $representante->delete();
+        
+      //  $representante = Representante::find($id)->delete();
         return redirect()->route('representante.index')
             ->with('success', 'Representante deleted successfully');
     }
@@ -330,12 +341,7 @@ class RepresentanteController extends Controller
                 'centros' => $centros,
                 'mensajes' => $mensaje,
             ]);
-           
-
         }
-       
-      
-
         // Devolver los centros como respuesta JSON
     }
    
