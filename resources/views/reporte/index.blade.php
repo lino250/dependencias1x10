@@ -93,7 +93,12 @@
                                                                           
                                     @endforeach
                                     <div class="text-end enviar">
-                                        <a href="{{ route('descargar.reporte.excel') }}" class="btn btn-person-1">Reporte <i class="fa fa-light fa-download"></i></a>
+                                        <a href="{{ route('descargar.reporte.excel') }}" class="btn btn-person-1">Tranbajadores x Dependencia <i class="fa fa-light fa-download"></i></a>
+
+                                    </div>
+                                    <div class="text-end enviar">
+                                        @csrf
+                                        <a href="{{ route('descargar.reporte.excel1x10') }}" class="btn btn-person-1">1x10 x Dependencia <i class="fa fa-light fa-download"></i></a>
 
                                     </div>
                                     

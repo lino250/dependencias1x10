@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RepresentantesExport;
-
+use App\Exports\RepresentantesExport1x10;
 
 class ReporteController extends Controller
 {
@@ -105,7 +105,7 @@ public function filtrarDependencias(Request $request)
     
         // Construir la consulta base
         $query = DB::table('representantes')
-            ->select('representantes.cedula as cedula_representante','representantes.nombres as nombre_representante','representantes.telefono as telefono_representante', 'dependencias.nombre as nombre_dependencia', 'coordinacions.nombre as nombre_coordinacion','parroquias.nombre as nombre_parroquia', 'centros.nombre as nombre_centro')
+            ->select('representantes.id as id_representante','representantes.cedula as cedula_representante','representantes.nombres as nombre_representante','representantes.telefono as telefono_representante', 'dependencias.nombre as nombre_dependencia', 'coordinacions.nombre as nombre_coordinacion','parroquias.nombre as nombre_parroquia', 'centros.nombre as nombre_centro')
             ->leftJoin('parroquias', 'parroquias.id', '=', 'representantes.parroquia_id')
             ->leftJoin('centros', 'centros.id', '=', 'representantes.centro_id')
             ->join('dependencias', 'dependencias.id', '=', 'representantes.dependencia_id')
@@ -169,6 +169,63 @@ public function descargarReporteExcel()
 
         // Por ejemplo, podrías pasar los resultados a tu clase RepresentantesExport para generar el archivo Excel
         return Excel::download(new RepresentantesExport($resultadosBusqueda), 'Listado.xlsx');
+    } else {
+        // Si no hay resultados de búsqueda en la sesión, puedes redirigir al usuario o manejarlo de alguna otra manera
+        return redirect()->back()->with('error', 'No hay resultados de búsqueda disponibles para exportar');
+    }
+}
+public function descargarReporte1x10()
+{       
+    //dd(Session::get('representantes'));
+   // $data = Session::get('representantes'); // Obtener los representantes de la sesión   
+    //dd($data);
+    //return $this->export($data);
+
+     // Verificar si la variable de sesión existe
+     
+     if (session()->has('representantes')) {
+        // Obtener los resultados de la búsqueda de la sesión
+        $representantes= session('representantes');
+        //dd($representantes);
+        $resultadosBusqueda = collect();
+        
+            // Recorrer los representantes
+        foreach ($representantes as $representante) {
+           // dd($representante->cedula_representante);
+           // $id_rep=$representante.id;
+
+
+            $representante = Representante::find(47);
+//dd($representante);
+            if ($representante) {
+              
+                $integrantesRepresentante = $representante->integrantesR()->with('parroquia')->get();
+                // $integrantes;
+        
+                //   dd($resultadosBusqueda=$integrantes);
+         
+                foreach ($integrantesRepresentante as $integrante) {
+                // Agregar los datos del integrante junto con los del representante a la colección de salida
+                    $resultadosBusqueda->push([
+                    'cedula_rep' => $representante->cedula,
+                    'nombre_rep' => $representante->nombres,
+                    'telefono_rep' => $representante->telefono,
+                    // Agrega aquí otros datos relevantes del representante que desees incluir en la salida
+                    'cedula_int' => $representante->cedula,
+                    'nombre_int' => $integrante->nombre,
+                    //'apellido_int' => $integrante->apellido,
+                    'telefono_int' => $integrante->telefono,
+                    // Agrega aquí otros datos relevantes del integrante que desees incluir en la salida
+                    ]);
+                }
+
+            }
+        }
+       // dd($resultadosBusqueda);
+        // Aquí puedes realizar cualquier otra acción que necesites con los resultados de la búsqueda
+       // $resultadosBusqueda = json_decode($resultadosBusqueda, true);
+        // Por ejemplo, podrías pasar los resultados a tu clase RepresentantesExport para generar el archivo Excel
+        return Excel::download(new RepresentantesExport1x10($resultadosBusqueda), 'Listado_1x10.xlsx');
     } else {
         // Si no hay resultados de búsqueda en la sesión, puedes redirigir al usuario o manejarlo de alguna otra manera
         return redirect()->back()->with('error', 'No hay resultados de búsqueda disponibles para exportar');

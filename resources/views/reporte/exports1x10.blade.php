@@ -25,31 +25,31 @@
         <tr>
         </tr>
         <tr >
+            <th style="text-align: center; font-weight: bold; font-size: 12px;width: 150%;">Cédula Representante</th>
+            <th style="text-align: center; font-weight: bold; font-size: 12px;width: 400%;">Nombres y Apellidos Representante</th>
+            <th style="text-align: center; font-weight: bold; font-size: 12px;width: 180%;">Teléfono Representante</th>
             <th style="text-align: center; font-weight: bold; font-size: 12px;width: 100%;">Nro</th>
-            <th style="text-align: center; font-weight: bold; font-size: 12px;width: 150%;">Cédula</th>
-            <th style="text-align: center; font-weight: bold; font-size: 12px;width: 400%;">Nombres y Apellidos</th>
-            <th style="text-align: center; font-weight: bold; font-size: 12px;width: 180%;">Teléfono</th>
-            <th style="text-align: center; font-weight: bold; font-size: 12px;width:180px;">Parroquia</th>
-            <th style="text-align: center; font-weight: bold; font-size: 12px;width:300px;">Centro de Votación</th> 
-            <th style="text-align: center; font-weight: bold; font-size: 12px;width:300px;">Dependencia</th>
-            <th style="text-align: center; font-weight: bold; font-size: 12px;width:300px;">Coordinación</th>    
+            <th style="text-align: center; font-weight: bold; font-size: 12px;width: 150%;">Cédula Integrante</th>
+            <th style="text-align: center; font-weight: bold; font-size: 12px;width: 400%;">Nombres y Apellidos Integrante</th>
+            <th style="text-align: center; font-weight: bold; font-size: 12px;width: 180%;">Teléfono Integrante</th>
+  
             
         </tr>
     </thead>
     <tbody>
         
         @php $i = 0; @endphp                                  
-        @foreach (session('representantes') as $rep) 
+        @foreach (session('resultadosBusqueda') as $resp) 
                                                     
             <tr>
+                <td>{{$resp->cedula_rep}}</td>
+                <td>{{$resp->nombre_rep}}</td>
+                <td>{{$resp->telefono_rep}}</td> 
                 <td>{{ ++$i }}</td>
-                <td>{{$rep->cedula_representante}}</td>
-                <td>{{$rep->nombre_representante}}</td>
-                <td>{{$rep->telefono_representante}}</td> 
-               <td>{{$rep->nombre_parroquia}}</td>
-                <td>{{$rep->nombre_centro}}</td>
-                <td>{{$rep->nombre_dependencia}}</td>
-                <td>{{$rep->nombre_coordinacion}}</td>
+                <td>{{$resp->cedula_int}}</td>
+                <td>{{$resp->nombre_int}}</td>
+                <td>{{$resp->telefono_int}}</td> 
+
             </tr>                                       
         @endforeach
                                    
