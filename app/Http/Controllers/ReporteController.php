@@ -175,11 +175,8 @@ public function descargarReporteExcel()
     }
 }
 public function descargarReporte1x10()
-{       
-    //dd(Session::get('representantes'));
-   // $data = Session::get('representantes'); // Obtener los representantes de la sesión   
-    //dd($data);
-    //return $this->export($data);
+{     
+    //$resultadosBusquedai=[];
 
      // Verificar si la variable de sesión existe
      
@@ -187,45 +184,51 @@ public function descargarReporte1x10()
         // Obtener los resultados de la búsqueda de la sesión
         $representantes= session('representantes');
         //dd($representantes);
-        $resultadosBusqueda = collect();
+        $resultadosBusquedai = collect();
         
             // Recorrer los representantes
         foreach ($representantes as $representante) {
-           // dd($representante->cedula_representante);
-           // $id_rep=$representante.id;
+           //dd($representante->cedula_representante);
+           $representante = Representante::with('dependencia', 'coordinacion', 'parroquia','centro')
+           ->find($representante->id_representante);
 
-
-            $representante = Representante::find(47);
-//dd($representante);
+            //$representante = Representante::find($representante->id_representante);
+            //dd($representante);
             if ($representante) {
               
-                $integrantesRepresentante = $representante->integrantesR()->with('parroquia')->get();
-                // $integrantes;
-        
-                //   dd($resultadosBusqueda=$integrantes);
+                //$integrantesRepresentante = $representante->integrantesR()->with('parroquia')->get();
+                $integrantesRepresentante = $representante->integrantesR()->with('parroquia','centro')->get();
+                //dd($integrantesRepresentante);
          
                 foreach ($integrantesRepresentante as $integrante) {
+
                 // Agregar los datos del integrante junto con los del representante a la colección de salida
-                    $resultadosBusqueda->push([
+                    $resultadosBusquedai->push([
                     'cedula_rep' => $representante->cedula,
                     'nombre_rep' => $representante->nombres,
                     'telefono_rep' => $representante->telefono,
+                    'dependencia' => $representante->dependencia->nombre,
+                    'coordinacion' => $representante->coordinacion->nombre,
+                    'parroquia_rep' => $representante->parroquia->nombre,
+                    'centro_rep' => $representante->centro->nombre,
                     // Agrega aquí otros datos relevantes del representante que desees incluir en la salida
-                    'cedula_int' => $representante->cedula,
-                    'nombre_int' => $integrante->nombre,
-                    //'apellido_int' => $integrante->apellido,
+                    'cedula_int' => $integrante->cedula,
+                    'nombre_int' => $integrante->nombres,
+                    'apellido_int' => $integrante->apellidos,
                     'telefono_int' => $integrante->telefono,
+                    'parroquia_int' => $integrante->parroquia->nombre,
+                    'centro_int' => $integrante->centro->nombre,
                     // Agrega aquí otros datos relevantes del integrante que desees incluir en la salida
                     ]);
+                    //dd($resultadosBusqueda);
                 }
 
             }
         }
-       // dd($resultadosBusqueda);
-        // Aquí puedes realizar cualquier otra acción que necesites con los resultados de la búsqueda
-       // $resultadosBusqueda = json_decode($resultadosBusqueda, true);
-        // Por ejemplo, podrías pasar los resultados a tu clase RepresentantesExport para generar el archivo Excel
-        return Excel::download(new RepresentantesExport1x10($resultadosBusqueda), 'Listado_1x10.xlsx');
+        //dd($resultadosBusqueda);
+        session()->put('integrantes1x10', $resultadosBusquedai);
+        $integrantes1x10=Session::get('integrantes1x10');
+        return Excel::download(new RepresentantesExport1x10($integrantes1x10), 'Listado_1x10.xlsx');
     } else {
         // Si no hay resultados de búsqueda en la sesión, puedes redirigir al usuario o manejarlo de alguna otra manera
         return redirect()->back()->with('error', 'No hay resultados de búsqueda disponibles para exportar');

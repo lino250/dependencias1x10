@@ -16,7 +16,8 @@ class RepresentantesExport1x10 implements FromView
         $this->data = $data;
     }
     public function view(): View
-    {
+    { 
+        // dd($this->data);
         
         return view('reporte.exports1x10', [
             'data' => $this->data,

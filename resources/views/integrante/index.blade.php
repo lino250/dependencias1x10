@@ -8,7 +8,7 @@
                         <button type="button" class="btn ms-auto" data-bs-dismiss="modal" aria-label="Close"><i class="fa fs-4  fa-regular fa-circle-xmark text-white"></i></button>
                     </div>
                     <div class="modal-body">
-                        <p>¿Deseas eliminar al integrante? <br> Si eliminas a este integrante pobra ser usado en otro 1x10. </p>
+                        <p>¿Deseas eliminar este integrante? <br> Si eliminas este integrante podría ser usado en otro 1x10. </p>
                         <!-- Campo oculto para almacenar el ID del integrante -->
                         <input type="hidden" id="idIntegrante" name="idIntegrante" value="">
 
