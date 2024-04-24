@@ -2,7 +2,8 @@ $(document).ready(function () {
 
 
     /* Buscará las coordinaciones asociadas a la dependencia y cargar los datos en el select*/
-    $('#dependencia_id').change(function () {       
+    $('#dependencia_id').change(function () {    
+       // alert('entra aqui en rerporte y en el registto y edicion de rep');   
        
         var  dependenciaId = $(this).val();
         
