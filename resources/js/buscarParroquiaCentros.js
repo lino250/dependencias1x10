@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $('#parroquia_id').change(function () {
-       
         var parroquiaId = $(this).val();
         $.ajax({
             url: baseUrl + "/representante/" + parroquiaId + "/centros",

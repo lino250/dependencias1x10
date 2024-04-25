@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB as FacadesDB;
  */
 class IntegranteController extends Controller
 {
-    /**
+    /*
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -23,20 +23,18 @@ class IntegranteController extends Controller
     public function index()
     {
         $integrantes = Integrante::paginate();
-       // dd ($integrantes);
-
         return view('integrante.index', compact('integrantes'))
-            ->with('i', (request()->input('page', 1) - 1) * $integrantes->perPage());
+        ->with('i', (request()->input('page', 1) - 1) * $integrantes->perPage());
     }
 
-    /**
+    /*
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create($id)
     {   
-        //dd($id);// ide representante
+      /*  //dd($id);// ide representante
         $representante = Representante::find($id);
         
         $cedula_rep=$representante->cedula;
@@ -45,10 +43,14 @@ class IntegranteController extends Controller
         $centros = Centro::pluck('nombre','id');
         $parroquias = Parroquia::pluck('nombre','id');
         return view('integrante.create', compact('integrante','id','parroquias','centros','cedula_rep'))->with('modoEdicion',false);
-       //return view('integrante.show', compact('id'));
+       //return view('integrante.show', compact('id'));*/
+        $integrante = new Integrante();
+        $centros = Centro::pluck('nombre','id');
+        $parroquias = Parroquia::pluck('nombre','id');
+        return view('integrante.create', compact('integrante','id','parroquias','centros'));
     }
 
-    /**
+    /*
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -56,32 +58,20 @@ class IntegranteController extends Controller
      */
     public function store(Request $request, $id )
     {
-       // dd($request);
         request()->validate(Integrante::$rules);
-
         // Paso 1: Crea el integrante y guárdalo
         $integrante = Integrante::create($request->all());
-
         // Paso 2: Recupera el representante
         $representante = Representante::find($id);
-
         // Paso 3: Asocia el integrante al representante
         $representante->integrantesR()->attach($integrante->id);
-
-          // Paso 4: Recupera los integrantes del representante
+        // Paso 4: Recupera los integrantes del representante
         $integrantes = $representante->integrantesR;
-        // $centros = Centro::pluck('nombre','id');
-        //$parroquias = Parroquia::pluck('nombre','id');
-
         // Paso 5: Redirige a la vista con los datos necesarios        
         return view('representante.show', compact('representante', 'integrantes', 'id'));
-       // return view('representante.show', compact('representante', 'integrantes', 'id','parroquias','centros'));
-        /*return redirect()->route('representante.show')//lino
-            ->with('success', 'Integrante created successfully.');*/
-        
     }
 
-    /**
+    /*
      * Display the specified resource.
      *
      * @param  int $id
@@ -96,7 +86,7 @@ class IntegranteController extends Controller
         return view('integrante.show', compact('integrante','id','parroquias','centros'));
     }
 
-    /**
+    /*
      * Show the form for editing the specified resource.
      *
      * @param  int $id
@@ -104,18 +94,22 @@ class IntegranteController extends Controller
      */
     public function edit($id)
     {
-      //  dd($id);//id integrante
+/*//  dd($id);//id integrante
       
         $integrante = Integrante::find($id);
         $centros = Centro::pluck('nombre','id');
         $parroquias = Parroquia::pluck('nombre','id');
 
         /*$representante = Representante::find($id);
-        $cedula_rep=$representante->cedula;*/
-        return view('integrante.edit', compact('integrante','id','parroquias','centros'))->with('modoEdicion',true);
+        $cedula_rep=$representante->cedula;
+        return view('integrante.edit', compact('integrante','id','parroquias','centros'))->with('modoEdicion',true);*/
+        $integrante = Integrante::find($id);
+        $centros = Centro::pluck('nombre','id');
+        $parroquias = Parroquia::pluck('nombre','id');
+        return view('integrante.edit', compact('integrante','id','parroquias','centros'));
     }
 
-    /**
+    /*
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -124,27 +118,17 @@ class IntegranteController extends Controller
      */
     public function update(Request $request, $id)
     {
-      /* // request()->validate(Integrante::$rules);
-       // dd($id);
-      
-        
+        request()->validate(Integrante::$rules);
         $integrante = Integrante::find($id);
-        
-        $representante = FacadesDB::table('representante_integrante')
-                            ->where('integrante_id', $id)
-                            ->first();
-
-      $id_rep=($representante->representante_id);
-        
         $integrante->update($request->all());
-        
+        /*
       //  dd ($representante);
         // Paso 3: Asocia el integrante al representante
        // $representante->integrantesR()->attach($integrante->id);
 
         return redirect()->route('representante.show','id')
             ->with('success', 'Integrante updated successfully');
-           // return redirect()->route('integrante.index','id');*/
+           // return redirect()->route('integrante.index','id');
            request()->validate(Integrante::$rules);
            $integrante = Integrante::find($id);
            $integrante->update($request->all());
@@ -160,11 +144,15 @@ class IntegranteController extends Controller
         // Paso 3: Asocia el integrante al representante
        // $representante->integrantesR()->attach($id_rep);
 
-          // Paso 4: Recupera los integrantes del representante
+          // Paso 4: Recupera los integrantes del representante*/
+        // Paso 2: Recupera el representante
+        $representante = FacadesDB::table('representante_integrante')
+        ->where('integrante_id', $id)
+        ->first();
+        $id_rep=($representante->representante_id);
+        $representante = Representante::find($id_rep);
+        // Paso 4: Recupera los integrantes del representante
         $integrantes = $representante->integrantesR;
-        // $centros = Centro::pluck('nombre','id');
-        //$parroquias = Parroquia::pluck('nombre','id');
-
         // Paso 5: Redirige a la vista con los datos necesarios
         return view('representante.show', compact('representante', 'integrantes', 'id'));
     }
@@ -195,26 +183,23 @@ class IntegranteController extends Controller
     }
   
 
-    /**
+    
+    /*
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
     public function destroy($id)
     {
-      //dd($id);
       $representante = FacadesDB::table('representante_integrante')
       ->where('integrante_id', $id)
       ->first();
-      //dd($representante);
         $id_rep=($representante->representante_id);
         $representante = Representante::find($id_rep); 
-        
-        
         $integrante = Integrante::find($id);
         $id= $id_rep;
 
-       
+/*
 
             // Verificar si el integrante existe
               if ($integrante) {
@@ -233,7 +218,7 @@ class IntegranteController extends Controller
                   'representante' => $representante,
                   'integrantes' => $integrantes,
                   'id' => $id,
-                ]);*/
+                ]);
               
                   //hoyreturn view('representante.show', compact('representante', 'integrantes', 'id'));
               
@@ -250,8 +235,16 @@ class IntegranteController extends Controller
 
         //return view('representante.show', compact('representante'))->with('success', 'Integrante deleted successfully');   
 
-       // return redirect()->route('integrante.index')->with('success', 'Integrante deleted successfully');
+       // return redirect()->route('integrante.index')->with('success', 'Integrante deleted successfully');*/
    
     
+        // Eliminar la relación de la tabla pivote representante_integrante
+        $integrante->representantes()->detach();
+        // Eliminar el integrante de la tabla integrantes
+        $integrante->delete();
+        // Se debe redireccionar a la ruta que se quiere que se muestre seguidamente de la funcion
+        return redirect()->route('representante.show', ['id' => $id_rep])->with([
+        'success' => 'Integrante eliminado exitosamente',
+      ]);  
     }
 }

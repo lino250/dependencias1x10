@@ -10,7 +10,6 @@
 </head>
 <body>
 @include('auth.menu')
-    
     @yield('content')
 </body>
 </html>
