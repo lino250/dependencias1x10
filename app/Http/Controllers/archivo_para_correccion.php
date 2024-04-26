@@ -34,6 +34,7 @@ class IntegranteController extends Controller
      */
     public function create($id)
     {   
+<<<<<<< HEAD
         //dd($id);// ide representante
         $representante = Representante::find($id);
         
@@ -44,6 +45,12 @@ class IntegranteController extends Controller
         $parroquias = Parroquia::pluck('nombre','id');
         return view('integrante.create', compact('integrante','id','parroquias','centros','cedula_rep'))->with('modoEdicion',false);
        //return view('integrante.show', compact('id'));
+=======
+        $integrante = new Integrante();
+        $centros = Centro::pluck('nombre','id');
+        $parroquias = Parroquia::pluck('nombre','id');
+        return view('integrante.create', compact('integrante','id','parroquias','centros'));
+>>>>>>> 5af83d1e135c16e2e44231a268718b20ffdd04a6
     }
 
     /*
@@ -91,6 +98,7 @@ class IntegranteController extends Controller
      */
     public function edit($id)
     {
+<<<<<<< HEAD
       //  dd($id);//id integrante
       
         $integrante = Integrante::find($id);
@@ -100,6 +108,12 @@ class IntegranteController extends Controller
         /*$representante = Representante::find($id);
         $cedula_rep=$representante->cedula;*/
         return view('integrante.edit', compact('integrante','id','parroquias','centros'))->with('modoEdicion',true);
+=======
+        $integrante = Integrante::find($id);
+        $centros = Centro::pluck('nombre','id');
+        $parroquias = Parroquia::pluck('nombre','id');
+        return view('integrante.edit', compact('integrante','id','parroquias','centros'));
+>>>>>>> 5af83d1e135c16e2e44231a268718b20ffdd04a6
     }
 
     /*
@@ -114,6 +128,7 @@ class IntegranteController extends Controller
         request()->validate(Integrante::$rules);
         $integrante = Integrante::find($id);
         $integrante->update($request->all());
+<<<<<<< HEAD
         
       //  dd ($representante);
         // Paso 3: Asocia el integrante al representante
@@ -138,11 +153,21 @@ class IntegranteController extends Controller
        // $representante->integrantesR()->attach($id_rep);
 
           // Paso 4: Recupera los integrantes del representante
+=======
+        // Paso 2: Recupera el representante
+        $representante = FacadesDB::table('representante_integrante')
+        ->where('integrante_id', $id)
+        ->first();
+        $id_rep=($representante->representante_id);
+        $representante = Representante::find($id_rep);
+        // Paso 4: Recupera los integrantes del representante
+>>>>>>> 5af83d1e135c16e2e44231a268718b20ffdd04a6
         $integrantes = $representante->integrantesR;
         // Paso 5: Redirige a la vista con los datos necesarios
         return view('representante.show', compact('representante', 'integrantes', 'id'));
     }
 
+<<<<<<< HEAD
     public function buscarIntegrante(Request $request)
     {
      // dd($request);
@@ -170,6 +195,9 @@ class IntegranteController extends Controller
   
 
     /**
+=======
+    /*
+>>>>>>> 5af83d1e135c16e2e44231a268718b20ffdd04a6
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
@@ -183,6 +211,7 @@ class IntegranteController extends Controller
         $representante = Representante::find($id_rep); 
         $integrante = Integrante::find($id);
         $id= $id_rep;
+<<<<<<< HEAD
 
        
 
@@ -223,5 +252,15 @@ class IntegranteController extends Controller
        // return redirect()->route('integrante.index')->with('success', 'Integrante deleted successfully');
    
     
+=======
+        // Eliminar la relación de la tabla pivote representante_integrante
+        $integrante->representantes()->detach();
+        // Eliminar el integrante de la tabla integrantes
+        $integrante->delete();
+        // Se debe redireccionar a la ruta que se quiere que se muestre seguidamente de la funcion
+        return redirect()->route('representante.show', ['id' => $id_rep])->with([
+        'success' => 'Integrante eliminado exitosamente',
+      ]);  
+>>>>>>> 5af83d1e135c16e2e44231a268718b20ffdd04a6
     }
 }
