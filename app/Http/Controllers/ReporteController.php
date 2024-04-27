@@ -98,7 +98,7 @@ public function obtenerCoordinacionesDependencia($dependenciaId)
 
 public function filtrarDependencias(Request $request)
 {
-   // dd('HOLAAAAAAAAAAA');
+    //dd('HOLAAAAAAAAAAA');
 
     if (!is_null($request->dependencia_id)) {
         $dependenciaId = $request->dependencia_id;
@@ -128,24 +128,48 @@ public function filtrarDependencias(Request $request)
     
         // Ejecutar la consulta
         $representantes = $query->get();
+
+        session()->put('representantes', $representantes);
+        $coordinacionesSession = Session::get('coordinaciones');
+    
+        // Recuperar las dependencias (asumo que ya las tienes disponibles)
+        $dependenciasSession =  Session::get('dependencias'); 
+        // Redireccionar de vuelta al índice con las variables necesarias
+        return redirect()->route('reporte.index')->with([
+            'coordinaciones' => $coordinacionesSession,
+            'dependencias' => $dependenciasSession,
+            //'representantes' => $representantes, // Añadir representantes al conjunto de datos
+        ]);
         
     }
-  //dd($representantes);
-    // Almacenar las coordinaciones en la sesión
-    // Recuperar las coordinaciones de la sesión
+    else{
+
+        $query = DB::table('representantes')
+        ->select('representantes.id as id_representante','representantes.cedula as cedula_representante','representantes.nombres as nombre_representante','representantes.telefono as telefono_representante', 'dependencias.nombre as nombre_dependencia', 'coordinacions.nombre as nombre_coordinacion','parroquias.nombre as nombre_parroquia', 'centros.nombre as nombre_centro')
+        ->leftJoin('parroquias', 'parroquias.id', '=', 'representantes.parroquia_id')
+        ->leftJoin('centros', 'centros.id', '=', 'representantes.centro_id')
+        ->join('dependencias', 'dependencias.id', '=', 'representantes.dependencia_id')
+        ->leftJoin('coordinacions', 'coordinacions.id', '=', 'representantes.coordinacion_id');
+
+        $representantes = $query->get();
+
+        session()->put('representantes', $representantes);
+        $coordinacionesSession = Session::get('coordinaciones');
+    
+        // Recuperar las dependencias (asumo que ya las tienes disponibles)
+        $dependenciasSession =  Session::get('dependencias'); 
+        // Redireccionar de vuelta al índice con las variables necesarias
+        return redirect()->route('reporte.index')->with([
+            'coordinaciones' => $coordinacionesSession,
+            'dependencias' => $dependenciasSession,
+            //'representantes' => $representantes, // Añadir representantes al conjunto de datos
+        ]);
+
+    }
+
  
 
-    session()->put('representantes', $representantes);
-    $coordinacionesSession = Session::get('coordinaciones');
-
-    // Recuperar las dependencias (asumo que ya las tienes disponibles)
-    $dependenciasSession =  Session::get('dependencias'); 
-    // Redireccionar de vuelta al índice con las variables necesarias
-    return redirect()->route('reporte.index')->with([
-        'coordinaciones' => $coordinacionesSession,
-        'dependencias' => $dependenciasSession,
-        //'representantes' => $representantes, // Añadir representantes al conjunto de datos
-    ]);
+   
 
     
    // dd(Session::put('representantes', $representantes));
