@@ -8,7 +8,7 @@
         <span>No hay dependencia asociada</span>
         @endif
                   --}}   
-                  @isset($cedula_rep)
+{{-- @isset($cedula_rep)
                   <div class="form-group col-6">
                   {{ Form::label('cedula') }}
                   {{ Form::text('cedula',  $representante->cedula, [
@@ -34,12 +34,12 @@
                  
                   {!! $errors->first('cedula', '<div class="invalid-feedback">:message</div>') !!}
               </div>
-          @endisset         
-            {{--<div class="form-group col-6">
+          @endisset  --}}       
+<div class="form-group col-6">
             {{ Form::label('cedula') }}
             {{ Form::text('cedula', $representante->cedula, ['class' => 'form-control' . ($errors->has('cedula') ? ' is-invalid' : ''), 'placeholder' => 'Ejm: 26566454']) }}
             {!! $errors->first('cedula', '<div class="invalid-feedback">:message</div>') !!}
-            </div>--}}
+            </div>
         <div class="row">
             <div class="form-group col-6">
                 {{ Form::label('nombres') }}
