@@ -7,12 +7,39 @@
         @else
         <span>No hay dependencia asociada</span>
         @endif
-                  --}}      
-            <div class="form-group col-6">
+                  --}}   
+                  @isset($cedula_rep)
+                  <div class="form-group col-6">
+                  {{ Form::label('cedula') }}
+                  {{ Form::text('cedula',  $representante->cedula, [
+                      'id' => 'cedula', // Agrega el ID al input
+                      'class' => 'form-control' . ($errors->has('cedula') ? ' is-invalid' : ''), 
+                      'placeholder' => 'Cedula',
+
+                  ]) }}
+                 
+                  {!! $errors->first('cedula', '<div class="invalid-feedback">:message</div>') !!}
+              </div>
+              @else
+              <div class="form-group col-6">
+                  {{ Form::label('cedula') }}
+                  {{ Form::hidden('cedula', $representante->cedula) }}
+                  {{ Form::text('cedula',  $representante->cedula, [
+                      'id' => 'cedula', // Agrega el ID al input
+                      'class' => 'form-control' . ($errors->has('cedula') ? ' is-invalid' : ''), 
+                      'placeholder' => 'Cedula',
+                      'disabled' => true // Agregar el atributo disabled
+
+                  ]) }}
+                 
+                  {!! $errors->first('cedula', '<div class="invalid-feedback">:message</div>') !!}
+              </div>
+          @endisset         
+            {{--<div class="form-group col-6">
             {{ Form::label('cedula') }}
             {{ Form::text('cedula', $representante->cedula, ['class' => 'form-control' . ($errors->has('cedula') ? ' is-invalid' : ''), 'placeholder' => 'Ejm: 26566454']) }}
             {!! $errors->first('cedula', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
+            </div>--}}
         <div class="row">
             <div class="form-group col-6">
                 {{ Form::label('nombres') }}

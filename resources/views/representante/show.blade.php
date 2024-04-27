@@ -56,8 +56,7 @@
                     </div>
                 </div>
             </div>
+            @include('integrante.index')
         </div>
-
-        @include('integrante.index')
     </section>
 @endsection
