@@ -78,7 +78,7 @@ class RepresentanteController extends Controller
         $representante = DB::table('representantes')
         ->select('representantes.*', 'coordinacions.nombre as nombre_coordinacion', 'parroquias.nombre as nombre_parroquia', 'centros.nombre as nombre_centro', 'dependencias.nombre as nombre_dependencia')
         ->join('dependencias', 'dependencias.id', '=', 'representantes.dependencia_id')
-        ->join('coordinacions', 'coordinacions.id', '=', 'representantes.coordinacion_id')
+        ->leftJoin  ('coordinacions', 'coordinacions.id', '=', 'representantes.coordinacion_id')
         ->join('parroquias', 'parroquias.id', '=', 'representantes.parroquia_id')
         ->join('centros', 'centros.id', '=', 'representantes.centro_id')        
         ->where('representantes.cedula', $cedula)                
