@@ -111,36 +111,30 @@ class IntegranteController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         request()->validate(Integrante::$rules);
         $integrante = Integrante::find($id);
         $integrante->update($request->all());
-        
-      //  dd ($representante);
-        // Paso 3: Asocia el integrante al representante
-       // $representante->integrantesR()->attach($integrante->id);
 
-        return redirect()->route('representante.show','id')
-            ->with('success', 'Integrante updated successfully');
-           // return redirect()->route('integrante.index','id');*/
-           request()->validate(Integrante::$rules);
-           $integrante = Integrante::find($id);
-           $integrante->update($request->all());
+        // Paso 2: Recupera el representante
+        $representante = FacadesDB::table('representante_integrante')
+        ->where('integrante_id', $id)
+        ->first();
 
-           // Paso 2: Recupera el representante
-           $representante = FacadesDB::table('representante_integrante')
-           ->where('integrante_id', $id)
-           ->first();
-
-            $id_rep=($representante->representante_id);
-         $representante = Representante::find($id_rep);
-          $id=$id_rep;
-        // Paso 3: Asocia el integrante al representante
-       // $representante->integrantesR()->attach($id_rep);
-
-          // Paso 4: Recupera los integrantes del representante
+        $id_rep=($representante->representante_id);
+        $representante = Representante::find($id_rep);
+              
+        // Paso 3: Recupera los integrantes del representante
         $integrantes = $representante->integrantesR;
+
         // Paso 5: Redirige a la vista con los datos necesarios
-        return view('representante.show', compact('representante', 'integrantes', 'id'));
+
+        // return view('representante.show', compact('representante', 'integrantes', 'id'));
+
+        return redirect()->route('representante.show', ['id' => $id_rep, 'integrantes' => $integrantes])->with([
+        'success' => 'Integrante editado exitosamente',
+      ]); 
+
     }
 
     public function buscarIntegrante(Request $request)
@@ -195,32 +189,17 @@ class IntegranteController extends Controller
                 $integrante->delete();
                 //dd($id);
                 $integrantes = $representante->integrantesR;
-                $data = [
-                  'eliminado' => '1',
-               ];      
-                /*return redirect()->route('representante.show')->with([
-                  'success' => 'Integrante deleted successfully',
-                  'representante' => $representante,
-                  'integrantes' => $integrantes,
-                  'id' => $id,
-                ]);*/
-              
-                  //hoyreturn view('representante.show', compact('representante', 'integrantes', 'id'));
-              
-              } 
-              else{
-                $data = [
-                  'eliminado' => '0',
-                ];     
+               
               }
 
-            return response()->json($data);
-            
-        //return view('representante.show', compact('representante', 'integrantes', 'id'));
+              return redirect()->route('representante.show', ['id' => $id_rep])->with([
+                'success' => 'Integrante eliminado exitosamente',
+              ]); 
 
+            
+      
         //return view('representante.show', compact('representante'))->with('success', 'Integrante deleted successfully');   
 
-       // return redirect()->route('integrante.index')->with('success', 'Integrante deleted successfully');
    
     
     }
