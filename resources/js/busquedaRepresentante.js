@@ -29,8 +29,14 @@ $(document).ready(function() {
                         fila += '<td>' + representante.nombre_centro + '</td>';                        
                         if(response.dependenciaId==null){
                             fila += '<td>' + representante.nombre_dependencia + '</td>';
-                        }                     
-                        fila += '<td>' + representante.nombre_coordinacion + '</td>';
+                        } 
+                        if(representante.nombre_coordinacion){   
+                            fila += '<td>' + representante.nombre_coordinacion + '</td>'; 
+                        }
+                        else{
+                            fila += '<td></td>';
+                        }
+                        
                         // Botones
                         fila += '<td class="btn-accion-space">';
                         //ESTO ES MEDIANTE AJAX
