@@ -15,10 +15,13 @@ $(document).ready(function() {
                     // Mostrar el modal si showModal es true                    
                     $('#validReprent').modal('show');
                 }else{ 
-                    $('#table-representante tbody').empty();                   
-                    var representantes = response.representantes;
+                    $('#table-representante tbody').empty(); 
+                    var representantes="";
+                                     
+                    representantes = response.representantes;
                     var i=0;
                     representantes.forEach(function(representante) {
+
                         i+=1;
                         var fila = '<tr>';
                         fila += '<td>' + i + '</td>';
@@ -29,12 +32,12 @@ $(document).ready(function() {
                         fila += '<td>' + representante.nombre_centro + '</td>';                        
                         if(response.dependenciaId==null){
                             fila += '<td>' + representante.nombre_dependencia + '</td>';
-                        } 
-                        if(representante.nombre_coordinacion){   
-                            fila += '<td>' + representante.nombre_coordinacion + '</td>'; 
+                        }                        
+                        if(representante.nombre_coordinacion!=null){
+                            fila += '<td>' + representante.nombre_coordinacion + '</td>';
                         }
                         else{
-                            fila += '<td></td>';
+                            fila += '<td></td>';                            
                         }
                         
                         // Botones
