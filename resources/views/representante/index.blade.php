@@ -45,14 +45,15 @@
                                         <button type="button" class="btn ms-auto" data-bs-dismiss="modal" aria-label="Close"><i class="fa fs-4  fa-regular fa-circle-xmark text-white"></i></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p>¿Desea crear un nuevo representante?</p>
+                                        <p>¿Desea crear un nuevo representante con el siguiente dato? </p>
+                                        <p id="cedulaMostrada"> </p>
                                     </div>
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-person-2" data-bs-dismiss="modal">Cerrar</button>
-                                        <a href="{{ route('representante.create') }}" class="btn btn-person-1 float-right"  data-placement="left">
-                                            {{ __('Crear') }}
-                                        </a>
-                                    </div>
+                                    <a href="{{ route('representante.create', ['cedula' => '']) }}" id="crearLink" class="btn btn-person-1 float-right" data-placement="left">
+                                        {{ __('Crear') }}
+                                    </a>
+                                                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -158,5 +159,8 @@
                 @endif
             </div>
         </div>
+        <script>
+            var baseRoute = '{{ route('representante.create') }}';
+        </script>
     </div>    
 @endsection

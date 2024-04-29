@@ -11,5 +11,7 @@ import './buscarIntegrante';
 import './eliminarRepresentante';
 // Verificacion Modal Eliminar Integrante
 import './eliminarIntegrante';
+// Enviar la cedula puesta en input de buscar al formulario de crear
+import './cedulaRepresentante';
 // Select Dependencia para buscar coordinaciones
 import './reportes';

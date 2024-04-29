@@ -41,14 +41,20 @@ class RepresentanteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+          // Obtén la cédula de la URL
+            $cedula = $request->input('cedula');
+            
         $representante = new Representante();
         $parroquias = Parroquia::pluck('nombre','id');       
         $centros = Centro::pluck('nombre','id');
         $coordinaciones = Coordinacion::pluck('nombre','id');
         $dependencias = Dependencia::pluck('nombre','id');
-        return view('representante.create', compact('representante','parroquias','centros','coordinaciones','dependencias'));
+
+        //return view('representante.create', compact('representante','parroquias','centros','coordinaciones','dependencias'));
+         // Pasa la cédula a la vista
+        return view('representante.create', compact('representante', 'parroquias', 'centros', 'coordinaciones', 'dependencias', 'cedula'));
     }
 
     /*
