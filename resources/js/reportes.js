@@ -1,19 +1,31 @@
 $(document).ready(function () {
     /* Buscará las coordinaciones asociadas a la dependencia y cargar los datos en el select*/
-    $('#dependencia_id').change(function () {    
+    $('#dependencia_idr').change(function () {    
        // alert('entra aqui en rerporte y en el registto y edicion de rep');   
        
         var  dependenciaId = $(this).val();
         $.ajax({
             url: baseUrl + "/reporte/" + dependenciaId + "/coordinaciones",
             type: 'GET',
-            success: function (response) {                
-                var coordinaciones = response.coordinaciones;
-                $('#coordinacion_id').empty();
-                Object.keys(coordinaciones).forEach(function(key) {
-                    var value = coordinaciones[key];
-                    $('#coordinacion_id').append('<option value="' + key + '">' + value + '</option>');
-                });
+            success: function (response) { 
+
+                $('#coordinacion_idr').empty();
+
+                if(response.ok==1){
+                    $('#coordinacion_idr').css("display", "block");
+
+                    var coordinaciones = response.coordinaciones;                    
+                    Object.keys(coordinaciones).forEach(function(key) {
+                        var value = coordinaciones[key];
+                        $('#coordinacion_idr').append('<option value="' + key + '">' + value + '</option>');
+                    });
+                }
+                else{
+                    $('#coordinacion_idr').css("display", "none");
+                }
+
+                
+                
             }
         });
     });
