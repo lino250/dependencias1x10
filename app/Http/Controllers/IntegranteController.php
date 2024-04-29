@@ -53,21 +53,31 @@ class IntegranteController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id )
+    public function store(Request $request, $id)
     {
-        request()->validate(Integrante::$rules);
+        // Modifica las reglas de validación para hacer el campo opcional
+        $rules = Integrante::$rules;
+        $rules['telefono_alternativo'] = 'nullable|string'; // Hacer el campo opcional
+    
+        // Validación de la solicitud
+        $request->validate($rules);
+    
         // Paso 1: Crea el integrante y guárdalo
         $integrante = Integrante::create($request->all());
+    
         // Paso 2: Recupera el representante
         $representante = Representante::find($id);
+    
         // Paso 3: Asocia el integrante al representante
         $representante->integrantesR()->attach($integrante->id);
-        // Paso 4: Recupera los integrantes del representante
+    
+        // Paso 4: Recupera los integrantes del representante (no sé si esto es necesario aquí)
         $integrantes = $representante->integrantesR;
-        // Paso 5: Redirige a la vista con los datos necesarios        
+    
+        // Paso 5: Redirige a la vista con los datos necesarios
         return view('representante.show', compact('representante', 'integrantes', 'id'));
     }
-
+    
     /*
      * Display the specified resource.
      *
@@ -111,31 +121,33 @@ class IntegranteController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        request()->validate(Integrante::$rules);
+        // Modifica las reglas de validación para hacer el campo opcional
+        $rules = Integrante::$rules;
+        $rules['telefono_alternativo'] = 'nullable|string'; // Hacer el campo opcional
+    
+        // Validación de la solicitud
+        $request->validate($rules);
+    
         $integrante = Integrante::find($id);
         $integrante->update($request->all());
-
+    
         // Paso 2: Recupera el representante
         $representante = FacadesDB::table('representante_integrante')
-        ->where('integrante_id', $id)
-        ->first();
-
-        $id_rep=($representante->representante_id);
+            ->where('integrante_id', $id)
+            ->first();
+    
+        $id_rep = $representante->representante_id;
         $representante = Representante::find($id_rep);
               
         // Paso 3: Recupera los integrantes del representante
         $integrantes = $representante->integrantesR;
-
+    
         // Paso 5: Redirige a la vista con los datos necesarios
-
-        // return view('representante.show', compact('representante', 'integrantes', 'id'));
-
         return redirect()->route('representante.show', ['id' => $id_rep, 'integrantes' => $integrantes])->with([
-        'success' => 'Integrante editado exitosamente',
-      ]); 
-
+            'success' => 'Integrante editado exitosamente',
+        ]);
     }
+    
 
     public function buscarIntegrante(Request $request)
     {

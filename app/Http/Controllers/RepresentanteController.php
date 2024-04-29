@@ -43,6 +43,7 @@ class RepresentanteController extends Controller
      */
     public function create(Request $request)
     {
+  
           // Obtén la cédula de la URL
             $cedula = $request->input('cedula');
             
@@ -65,12 +66,20 @@ class RepresentanteController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Representante::$rules);
+        // Modifica las reglas de validación de Representante::$rules para hacer el campo opcional
+        $rules = Representante::$rules;
+        $rules['telefono_alternativo'] = 'nullable|string'; // Hacer el campo opcional
+    
+        // Validación de la solicitud
+        $request->validate($rules);
+    
+        // Crea el representante con los datos proporcionados en la solicitud
         $representante = Representante::create($request->all());
-        return redirect()->route('representante.index')
-        ->with('success', 'Representante created successfully.');
+    
+        // Redirecciona a la vista index de representantes con un mensaje de éxito
+        return redirect()->route('representante.index')->with('success', 'Representante created successfully.');
     }
-
+    
     /*
      * Display the specified resource.
      *

@@ -68,9 +68,13 @@
                     </div>
                     <div class="form-group col-6">
                         {{ Form::label('telefono_alternativo') }}
-                        {{ Form::text('telefono_alternativo', $integrante->telefono_alternativo, ['class' => 'form-control' . ($errors->has('telefono_alternativo') ? ' is-invalid' : ''), 'placeholder' => 'Telefono Alternativo']) }}
+                        {{ Form::text('telefono_alternativo', $integrante->telefono_alternativo, [
+                            'id' => 'telefonoAlternativo',
+                            'class' => 'form-control' . ($errors->has('telefono_alternativo') ? ' is-invalid' : ''), 
+                            'placeholder' => 'Ejm: 04126589745'
+                        ]) }}
                         {!! $errors->first('telefono_alternativo', '<div class="invalid-feedback">:message</div>') !!}
-                    </div>    
+                    </div> 
                     <div class="form-group col-6">
                         {{ Form::label('parroquia_id','Parroquia') }}
                         {{ Form::select('parroquia_id',$parroquias, $integrante->parroquia_id, ['class' => 'form-control' . ($errors->has('parroquia_id') ? ' is-invalid' : ''), 'placeholder' => 'Parroquia Id']) }}
