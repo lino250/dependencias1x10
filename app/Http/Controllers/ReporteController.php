@@ -85,23 +85,33 @@ public function obtenerCoordinacionesDependencia($dependenciaId)
         ->get();       
         
         $coordinaciones = $coordinaciones->pluck('nombre_coordinacion', 'id')->toArray();
-    }        
+    } 
+    
+       
+        if($coordinaciones){
+
+            return response()->json(['ok'=> 1,'coordinaciones' => $coordinaciones ]);
+
+        }
+        else{
+
+            return response()->json(['ok'=> 0,'coordinaciones' => $coordinaciones ]);
+
+        }
 
 
-        $mensaje='Si hay coordinaciones';
-        return response()->json([
-            'coordinaciones' => $coordinaciones,
-            'mensajes' => $mensaje,
-        ]);
+        
+      
        
 }
 
 public function filtrarDependencias(Request $request)
 {
-    //dd('HOLAAAAAAAAAAA');
 
-    if (!is_null($request->dependencia_id)) {
-        $dependenciaId = $request->dependencia_id;
+        
+
+    if (!is_null($request->dependencia_idr)) {
+        $dependenciaId = $request->dependencia_idr;
     
         // Construir la consulta base
         $query = DB::table('representantes')
@@ -112,8 +122,8 @@ public function filtrarDependencias(Request $request)
             ->where('dependencias.id', $dependenciaId);
     
         // Si se proporciona un coordinacion_id, unir la tabla de coordinaciones y agregar condición para coordinación
-        if (!is_null($request->coordinacion_id)) {
-            $coordinacionId = $request->coordinacion_id;
+        if (!is_null($request->coordinacion_idr)) {
+            $coordinacionId = $request->coordinacion_idr;
             $query->join('coordinacions', function($join) use ($coordinacionId) {
                 $join->on('coordinacions.id', '=', 'representantes.coordinacion_id')
                     ->where('coordinacions.id', $coordinacionId);
@@ -124,23 +134,8 @@ public function filtrarDependencias(Request $request)
         }
     
         // Agrupar por el ID del representante, el nombre de la dependencia y el nombre de la coordinación para evitar duplicados
-        $query->groupBy('representantes.id', 'dependencias.nombre', 'coordinacions.nombre','parroquias.nombre' ,'centros.nombre');
-    
-        // Ejecutar la consulta
-        $representantes = $query->get();
-
-        session()->put('representantes', $representantes);
-        $coordinacionesSession = Session::get('coordinaciones');
-    
-        // Recuperar las dependencias (asumo que ya las tienes disponibles)
-        $dependenciasSession =  Session::get('dependencias'); 
-        // Redireccionar de vuelta al índice con las variables necesarias
-        return redirect()->route('reporte.index')->with([
-            'coordinaciones' => $coordinacionesSession,
-            'dependencias' => $dependenciasSession,
-            //'representantes' => $representantes, // Añadir representantes al conjunto de datos
-        ]);
-        
+        $query->groupBy('representantes.id', 'dependencias.nombre', 'coordinacions.nombre','parroquias.nombre' ,'centros.nombre');   
+                 
     }
     else{
 
@@ -149,23 +144,24 @@ public function filtrarDependencias(Request $request)
         ->leftJoin('parroquias', 'parroquias.id', '=', 'representantes.parroquia_id')
         ->leftJoin('centros', 'centros.id', '=', 'representantes.centro_id')
         ->join('dependencias', 'dependencias.id', '=', 'representantes.dependencia_id')
-        ->leftJoin('coordinacions', 'coordinacions.id', '=', 'representantes.coordinacion_id');
+        ->leftJoin('coordinacions', 'coordinacions.id', '=', 'representantes.coordinacion_id');      
 
-        $representantes = $query->get();
+   }
 
-        session()->put('representantes', $representantes);
-        $coordinacionesSession = Session::get('coordinaciones');
-    
-        // Recuperar las dependencias (asumo que ya las tienes disponibles)
-        $dependenciasSession =  Session::get('dependencias'); 
-        // Redireccionar de vuelta al índice con las variables necesarias
-        return redirect()->route('reporte.index')->with([
-            'coordinaciones' => $coordinacionesSession,
-            'dependencias' => $dependenciasSession,
-            //'representantes' => $representantes, // Añadir representantes al conjunto de datos
-        ]);
+    $representantes = $query->get();  
 
-    }
+   
+    session()->put('representantes', $representantes);
+    $coordinacionesSession = Session::get('coordinaciones');
+
+    // Recuperar las dependencias (asumo que ya las tienes disponibles)
+    $dependenciasSession =  Session::get('dependencias'); 
+    // Redireccionar de vuelta al índice con las variables necesarias
+    return redirect()->route('reporte.index')->with([
+        'coordinaciones' => $coordinacionesSession,
+        'dependencias' => $dependenciasSession,
+        //'representantes' => $representantes, // Añadir representantes al conjunto de datos
+    ]);
 
  
 
@@ -206,8 +202,7 @@ public function descargarReporte1x10()
      
      if (session()->has('representantes')) {
         // Obtener los resultados de la búsqueda de la sesión
-        $representantes= session('representantes');
-        //dd($representantes);
+        $representantes= session('representantes');        
         $resultadosBusquedai = collect();
         
             // Recorrer los representantes
@@ -217,39 +212,74 @@ public function descargarReporte1x10()
            ->find($representante->id_representante);
 
             //$representante = Representante::find($representante->id_representante);
-            //dd($representante);
             if ($representante) {
-              
-                //$integrantesRepresentante = $representante->integrantesR()->with('parroquia')->get();
-                $integrantesRepresentante = $representante->integrantesR()->with('parroquia','centro')->get();
-                //dd($integrantesRepresentante);
-         
-                foreach ($integrantesRepresentante as $integrante) {
 
-                // Agregar los datos del integrante junto con los del representante a la colección de salida
-                    $resultadosBusquedai->push([
-                    'cedula_rep' => $representante->cedula,
-                    'nombre_rep' => $representante->nombres,
-                    'telefono_rep' => $representante->telefono,
-                    'dependencia' => $representante->dependencia->nombre,
-                    'coordinacion' => $representante->coordinacion->nombre,
-                    'parroquia_rep' => $representante->parroquia->nombre,
-                    'centro_rep' => $representante->centro->nombre,
-                    // Agrega aquí otros datos relevantes del representante que desees incluir en la salida
-                    'cedula_int' => $integrante->cedula,
-                    'nombre_int' => $integrante->nombres,
-                    'apellido_int' => $integrante->apellidos,
-                    'telefono_int' => $integrante->telefono,
-                    'parroquia_int' => $integrante->parroquia->nombre,
-                    'centro_int' => $integrante->centro->nombre,
-                    // Agrega aquí otros datos relevantes del integrante que desees incluir en la salida
-                    ]);
-                    //dd($resultadosBusqueda);
+                if($representante->coordinacion)
+                {
+                    $coordinacionrep=$representante->coordinacion->nombre;
                 }
+                else{
+                    $coordinacionrep="";
+                }
+              
+                
+                $integrantesRepresentante = $representante->integrantesR()->with('parroquia','centro')->get();
 
+
+               
+
+                if ($integrantesRepresentante->isEmpty()) { 
+                    $resultadosBusquedai->push([
+                        'cedula_rep' => $representante->cedula,
+                        'nombre_rep' => $representante->nombres,
+                        'telefono_rep' => $representante->telefono,
+                        'dependencia' => $representante->dependencia->nombre,
+                        'coordinacion' => $coordinacionrep,
+                        'parroquia_rep' => $representante->parroquia->nombre,
+                        'centro_rep' => $representante->centro->nombre,
+                        // Agrega aquí otros datos relevantes del representante que desees incluir en la salida
+                        'cedula_int' => '',
+                        'nombre_int' => '',
+                        'apellido_int' => '',
+                        'telefono_int' => '',
+                        'parroquia_int' => '',
+                        'centro_int' => '',
+                        // Agrega aquí otros datos relevantes del integrante que desees incluir en la salida
+                        ]);  
+                
+                }
+               
+                
+                else{
+                    
+
+                    foreach ($integrantesRepresentante as $integrante) {
+                        
+
+                        // Agregar los datos del integrante junto con los del representante a la colección de salida
+                            $resultadosBusquedai->push([
+                            'cedula_rep' => $representante->cedula,
+                            'nombre_rep' => $representante->nombres,
+                            'telefono_rep' => $representante->telefono,
+                            'dependencia' => $representante->dependencia->nombre,
+                            'coordinacion' => $coordinacionrep,
+                            'parroquia_rep' => $representante->parroquia->nombre,
+                            'centro_rep' => $representante->centro->nombre,
+                            // Agrega aquí otros datos relevantes del representante que desees incluir en la salida
+                            'cedula_int' => $integrante->cedula,
+                            'nombre_int' => $integrante->nombres,
+                            'apellido_int' => $integrante->apellidos,
+                            'telefono_int' => $integrante->telefono,
+                            'parroquia_int' => $integrante->parroquia->nombre,
+                            'centro_int' => $integrante->centro->nombre,
+                            // Agrega aquí otros datos relevantes del integrante que desees incluir en la salida
+                            ]);
+                            
+                        } 
+                }
+                              
             }
-        }
-        //dd($resultadosBusqueda);
+        }        
         session()->put('integrantes1x10', $resultadosBusquedai);
         $integrantes1x10=Session::get('integrantes1x10');
         return Excel::download(new RepresentantesExport1x10($integrantes1x10), 'Listado_1x10.xlsx');
