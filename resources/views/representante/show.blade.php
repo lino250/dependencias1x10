@@ -45,13 +45,20 @@
                                 <strong>Centro:</strong>
                                 {{ $representante->centro->nombre }}
                             </div>
+                            @if($representante->dependencia)
                             <div class="form-group">
-                                <strong>Coordinacion:</strong>
-                                {{ $representante->coordinacion->nombre}}
-                            </div>
+                                <strong>Dependencia:</strong>
+                                {{ $representante->dependencia->nombre}}
+                            </div>                                                        
+                            @endif                        
+                            @if($representante->coordinacion)
+                                <div class="form-group">
+                                    <strong>Coordinacion:</strong>
+                                    {{ $representante->coordinacion->nombre}}
+                                </div>                                                        
+                            @endif                        
 
-                        </div>
-                       
+                        </div>                      
                         
                     </div>
                 </div>
