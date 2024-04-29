@@ -19,25 +19,25 @@
                                         $idDependencia = Auth::user()->dependencia->id;
                                     @endphp
                                     <div class="form-group col-5">                                        
-                                        {{ Form::hidden('dependencia_id', $idDependencia,['class' => 'form-control' . ($errors->has('dependencia_id') ? ' is-invalid' : ''), 'placeholder' => 'Dependencia']) }}
+                                        {{ Form::hidden('dependencia_idr', $idDependencia,['class' => 'form-control' . ($errors->has('dependencia_idr') ? ' is-invalid' : ''), 'placeholder' => 'Dependencia']) }}
                                     </div>  
                                     <div class="form-group col-5">
-                                        {{ Form::label('coordinacion_id', 'Coordinacion', ['class' => 'd-none']) }}
-                                        {{ Form::select('coordinacion_id', $coordinaciones, null, ['class' => 'form-control' . ($errors->has('coordinacion_id') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion']) }}
-                                        {!! $errors->first('coordinacion_id', '<div class="invalid-feedback">:message</div>') !!}
+                                        {{ Form::label('coordinacion_idr', 'Coordinacion', ['class' => 'd-none']) }}
+                                        {{ Form::select('coordinacion_idr', $coordinaciones, null, ['class' => 'form-control' . ($errors->has('coordinacion_idr') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion']) }}
+                                        {!! $errors->first('coordinacion_idr', '<div class="invalid-feedback">:message</div>') !!}
                                     </div>
                                                                      
                                 @else
 
                                     <div class="form-group col-6">
-                                      {{ Form::label('dependencia_id', ' ', ['class' => 'd-none']) }} 
-                                        {{ Form::select('dependencia_id', $dependencias, null, ['class' => 'form-control' . ($errors->has('dependencia_id') ? ' is-invalid' : ''), 'placeholder' => 'Dependencia']) }}
-                                        {!! $errors->first('dependencia_id', '<div class="invalid-feedback">:message</div>') !!}
+                                      {{ Form::label('dependencia_idr', ' ', ['class' => 'd-none']) }} 
+                                        {{ Form::select('dependencia_idr', $dependencias, null, ['class' => 'form-control' . ($errors->has('dependencia_idr') ? ' is-invalid' : ''), 'placeholder' => 'Dependencia']) }}
+                                        {!! $errors->first('dependencia_idr', '<div class="invalid-feedback">:message</div>') !!}
                                     </div>
                                     <div class="form-group col-5">
-                                       {{ Form::label('coordinacion_id', ' ',['class' => 'd-none']) }}
-                                        {{ Form::select('coordinacion_id', $coordinaciones, null, ['class' => 'form-control' . ($errors->has('coordinacion_id') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion']) }}
-                                        {!! $errors->first('coordinacion_id', '<div class="invalid-feedback">:message</div>') !!}
+                                       {{ Form::label('coordinacion_idr', ' ',['class' => 'd-none']) }}
+                                        {{ Form::select('coordinacion_idr', $coordinaciones, null, ['class' => 'form-control' . ($errors->has('coordinacion_idr') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion']) }}
+                                        {!! $errors->first('coordinacion_idr', '<div class="invalid-feedback">:message</div>') !!}
                                     </div>
                                 @endif
                                 <div class="col-1">
