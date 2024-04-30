@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Session;
 use App\Models\Centro;
 use App\Models\Coordinacion;
 use App\Models\Dependencia;
@@ -45,13 +45,55 @@ class RepresentanteController extends Controller
     {
   
           // Obtén la cédula de la URL
-            $cedula = $request->input('cedula');
+        $cedula = $request->input('cedula');
             
         $representante = new Representante();
         $parroquias = Parroquia::pluck('nombre','id');       
         $centros = Centro::pluck('nombre','id');
-        $coordinaciones = Coordinacion::pluck('nombre','id');
-        $dependencias = Dependencia::pluck('nombre','id');
+        
+        $dependencia=Auth::user()->dependencia;
+        if($dependencia)
+        {
+            $dependenciaId=Auth::user()->dependencia->id;       
+
+            $dependencias= Dependencia::find($dependenciaId);  
+            
+            $coordinaciones = Session::get('coordinaciones', []);
+       
+       
+            if($dependencia->id){
+                
+                $coordinaciones = DB::table('dependencias')
+                ->select('coordinacions.id', 'coordinacions.nombre as nombre_coordinacion')
+                ->join('coordinacions', 'coordinacions.dependencia_id', '=', 'dependencias.id')
+                ->where('dependencias.id', $dependencia->id)                
+                ->get();     
+                
+                $coordinaciones = $coordinaciones->pluck('nombre_coordinacion', 'id')->toArray();
+              
+                //$representantes = Representante::where('dependencia_id', $dependenciaId->id)->paginate(10);
+                    
+                             
+
+                Session::put('coordinaciones', $coordinaciones);
+            }
+            Session::put('dependencias', $dependencias);        
+
+        }
+        else{
+
+            $coordinaciones = Coordinacion::pluck('nombre','id');
+            $dependencias = Dependencia::pluck('nombre','id');
+            //$representantes = Representante::paginate(10);
+
+            Session::put('coordinaciones', $coordinaciones);
+            Session::put('dependencias', $dependencias);    
+           
+        }
+        
+      //  return view('reporte.index', compact('coordinaciones', 'dependencias'));    
+       // $coordinaciones = Coordinacion::pluck('nombre','id');
+       // $dependencias = Dependencia::pluck('nombre','id');
 
         //return view('representante.create', compact('representante','parroquias','centros','coordinaciones','dependencias'));
          // Pasa la cédula a la vista
@@ -144,8 +186,47 @@ class RepresentanteController extends Controller
         $representante = Representante::find($id);
         $parroquias = Parroquia::pluck('nombre','id');
         $centros = Centro::pluck('nombre','id');
-        $coordinaciones = Coordinacion::pluck('nombre','id');
-        $dependencias = Dependencia::pluck('nombre','id');
+       // $coordinaciones = Coordinacion::pluck('nombre','id');
+        //$dependencias = Dependencia::pluck('nombre','id');
+        $dependencia=Auth::user()->dependencia;
+        if($dependencia)
+        {
+            $dependenciaId=Auth::user()->dependencia->id;       
+
+            $dependencias= Dependencia::find($dependenciaId);  
+            
+            $coordinaciones = Session::get('coordinaciones', []);
+       
+       
+            if($dependencia->id){
+                
+                $coordinaciones = DB::table('dependencias')
+                ->select('coordinacions.id', 'coordinacions.nombre as nombre_coordinacion')
+                ->join('coordinacions', 'coordinacions.dependencia_id', '=', 'dependencias.id')
+                ->where('dependencias.id', $dependencia->id)                
+                ->get();     
+                
+                $coordinaciones = $coordinaciones->pluck('nombre_coordinacion', 'id')->toArray();
+              
+                //$representantes = Representante::where('dependencia_id', $dependenciaId->id)->paginate(10);
+                    
+                             
+
+                Session::put('coordinaciones', $coordinaciones);
+            }
+            Session::put('dependencias', $dependencias);        
+
+        }
+        else{
+
+            $coordinaciones = Coordinacion::pluck('nombre','id');
+            $dependencias = Dependencia::pluck('nombre','id');
+            //$representantes = Representante::paginate(10);
+
+            Session::put('coordinaciones', $coordinaciones);
+            Session::put('dependencias', $dependencias);    
+           
+        }
         return view('representante.edit', compact('representante','centros','coordinaciones','dependencias', 'parroquias'));
     }
 
@@ -205,5 +286,32 @@ class RepresentanteController extends Controller
             ]);
         }
         // Devolver los centros como respuesta JSON
+    }
+
+    public function obtenerRepCoordinacionesDependencia($dependenciaId)
+    {
+     $dependencia = Dependencia::find($dependenciaId);
+
+        if($dependencia->id){
+                
+            $coordinaciones = DB::table('dependencias')
+            ->select('coordinacions.id', 'coordinacions.nombre as nombre_coordinacion')
+            ->join('coordinacions', 'coordinacions.dependencia_id', '=', 'dependencias.id')
+            ->where('dependencias.id', $dependencia->id)                
+            ->get();       
+            
+            $coordinaciones = $coordinaciones->pluck('nombre_coordinacion', 'id')->toArray();
+        } 
+       
+        if($coordinaciones){
+
+            return response()->json(['ok'=> 1,'coordinaciones' => $coordinaciones ]);
+
+        }
+        else{
+
+            return response()->json(['ok'=> 0,'coordinaciones' => $coordinaciones ]);
+
+        }
     }
 }
