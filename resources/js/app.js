@@ -4,6 +4,8 @@ import './bootstrap';
 import './busquedaRepresentante';
 // Select Parroquia para buscar centro
 import './buscarParroquiaCentros';
+// Select Dependencia para buscar coordinaciones formulario Repreentante
+import './buscarDependenciaCoordinaciones';
 
 // Select para buscar integrantes
 import './buscarIntegrante';
