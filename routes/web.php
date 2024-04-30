@@ -41,6 +41,7 @@ Route::middleware(['auth', CargarUsuarioYDependencia::class])->group(function ()
     Route::patch('representante/{representante}', [RepresentanteController::class, 'update'])->name('representante.update');
     Route::post('representante', [RepresentanteController::class, 'store'])->name('representante.store');
     Route::get('/representante/{parroquiaId}/centros', [RepresentanteController::class, 'obtenerCentros'])->name('buscarCentros');
+    Route::get('/representante/{dependenciaId}/coordinaciones', [RepresentanteController::class, 'obtenerRepCoordinacionesDependencia'])->name('buscarCoordinacionesRep');
 
     //Links para las rutas de integrantes
     Route::get('integrante/{id}', [IntegranteController::class, 'index'])->name('integrante.index');
