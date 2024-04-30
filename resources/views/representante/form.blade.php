@@ -67,19 +67,25 @@
             $idDependencia = Auth::user()->dependencia->id;
         @endphp
         {{ Form::hidden('dependencia_id', $idDependencia, ['class' => 'form-control ' . ($errors->has('dependencia_id') ? ' is-invalid' : ''), 'placeholder' => 'Dependencia Id']) }}
+       
+        <div class="form-group col-6">
+            {{ Form::label('coordinacion_id', 'Coordinacion') }}
+            {{ Form::select('coordinacion_id', $coordinaciones, null, ['class' => 'form-control' . ($errors->has('coordinacion_id') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion']) }}
+            {!! $errors->first('coordinacion_id', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
         @else
         <div class="form-group col-6">
             {{ Form::label('dependencia_id') }}
-            {{ Form::select('dependencia_id',$dependencias, $representante->dependencia_id, ['class' => 'form-control' . ($errors->has('dependencia_id') ? ' is-invalid' : ''), 'placeholder' => 'Dependencia Id']) }}
+            {{ Form::select('dependencia_id',$dependencias, null, ['class' => 'form-control' . ($errors->has('dependencia_id') ? ' is-invalid' : ''), 'placeholder' => 'Dependencia Id']) }}
             {!! $errors->first('dependencia_id', '<div class="invalid-feedback">:message</div>') !!}
         </div>
-        @endif
+      
         <div class="form-group col-6">
             {{ Form::label('coordinacion_id','Coordinacion') }}
-            {{ Form::select('coordinacion_id',$coordinaciones, $representante->coordinacion_id, ['class' => 'form-control' . ($errors->has('coordinacion_id') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion Id']) }}
+            {{ Form::select('coordinacion_id',$coordinaciones, null, ['class' => 'form-control' . ($errors->has('coordinacion_id') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion Id']) }}
             {!! $errors->first('coordinacion_id', '<div class="invalid-feedback">:message</div>') !!}
         </div>
-
+        @endif
        
         <div class="form-group col-6">
             {{ Form::label('parroquia_id','Parroquia') }}
@@ -95,6 +101,7 @@
      
     </div>
     </div>
+
     <div class="box-footer text-end">
         <button type="submit" class="btn btn-person-1">{{ __('Enviar') }}</button>
     </div>
@@ -106,5 +113,6 @@
     // Quita la validación del campo y lo hace opcional
     telefonoAlternativoInput.prop('required', false);
 });
+
     </script>
 </div>
