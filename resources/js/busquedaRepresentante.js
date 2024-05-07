@@ -11,6 +11,10 @@ $(document).ready(function() {
             method: $(this).attr('method'), // Obtiene el método del atributo 'method' del formulario
             data: formData, // Los datos del formulario serializados
             success: function(response) {  
+                if (response.mensaje) {
+                    // Mostrar el modal si showModal es true                    
+                    alert(response.mensaje);
+                }
                 if (response.showModal==1) {
                     // Mostrar el modal si showModal es true                    
                     $('#validReprent').modal('show');
