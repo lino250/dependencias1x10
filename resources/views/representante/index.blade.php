@@ -5,6 +5,23 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
+            <!-- Modal de alerta para validar si el representante es de otra dependencia -->
+            <div class="modal modal-person-1 fade" id="repreDependencia" tabindex="-1" aria-labelledby="repreDependencia" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">El representante es de otra dependencia!!</h1>
+                            <button type="button" class="btn ms-auto" data-bs-dismiss="modal" aria-label="Close"><i class="fa fs-4  fa-regular fa-circle-xmark text-white"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>El representante que esta buscando ya se encuentra registrado en otra dependencia! <br> Por ello no se le mostrara información relacionada a este reprensentante. <br></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-person-2" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Modal Para eliminar un representante -->
             <div class="modal modal-person-1 fade" id="validElim" tabindex="-1" aria-labelledby="validElim" aria-hidden="true">
                 <div class="modal-dialog">

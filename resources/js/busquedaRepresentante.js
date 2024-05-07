@@ -12,8 +12,8 @@ $(document).ready(function() {
             data: formData, // Los datos del formulario serializados
             success: function(response) {  
                 if (response.mensaje) {
-                    // Mostrar el modal si showModal es true                    
-                    alert(response.mensaje);
+                    // Abrir el modal con el mensaje
+                    $('#repreDependencia').modal('show');
                 }
                 if (response.showModal==1) {
                     // Mostrar el modal si showModal es true                    
