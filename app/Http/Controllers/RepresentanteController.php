@@ -130,40 +130,55 @@ class RepresentanteController extends Controller
      */
     public function buscarRepresentante(Request $request)
     {
-        $dependenciaId=Auth::user()->dependencia;     
+        $dependenciaId = Auth::user()->dependencia;
         $cedula = $request->input('cedula');
-        $representante = DB::table('representantes')
-        ->select('representantes.*', 'coordinacions.nombre as nombre_coordinacion', 'parroquias.nombre as nombre_parroquia', 'centros.nombre as nombre_centro', 'dependencias.nombre as nombre_dependencia')
-        ->join('dependencias', 'dependencias.id', '=', 'representantes.dependencia_id')
-        ->leftJoin  ('coordinacions', 'coordinacions.id', '=', 'representantes.coordinacion_id')
-        ->join('parroquias', 'parroquias.id', '=', 'representantes.parroquia_id')
-        ->join('centros', 'centros.id', '=', 'representantes.centro_id')        
-        ->where('representantes.cedula', $cedula)                
-        ->get(); 
-        if ($representante->isEmpty()) { 
+        $mensaje='';
+        $consulta = DB::table('representantes')
+            ->select('representantes.*', 'coordinacions.nombre as nombre_coordinacion', 'parroquias.nombre as nombre_parroquia', 'centros.nombre as nombre_centro', 'dependencias.nombre as nombre_dependencia')
+            ->join('dependencias', 'dependencias.id', '=', 'representantes.dependencia_id')
+            ->leftJoin('coordinacions', 'coordinacions.id', '=', 'representantes.coordinacion_id')
+            ->join('parroquias', 'parroquias.id', '=', 'representantes.parroquia_id')
+            ->join('centros','centros.id', '=', 'representantes.centro_id')        
+            ->where('representantes.cedula', $cedula);
+    
+        $representantes = $consulta->get();
+    
+        if ($representantes->isEmpty()) {  
             // El representante no fue encontrado
             return response()->json([
                 'showModal' => 1                   
             ]);
-        } else { 
-            if($dependenciaId){  
-                $dependenciaId=Auth::user()->dependencia->id;  
-            }   
-            $representantes = $representante;   
-            $rutas=[];  
-            $rutas = [
-                'show' => route('representante.show', $representantes->first()->id),
-                'edit' => route('representante.edit', $representantes->first()->id),
-                'destroy' => route('representante.destroy', $representantes->first()->id)
-            ];
-            return response()->json([
-                'showModal' => 0,
-                'representantes' => $representantes,
-                'dependenciaId' => $dependenciaId,
-                'rutas' => $rutas
-            ]);
-        } 
+        }
+    
+        if ($dependenciaId) {  
+            $dependenciaId = $dependenciaId->id;  
+            //$representantesDependencia = $representantes->where('dependencia_id', $dependenciaId);
+            $representantePertenece = $representantes->contains('dependencia_id', $dependenciaId);
+            if (!$representantePertenece) { 
+                // El representante no pertenece a la dependencia del usuario
+                $mensaje = "El Representante de 1x10 buscado pertenece a una dependencia distinta a la que usted ha accedido";
+                return response()->json([
+                    'mensaje' => $mensaje
+                ]);
+            }
+        }
+       //$representantes = $representante;
+        $rutas = [
+            'show' => route('representante.show', $representantes->first()->id),
+            'edit' => route('representante.edit', $representantes->first()->id),
+            'destroy' => route('representante.destroy', $representantes->first()->id)
+        ];
+        
+        return response()->json([
+            'mensaje' => $mensaje,
+            'showModal' => 0,
+            'representantes' => $representantes,
+            'dependenciaId' => $dependenciaId,
+            'rutas' => $rutas
+        ]);
+    
     }
+
     public function show($id)
     {
         $representante = Representante::find($id);  
