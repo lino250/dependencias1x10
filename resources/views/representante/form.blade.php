@@ -44,13 +44,12 @@
         <div class="row">
             <div class="form-group col-6">
                 {{ Form::label('nombres') }}
-                {{ Form::text('nombres', $representante->nombres, ['class' => 'form-control' . ($errors->has('nombres') ? ' is-invalid' : ''), 'placeholder' => 'Ejm: Felix Puerta']) }}
-                {!! $errors->first('nombres', '<div class="invalid-feedback">:message</div>') !!}
-            </div>
-      
+                {{ Form::text('nombres', $representante->nombres, ['class' => 'form-control', 'id' => 'nombresField', 'placeholder' => 'Ejm: Felix Puerta']) }}
+                <div class="invalid-feedback" id="nombres-error"></div>
+            </div>   
         <div class="form-group col-6">
             {{ Form::label('telefono') }}
-            {{ Form::text('telefono', $representante->telefono, ['class' => 'form-control' . ($errors->has('telefono') ? ' is-invalid' : ''), 'placeholder' => 'Ejm: 04125415656']) }}
+            {{ Form::text('telefono', $representante->telefono, ['class' => 'form-control' . ($errors->has('telefono') ? ' is-invalid' : ''),  'id' => 'telefValic', 'placeholder' => 'Ejm: 04125415656']) }}
             {!! $errors->first('telefono', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group col-6">
@@ -58,6 +57,7 @@
             {{ Form::text('telefono_alternativo', $representante->telefono_alternativo, [
                 'id' => 'telefonoAlternativo',
                 'class' => 'form-control' . ($errors->has('telefono_alternativo') ? ' is-invalid' : ''), 
+                'id' => 'telefValic2',
                 'placeholder' => 'Ejm: 04126589745'
             ]) }}
             {!! $errors->first('telefono_alternativo', '<div class="invalid-feedback">:message</div>') !!}
@@ -105,6 +105,8 @@
     <div class="box-footer text-end">
         <button type="submit" class="btn btn-person-1">{{ __('Enviar') }}</button>
     </div>
+    <script src="{{ asset('js/validacionesRepres.js') }}"></script>
+
     <script>
         $(document).ready(function() {
     // Busca el campo de teléfono alternativo por su ID
