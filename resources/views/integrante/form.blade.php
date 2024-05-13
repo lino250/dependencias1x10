@@ -28,6 +28,7 @@
                         'class' => 'form-control' . ($errors->has('cedula') ? ' is-invalid' : ''), 
                         'placeholder' => 'Cedula',
 
+
                     ]) }}
                    
                     {!! $errors->first('cedula', '<div class="invalid-feedback">:message</div>') !!}
@@ -52,18 +53,18 @@
                
                 <div class="form-group col-6">
                         {{ Form::label('nombres') }}
-                        {{ Form::text('nombres', $integrante->nombres, ['class' => 'form-control' . ($errors->has('nombres') ? ' is-invalid' : ''), 'placeholder' => 'Nombres']) }}
+                        {{ Form::text('nombres', $integrante->nombres, ['class' => 'form-control' . ($errors->has('nombres') ? ' is-invalid' : ''), 'placeholder' => 'Nombres', 'id' => 'nombresInt']) }}
                         {!! $errors->first('nombres', '<div class="invalid-feedback">:message</div>') !!}
                     </div>
                     
                     <div class="form-group col-6">
                         {{ Form::label('apellidos') }}
-                        {{ Form::text('apellidos', $integrante->apellidos, ['class' => 'form-control' . ($errors->has('apellidos') ? ' is-invalid' : ''), 'placeholder' => 'Apellidos']) }}
+                        {{ Form::text('apellidos', $integrante->apellidos, ['class' => 'form-control' . ($errors->has('apellidos') ? ' is-invalid' : ''), 'placeholder' => 'Apellidos','id'=> 'apellidosInt']) }}
                         {!! $errors->first('apellidos', '<div class="invalid-feedback">:message</div>') !!}
                     </div>
                     <div class="form-group col-6">
                         {{ Form::label('telefono') }}
-                        {{ Form::text('telefono', $integrante->telefono, ['class' => 'form-control' . ($errors->has('telefono') ? ' is-invalid' : ''), 'placeholder' => 'Telefono']) }}
+                        {{ Form::text('telefono', $integrante->telefono, ['class' => 'form-control' . ($errors->has('telefono') ? ' is-invalid' : ''), 'placeholder' => 'Telefono','id'=> 'telefonoInt']) }}
                         {!! $errors->first('telefono', '<div class="invalid-feedback">:message</div>') !!}
                     </div>
                     <div class="form-group col-6">
@@ -94,6 +95,7 @@
         </div>
     </div>
 
+    <script src="{{ asset('js/integranteVal.js') }}"></script>
 
 {{--<form method="POST" action="{{ route('integrante.store',$id) }}"  role="form" enctype="multipart/form-data">
     @csrf
