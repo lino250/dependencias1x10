@@ -167,13 +167,21 @@
                                         @endif
                                         
                                 </tbody>
+
                             </table>
+
                         </div>
+                       
+
                     </div>
+                  
                 </div>
-                @if($representantes->count() > 10) 
+                <div class="pagination justify-content-center">
+                    {!! $representantes->links('pagination::bootstrap-4') !!}
+                </div>
+                {{--@if($representantes->count() ) 
                 {!! $representantes->links() !!}
-                @endif
+                {{--@endif--}}
             </div>
         </div>
         <script>
