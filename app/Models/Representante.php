@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Validation\Rule;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,15 +31,30 @@ use Illuminate\Database\Eloquent\Model;
 class Representante extends Model
 {
     
-    static $rules = [
-		'cedula' => 'required|string',
-		'nombres' => 'required|string',
-		'telefono' => 'required|string',
-		'telefono_alternativo' => 'string',
-		'centro_id' => 'required',
-		'parroquia_id' => 'required',
-		'dependencia_id' => 'required',
+     // Otras propiedades y métodos de tu modelo...
+
+     public static $rules = [
+        'cedula' => 'required|string',
+        'nombres' => 'required|string',
+        'telefono' => 'required|string',
+        'telefono_alternativo' => 'string',
+        'centro_id' => 'required',
+        'parroquia_id' => 'required',
+        'dependencia_id' => 'required',        
     ];
+
+    public static function getRules()
+    {
+        // Regla de validación condicional para coordinación_id
+        $rules = [
+            'coordinacion_id' => [
+                'required',
+            ],
+        ];
+
+        // Combinar las reglas con las reglas estáticas
+        return array_merge(self::$rules, $rules);
+    }
 
     protected $perPage = 20;
 

@@ -33,7 +33,8 @@ class RepresentanteController extends Controller
             $representantes = Representante::paginate(10);
         }
         return view('representante.index', compact('representantes'))
-        ->with('i', (request()->input('page', 1) - 1) * $representantes->perPage());    
+        ->with('i', ($representantes->currentPage() - 1) * $representantes->perPage());
+     
     }
 
     /*
@@ -52,6 +53,7 @@ class RepresentanteController extends Controller
         $centros = Centro::pluck('nombre','id');
         
         $dependencia=Auth::user()->dependencia;
+    
         if($dependencia)
         {
             $dependenciaId=Auth::user()->dependencia->id;       
@@ -108,10 +110,17 @@ class RepresentanteController extends Controller
      */
     public function store(Request $request)
     {
+
         // Modifica las reglas de validación de Representante::$rules para hacer el campo opcional
         $rules = Representante::$rules;
         $rules['telefono_alternativo'] = 'nullable|string'; // Hacer el campo opcional
-    
+        if ($request->has('coordinacion_id')) {            
+            $rules = Representante::getRules();    
+            $request->validate($rules);
+        } else {
+           
+        }
+
         // Validación de la solicitud
         $request->validate($rules);
     
