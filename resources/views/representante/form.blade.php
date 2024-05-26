@@ -44,13 +44,15 @@
         <div class="row">
             <div class="form-group col-6">
                 {{ Form::label('nombres') }}
-                {{ Form::text('nombres', $representante->nombres, ['class' => 'form-control', 'id' => 'nombresField', 'placeholder' => 'Ejm: Felix Puerta']) }}
-                <div class="invalid-feedback" id="nombres-error"></div>
+                {{ Form::text('nombres', $representante->nombres, ['class' => 'form-control' . ($errors->has('nombres') ? ' is-invalid' : ''), 'placeholder' => 'Ejm: Felix Puerta', 'id' => 'nombresField']) }}
+
+                {{--{{ Form::text('nombres', $representante->nombres, ['class' => 'form-control', 'id' => 'nombresField', 'placeholder' => 'Ejm: Felix Puerta']) }} --}} 
+                {!! $errors->first('parroquia_id', '<div class="invalid-feedback">El campo Nombre es obligatorio.</div>') !!}
             </div>   
         <div class="form-group col-6">
             {{ Form::label('telefono') }}
             {{ Form::text('telefono', $representante->telefono, ['class' => 'form-control' . ($errors->has('telefono') ? ' is-invalid' : ''),  'id' => 'telefValic', 'placeholder' => 'Ejm: 04125415656']) }}
-            {!! $errors->first('telefono', '<div class="invalid-feedback">:message</div>') !!}
+            {!! $errors->first('parroquia_id', '<div class="invalid-feedback">El campo Telefono es obligatorio.</div>') !!}
         </div>
         <div class="form-group col-6">
             {{ Form::label('telefono_alternativo') }}
@@ -71,31 +73,31 @@
         <div class="form-group col-6">
             {{ Form::label('coordinacion_id', 'Coordinacion') }}
             {{ Form::select('coordinacion_id', $coordinaciones, $representante->coordinacion_id, ['class' => 'form-control' . ($errors->has('coordinacion_id') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion']) }}
-            {!! $errors->first('coordinacion_id', '<div class="invalid-feedback">:message</div>') !!}
+            {!! $errors->first('parroquia_id', '<div class="invalid-feedback">El campo Coordinación es obligatorio.</div>') !!}
         </div>
         @else
         <div class="form-group col-6">
             {{ Form::label('dependencia_id') }}
             {{ Form::select('dependencia_id',$dependencias,$representante->dependencia_id, ['class' => 'form-control' . ($errors->has('dependencia_id') ? ' is-invalid' : ''), 'placeholder' => 'Dependencia Id']) }}
-            {!! $errors->first('dependencia_id', '<div class="invalid-feedback">:message</div>') !!}
+            {!! $errors->first('parroquia_id', '<div class="invalid-feedback">El campo Dependencia es obligatorio.</div>') !!}
         </div>
       
         <div class="form-group col-6">
             {{ Form::label('coordinacion_id','Coordinacion') }}
             {{ Form::select('coordinacion_id',$coordinaciones,$representante->coordinacion_id, ['class' => 'form-control' . ($errors->has('coordinacion_id') ? ' is-invalid' : ''), 'placeholder' => 'Coordinacion Id']) }}
-            {!! $errors->first('coordinacion_id', '<div class="invalid-feedback">:message</div>') !!}
+            {!! $errors->first('parroquia_id', '<div class="invalid-feedback">El campo Coordinación es obligatorio.</div>') !!}
         </div>
         @endif
        
         <div class="form-group col-6">
             {{ Form::label('parroquia_id','Parroquia') }}
             {{ Form::select('parroquia_id',$parroquias, $representante->parroquia_id, ['class' => 'form-control' . ($errors->has('parroquia_id') ? ' is-invalid' : ''), 'placeholder' => 'Parroquia Id']) }}
-            {!! $errors->first('parroquia_id', '<div class="invalid-feedback">:message</div>') !!}
+            {!! $errors->first('parroquia_id', '<div class="invalid-feedback">El campo Parroquia es obligatorio.</div>') !!}
         </div>
         <div class="form-group col-6">
             {{ Form::label('centro_id','Centro') }}
             {{ Form::select('centro_id',$centros ,$representante->centro_id, ['class' => 'form-control' . ($errors->has('centro_id') ? ' is-invalid' : ''), 'placeholder' => 'Centro Id']) }}
-            {!! $errors->first('centro_id', '<div class="invalid-feedback">:message</div>') !!}
+            {!! $errors->first('parroquia_id', '<div class="invalid-feedback">El campo Centro es obligatorio.</div>') !!}
         </div>
        
      

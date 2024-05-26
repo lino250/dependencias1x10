@@ -109,34 +109,24 @@ class RepresentanteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+{
 
-        // Modifica las reglas de validación de Representante::$rules para hacer el campo opcional
-        $rules = Representante::$rules;
-        $rules['telefono_alternativo'] = 'nullable|string'; // Hacer el campo opcional
-        if ($request->has('coordinacion_id')) {            
-            $rules = Representante::getRules();    
-            $request->validate($rules);
-        } else {
-           
-        }
+    //dd($request);
+    // Modifica las reglas de validación de Representante::$rules para hacer el campo opcional
+    $rules = Representante::$rules;
+    $rules['telefono_alternativo'] = 'nullable|string'; // Hacer el campo opcional
+    $rules['nombres'] = 'required|string'; // Hacer el campo de nombres obligatorio
 
-        // Validación de la solicitud
-        $request->validate($rules);
-    
-        // Crea el representante con los datos proporcionados en la solicitud
-        $representante = Representante::create($request->all());
-    
-        // Redirecciona a la vista index de representantes con un mensaje de éxito
-        return redirect()->route('representante.index')->with('success', 'Representante created successfully.');
-    }
-    
-    /*
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
+    // Validación de la solicitud
+    $request->validate($rules);
+
+    // Crea el representante con los datos proporcionados en la solicitud
+    $representante = Representante::create($request->all());
+
+    // Redirecciona a la vista index de representantes con un mensaje de éxito
+    return redirect()->route('representante.index')->with('success', 'Representante creado exitosamente.');
+}
+
     public function buscarRepresentante(Request $request)
     {
         $dependenciaId = Auth::user()->dependencia;
@@ -265,7 +255,7 @@ class RepresentanteController extends Controller
     {
         $representante->update($request->all());
         return redirect()->route('representante.index')
-        ->with('success', 'Representante updated successfully');
+        ->with('success', 'Datos del Representante editados con éxito');
     }
 
     /*
@@ -287,7 +277,7 @@ class RepresentanteController extends Controller
         $representante->delete();
         // $representante = Representante::find($id)->delete();
         return redirect()->route('representante.index')
-        ->with('success', 'Representante deleted successfully');
+        ->with('success', 'Representante elimnado exitosamente');
     }
     public function buscarIntegrante($id){
         $representante = Representante::find($id);

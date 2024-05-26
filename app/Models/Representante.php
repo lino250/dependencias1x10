@@ -40,9 +40,20 @@ class Representante extends Model
         'telefono_alternativo' => 'string',
         'centro_id' => 'required',
         'parroquia_id' => 'required',
-        'dependencia_id' => 'required',        
+        'dependencia_id' => 'required',
+        'coordinacion_id' => 'required',         
     ];
-
+    public function messages()
+    {
+        return [
+            'cedula.required' => 'El campo cédula es obligatorio.',
+            'nombres.required' => 'El campo nombres es obligatorio.',
+            'telefono.required' => 'El campo teléfono es obligatorio.',
+            'centro_id.required' => 'El campo centro es obligatorio.',
+            'parroquia_id.required' => 'El campo parroquia es obligatorio.',
+            'dependencia_id.required' => 'El campo dependencia es obligatorio.',
+        ];
+    }
     public static function getRules()
     {
         // Regla de validación condicional para coordinación_id
