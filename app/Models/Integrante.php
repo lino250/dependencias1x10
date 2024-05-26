@@ -34,10 +34,19 @@ class Integrante extends Model
 		'apellidos' => 'required|string',
 		'telefono' => 'required|string',
 		'telefono_alternativo' => 'string',
-    'parroquia_id' => 'required',
-    'centro_id' => 'required',
+        'parroquia_id' => 'required',
+        'centro_id' => 'required',
 		
     ];
+    static $messages = [
+        'cedula.required' => 'El campo cédula es obligatorio.',
+        'nombres.required' => 'El campo nombres es obligatorio.',
+        'apellidos.required' => 'El campo apellidos es obligatorio.',
+        'telefono.required' => 'El campo teléfono es obligatorio.',
+        'parroquia_id.required' => 'El campo parroquia es obligatorio.',
+        'centro_id.required' => 'El campo centro es obligatorio.',
+    ];
+    
 
     protected $perPage = 20;
 

@@ -121,6 +121,8 @@ class IntegranteController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+       //dd($request);
         // Modifica las reglas de validación para hacer el campo opcional
         $rules = Integrante::$rules;
         $rules['telefono_alternativo'] = 'nullable|string'; // Hacer el campo opcional
