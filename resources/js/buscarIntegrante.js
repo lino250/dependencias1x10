@@ -1,6 +1,6 @@
 /*$(document).ready(function() {*/
 
-    $('#cedula').blur(function() {
+    $('#cedula').change(function() {
 
         //console.log($('#modoEdicion').val());
         //alert('adadasdas');
