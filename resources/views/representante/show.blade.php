@@ -35,12 +35,12 @@
                                 <strong>Telefono Alternativo:</strong>
                                 {{ $representante->telefono_alternativo }}
                             </div>
-                        </div>
-                        <div class="col-sm-6">
                             <div class="form-group">
                                 <strong>Parroquia:</strong>
                                 {{ $representante->parroquia->nombre }}
                             </div>
+                        </div>
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <strong>Centro:</strong>
                                 {{ $representante->centro->nombre }}
@@ -57,9 +57,14 @@
                                     {{ $representante->coordinacion->nombre}}
                                 </div>                                                        
                             @endif                        
-
-                        </div>                      
-                        
+                        </div>          
+                        <hr>            
+                        <div class="col-ms-12">
+                            <div class="form-group text-center">
+                                <strong>Voto:</strong>
+                                {{ "SI "}}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
