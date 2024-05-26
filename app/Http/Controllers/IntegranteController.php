@@ -184,37 +184,37 @@ class IntegranteController extends Controller
      */
     public function destroy($id)
     {
-      $representante = FacadesDB::table('representante_integrante')
-      ->where('integrante_id', $id)
-      ->first();
-        $id_rep=($representante->representante_id);
-        $representante = Representante::find($id_rep); 
-        $integrante = Integrante::find($id);
-        $id= $id_rep;
-
-       
-
+        $representante = FacadesDB::table('representante_integrante')
+            ->where('integrante_id', $id)
+            ->first();
+    
+        // Verificar si se encontró un representante
+        if ($representante) {
+            $id_rep = $representante->representante_id;
+    
+            $representanteModel = Representante::find($id_rep);
+            $integrante = Integrante::find($id);
+            $id = $id_rep;
+    
             // Verificar si el integrante existe
-              if ($integrante) {
+            if ($integrante) {
                 // Eliminar la relación de la tabla pivote representante_integrante
                 $integrante->representantes()->detach();
-
+    
                 // Eliminar el integrante de la tabla integrantes
                 $integrante->delete();
-                //dd($id);
-                $integrantes = $representante->integrantesR;
-               
-              }
-
-              return redirect()->route('representante.show', ['id' => $id_rep])->with([
-                'success' => 'Integrante eliminado exitosamente',
-              ]); 
-
-            
-      
-        //return view('representante.show', compact('representante'))->with('success', 'Integrante deleted successfully');   
-
-   
     
+                $integrantes = $representanteModel->integrantesR;
+            }
+    
+            return redirect()->route('representante.show', ['id' => $id_rep])->with([
+                'success' => 'Integrante eliminado exitosamente',
+            ]);
+        } else {
+            // Manejar el caso donde no se encontró un representante
+            return redirect()->back()->with([
+                'error' => 'No se encontró un representante asociado con este integrante',
+            ]);
+        }
     }
-}
+  }    
