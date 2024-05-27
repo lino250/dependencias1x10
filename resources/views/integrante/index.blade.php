@@ -38,11 +38,8 @@
                             {{ __('Integrantes') }}
                         </span>
                         <div class="float-right">
-                            <a href="{{ route('integrante.create',$id) }}" class="btn text-light  btn-sm float-right"  data-placement="left">
+                            <a href="{{ route('voto.create') }}" class="btn text-light btn-sm float-right" data-placement="left">
                                 <i class="fa fa-light fa-check-to-slot"></i>
-                                <i class="fa fa-solid fa-user-check"></i>
-                                <i class="fa fa-solid fa-square-check"></i>
-                                <i class="fa fa-solid fa-clipboard-check"></i>
                             </a>
                             <a href="{{ route('integrante.create',$id) }}" class="btn text-light  btn-sm float-right"  data-placement="left">
                                 <i class="fa fa-light fa-circle-plus fs-4"></i>
