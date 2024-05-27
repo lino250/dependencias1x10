@@ -19,6 +19,8 @@ use App\Http\Controllers\HomeController;
 use \App\Http\Controllers\IntegranteController;
 use \App\Http\Controllers\RepresentanteController;
 use \App\Http\Controllers\ReporteController;
+use \App\Http\Controllers\VotoController;
+
 Auth::routes();
 Route::get('/', landingController::class);
 
@@ -60,9 +62,12 @@ Route::middleware(['auth', CargarUsuarioYDependencia::class])->group(function ()
     Route::get('reporte/representantes', [ReporteController::class, 'index'])->name('reporte.index');
     Route::get('/descargar-reporte-excel',[ReporteController::class, 'descargarReporteExcel'])->name('descargar.reporte.excel');
     Route::get('/descargar-reporte-excel1x10',[ReporteController::class, 'descargarReporte1x10'])->name('descargar.reporte.excel1x10');
-
-
-
+//Links para reportes
+Route::get('voto', [VotoController::class, 'index'])->name('voto.index');
+Route::get('voto/create', [VotoController::class, 'create'])->name('voto.create');
+Route::post('voto', [VotoController::class, 'store'])->name('voto.store');
+Route::get('voto/{id}', [VotoController::class, 'show'])->name('voto.show');
+Route::get('voto/{id}/edit', [VotoController::class, 'edit'])->name('voto.edit');
 
 });
 
