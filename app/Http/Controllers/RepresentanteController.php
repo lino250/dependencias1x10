@@ -8,6 +8,7 @@ use App\Models\Dependencia;
 use App\Models\Parroquia;
 use App\Models\Representante;
 use App\Models\Integrante;
+use App\Models\Voto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -122,7 +123,11 @@ class RepresentanteController extends Controller
 
     // Crea el representante con los datos proporcionados en la solicitud
     $representante = Representante::create($request->all());
-
+    $votoReprensentante = Voto::create([
+        'campo1' => $request->,
+        'campo2' => $request->valorCampo2,
+        // Agrega aquí más campos si es necesario
+    ]);
     // Redirecciona a la vista index de representantes con un mensaje de éxito
     return redirect()->route('representante.index')->with('success', 'Representante creado exitosamente.');
 }
