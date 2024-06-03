@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('votos', function (Blueprint $table) {
             $table->id();
+            $table->string('cedula')->unique();
+            $table->boolean('voto');
             $table->timestamps();
         });
     }
