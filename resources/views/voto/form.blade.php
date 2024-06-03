@@ -33,10 +33,10 @@
                             <br>
                             <div class="btn-group buton-voto" role="group" aria-label="Basic radio toggle button group">
                                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                                <label class="btn btn-outline-primary" for="btnradio1">NO</label>
+                                <label class="btn btn-outline-danger" for="btnradio1">NO</label>
                               
                                 <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btnradio2">SI</label>
+                                <label class="btn btn-outline-success" for="btnradio2">SI</label>
                               
                               </div>
                         </div>
@@ -66,7 +66,7 @@
                                     <th>N°</th>                                        
                                     <th>Cédula</th>
                                     <th>Nombres</th>
-                                    <th>voto</th>
+                                    <th class="text-center">voto</th>
                                 </tr>
                             </thead>
                             <tbody>                         
@@ -74,13 +74,13 @@
                                     <td>{{ '1' }}</td>                                            
                                     <td>{{ '2343'}}</td>
                                     <td>{{  'juan' }}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <div class="btn-group buton-voto" role="group" aria-label="Basic radio toggle button group">
                                         <input type="radio" class="btn-check" name="voto1" id="btnradio3" autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="btnradio3">NO</label>
+                                        <label class="btn btn-outline-danger" for="btnradio3">NO</label>
                                         
                                         <input type="radio" class="btn-check" name="voto1" id="btnradio4" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="btnradio4">SI</label>
+                                        <label class="btn btn-outline-success" for="btnradio4">SI</label>
                                         
                                         </div>
                                     </td>
@@ -99,7 +99,7 @@
 
       
     <div class="col-md-12 mt20 mt-2 text-center">
-        <button type="submit" class="btn btn-primary">{{ __('Actualizar') }}</button>
+        <button type="submit" class="btn btn-person-1">{{ __('Actualizar') }}</button>
     </div>
 </div>
 </div>
