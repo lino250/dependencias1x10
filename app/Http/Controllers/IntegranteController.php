@@ -5,6 +5,7 @@ use App\Models\Centro;
 use App\Models\Parroquia;
 use App\Models\Integrante;
 use App\Models\Representante;
+use App\Models\Voto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
@@ -64,16 +65,19 @@ class IntegranteController extends Controller
     
         // Paso 1: Crea el integrante y guárdalo
         $integrante = Integrante::create($request->all());
-    
+      
         // Paso 2: Recupera el representante
         $representante = Representante::find($id);
     
         // Paso 3: Asocia el integrante al representante
         $representante->integrantesR()->attach($integrante->id);
-    
+        $votoReprensentante = Voto::create([
+            'cedula' => $request->cedula,
+            'voto' => false,
+        ]);
         // Paso 4: Recupera los integrantes del representante (no sé si esto es necesario aquí)
         $integrantes = $representante->integrantesR;
-    
+       
         // Paso 5: Redirige a la vista con los datos necesarios
         return view('representante.show', compact('representante', 'integrantes', 'id'));
     }
@@ -184,17 +188,19 @@ class IntegranteController extends Controller
      */
     public function destroy($id)
     {
+        // Buscar el representante asociado con el integrante que estás eliminando
         $representante = FacadesDB::table('representante_integrante')
             ->where('integrante_id', $id)
             ->first();
     
-        // Verificar si se encontró un representante
+        // Verificar si se encontró un representante asociado
         if ($representante) {
+            // Obtener el ID del representante asociado
             $id_rep = $representante->representante_id;
     
+            // Encontrar el representante y el integrante
             $representanteModel = Representante::find($id_rep);
             $integrante = Integrante::find($id);
-            $id = $id_rep;
     
             // Verificar si el integrante existe
             if ($integrante) {
@@ -204,17 +210,29 @@ class IntegranteController extends Controller
                 // Eliminar el integrante de la tabla integrantes
                 $integrante->delete();
     
+                // Obtener el ID del representante para redireccionar después de la eliminación
+                $id = $id_rep;
+    
                 $integrantes = $representanteModel->integrantesR;
             }
     
+            // Buscar y eliminar el voto basado en la cédula del integrante que se está eliminando
+            $votoIntegrante = Voto::where('cedula', $integrante->cedula)->first();
+            if ($votoIntegrante) {
+                $votoIntegrante->delete();
+            }
+    
+            // Redireccionar a la vista del representante después de la eliminación del integrante
             return redirect()->route('representante.show', ['id' => $id_rep])->with([
                 'success' => 'Integrante eliminado exitosamente',
             ]);
         } else {
-            // Manejar el caso donde no se encontró un representante
+            // Manejar el caso donde no se encontró un representante asociado con este integrante
             return redirect()->back()->with([
                 'error' => 'No se encontró un representante asociado con este integrante',
             ]);
         }
     }
+    
+    
   }    
