@@ -1,7 +1,13 @@
 .buton-voto{
-        & label{
-            padding: 5px;
-            font-size: 10px;
+    & label.btn-outline-danger{
+        padding: 6px;
+        font-size: 10px;
+        font-weight: bold;
+    }
+    & label.btn-outline-success{
+        padding: 6px 9px;
+        font-size: 10px;
+        font-weight: bold;
     }
 }
 .size-voto{
