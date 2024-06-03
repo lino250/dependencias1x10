@@ -124,9 +124,8 @@ class RepresentanteController extends Controller
     // Crea el representante con los datos proporcionados en la solicitud
     $representante = Representante::create($request->all());
     $votoReprensentante = Voto::create([
-        'campo1' => $request->,
-        'campo2' => $request->valorCampo2,
-        // Agrega aquí más campos si es necesario
+        'cedula' => $request->cedula,
+        'voto' => false,
     ]);
     // Redirecciona a la vista index de representantes con un mensaje de éxito
     return redirect()->route('representante.index')->with('success', 'Representante creado exitosamente.');
@@ -274,6 +273,10 @@ class RepresentanteController extends Controller
         $representante = Representante::findOrFail($id);
         // Obtener los IDs de los integrantes asociados al representante
         $integrantes_ids = $representante->integrantesR()->pluck('integrante_id');
+         // Eliminar los votos asociados a los integrantes
+        Voto::whereIn('cedula', function($query) use ($integrantes_ids) {
+            $query->select('cedula')->from('integrantes')->whereIn('id', $integrantes_ids);
+        })->delete();
         // Eliminar los integrantes asociados de la tabla integrantes
         Integrante::whereIn('id', $integrantes_ids)->delete();
         // Eliminar todos los integrantes asociados al representante de la tabla pivot
